@@ -1,0 +1,22 @@
+{
+    "navbar": {
+        "home": "Home",
+        "apps": "Apps",
+        "blogs": "Blogs",
+        "deals": "Deals",
+        "coupons": "Coupons",
+        "discussion": "Community",
+        "donate": "Donate",
+        "about": "About",
+        "contact": "Contact",
+        "login": "Login",
+        "signup": "Sign Up",
+        "dashboard": "Dashboard",
+        "logout": "Logout",
+        "under_development_banner": "This project is currently under development. All features are not final.",
+        "donate_now": "Support Us",
+        "more": "More",
+        "notifications": "Notifications",
+        "settings": "Settings"
+    }
+}

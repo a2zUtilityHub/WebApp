@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: ../../ # Build from the root directory of the project
+      dockerfile: infra/docker/Dockerfile
+      args:
+        # Pass your Supabase credentials as build arguments
+        # You should replace these with your actual credentials,
+        # preferably using a .env file and ${VAR_NAME} syntax
+        VITE_SUPABASE_URL: "YOUR_SUPABASE_URL"
+        VITE_SUPABASE_ANON_KEY: "YOUR_SUPABASE_ANON_KEY"
+    container_name: a2z_web
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: a2z_nginx_proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # Mount the Nginx configuration
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      # Mount the htpasswd file for basic auth
+      - ./htpasswd:/etc/nginx/.htpasswd:ro
+      # Volume for Certbot (for SSL certificates)
+      - certbot_certs:/etc/letsencrypt
+    networks:
+      - app-network
+    depends_on:
+      - web
+      - db_admin
+
+  db_admin:
+    image: adminer
+    container_name: a2z_db_admin
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres # Supabase uses Postgres
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  certbot_certs:

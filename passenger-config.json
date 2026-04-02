@@ -1,0 +1,14 @@
+{
+  "app_type": "node",
+  "startup_file": "server.js",
+  "production": true,
+  "port": "passenger",
+  "environment_variables": {
+    "NODE_ENV": "production",
+    "PORT": "3000"
+  },
+  "logging": {
+    "stdout": "logs/app-out.log",
+    "stderr": "logs/app-error.log"
+  }
+}

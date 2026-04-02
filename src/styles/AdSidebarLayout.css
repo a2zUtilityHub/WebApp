@@ -1,0 +1,73 @@
+
+/* Ad Sidebar Layout System */
+
+.ad-layout-grid {
+  display: grid;
+  align-items: start;
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Desktop: Three Columns */
+@media (min-width: 1200px) {
+  .ad-layout-grid {
+    grid-template-columns: 300px minmax(0, 1fr) 300px;
+  }
+}
+
+/* Tablet: Two Columns (Main + Right Sidebar) */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .ad-layout-grid {
+    grid-template-columns: minmax(0, 1fr) 300px;
+  }
+}
+
+/* Mobile: Single Column */
+@media (max-width: 767px) {
+  .ad-layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ad-sidebar {
+  position: -webkit-sticky;
+  position: sticky;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  overscroll-behavior: contain;
+  /* Max height dynamically calculated based on sticky offset */
+  max-height: calc(100vh - 100px);
+}
+
+.ad-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.ad-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ad-sidebar::-webkit-scrollbar-thumb {
+  background-color: var(--border, #e5e7eb);
+  border-radius: 4px;
+}
+
+/* Base Ad Container Box */
+.ad-box-container {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  background-color: var(--ad-bg, #f9fafb);
+  transition: box-shadow 0.2s ease;
+}
+
+.ad-box-label {
+  font-size: 12px;
+  color: var(--muted-foreground, #6b7280);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+  margin-bottom: 8px;
+  user-select: none;
+}

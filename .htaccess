@@ -1,0 +1,21 @@
+# ----------------------------------------------------------------------
+# Passenger Configuration for Node.js App
+# ----------------------------------------------------------------------
+# This routes all requests to the running Node.js application.
+# Make sure your Node.js app is set up in hPanel and running.
+
+RewriteEngine On
+
+# Ensure HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Redirect www to non-www
+RewriteCond %{HTTP_HOST} ^www\.a2zutilityhub\.com [NC]
+RewriteRule ^(.*)$ https://a2zutilityhub.com/$1 [L,R=301]
+
+# Proxy requests to the Node.js app
+# The port should match the one your Node.js app is running on.
+# You can find this in your hPanel under "Setup Node.js App".
+# Phusion Passenger automatically assigns a port, and this proxy rule directs traffic to it.
+RewriteRule ^(.*)$ http://127.0.0.1:%{ENV:PASSENGER_PORT}/$1 [P,L]

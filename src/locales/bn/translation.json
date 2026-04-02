@@ -1,0 +1,22 @@
+{
+    "navbar": {
+        "home": "হোম",
+        "apps": "অ্যাপস",
+        "blogs": "ব্লগ",
+        "deals": "ডিল",
+        "coupons": "কুপন",
+        "discussion": "קהילה",
+        "donate": "দান",
+        "about": "সম্পর্কে",
+        "contact": "যোগাযোগ",
+        "login": "লগইন",
+        "signup": "সাইন আপ",
+        "dashboard": "ড্যাশবোর্ড",
+        "logout": "লগ আউট",
+        "under_development_banner": "এই প্রকল্পটি বর্তমানে উন্নয়নাধীন। সমস্ত বৈশিষ্ট্য চূড়ান্ত নয়।",
+        "donate_now": "আমাদের সমর্থন করুন",
+        "more": "আরও",
+        "notifications": "বিজ্ঞপ্তি",
+        "settings": "সেটিংস"
+    }
+}

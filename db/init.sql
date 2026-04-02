@@ -1,0 +1,2 @@
+-- This file is intentionally left blank.
+-- The main schema and seed logic has been moved to db/01-schema-and-seed.sql to ensure correct migration order.
