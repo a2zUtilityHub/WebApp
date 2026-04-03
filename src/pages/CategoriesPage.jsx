@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
@@ -29,7 +30,7 @@ const CategoriesPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50 pb-20">
+    <div className="min-h-screen bg-gray-50/50 pb-20 w-full">
       <Helmet>
         <title>All Categories | Apps, Blogs & Deals - a2z Utility Hub</title>
         <meta name="description" content="Browse our complete directory of utility apps, informative blogs, and exclusive discount coupons across all categories." />
@@ -40,21 +41,21 @@ const CategoriesPage = () => {
         subtitle="Explore all our apps, articles, and deals neatly organized by category"
       />
 
-      <div className="container py-8 md:py-12 max-w-7xl mx-auto">
+      <div className="w-full px-4 py-8 md:py-12">
         <Breadcrumbs items={[{ title: "Home", to: "/" }, { title: "Categories", to: "/categories" }]} className="mb-8" />
 
-        <div className="mb-10 text-center max-w-2xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-3">
+        <div className="section-header text-center mb-10 w-full">
+          <h2 className="section-title flex items-center justify-center gap-3">
             <Layers className="text-brand-primary h-8 w-8" />
             Browse By Category
           </h2>
-          <p className="text-gray-600">
+          <p className="section-subtitle">
             Find exactly what you're looking for. Select a category below to see top apps, informative articles, and the best deals.
           </p>
         </div>
 
         {error && (
-            <Alert variant="destructive" className="mb-8 max-w-2xl mx-auto">
+            <Alert variant="destructive" className="mb-8 w-full">
                 <AlertCircle className="h-4 w-4" />
                 <AlertTitle>Notice</AlertTitle>
                 <AlertDescription>{error}</AlertDescription>
@@ -62,9 +63,9 @@ const CategoriesPage = () => {
         )}
 
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
             {[...Array(12)].map((_, i) => (
-              <Card key={i} className="border-gray-200">
+              <Card key={i} className="border-gray-200 w-full">
                 <CardContent className="p-6 flex items-center space-x-4">
                   <Skeleton className="h-12 w-12 rounded-full" />
                   <div className="space-y-2 flex-1">
@@ -80,13 +81,13 @@ const CategoriesPage = () => {
             variants={containerVariants}
             initial="hidden"
             animate="show"
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full"
           >
             {categories.map(category => (
-              <motion.div key={category.id} variants={itemVariants}>
-                <Link to={`/categories/${category.slug || category.id}`} className="block h-full group">
-                  <Card className="h-full flex flex-col hover:shadow-xl hover:border-brand-primary/40 transition-all duration-300 border-gray-200/80 bg-white group-hover:-translate-y-1">
-                    <CardContent className="p-6 flex flex-col items-center text-center flex-grow">
+              <motion.div key={category.id} variants={itemVariants} className="w-full">
+                <Link to={`/categories/${category.slug || category.id}`} className="block h-full group w-full">
+                  <Card className="h-full flex flex-col hover:shadow-xl hover:border-brand-primary/40 transition-all duration-300 border-gray-200/80 bg-white group-hover:-translate-y-1 w-full">
+                    <CardContent className="p-6 flex flex-col items-center text-center flex-grow w-full">
                       <div className="h-16 w-16 rounded-2xl bg-brand-primary/5 text-brand-primary flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-brand-primary group-hover:text-white transition-all duration-300 shadow-sm">
                         {category.icon_url ? (
                           <img src={category.icon_url} alt="" className="h-8 w-8 object-contain" />
@@ -103,7 +104,7 @@ const CategoriesPage = () => {
                         {category.item_count} Item{category.item_count !== 1 && 's'}
                       </Badge>
                     </CardContent>
-                    <div className="border-t border-gray-50 p-3 bg-gray-50/50 flex justify-center items-center text-sm font-semibold text-gray-500 group-hover:text-brand-primary group-hover:bg-brand-primary/5 transition-colors">
+                    <div className="border-t border-gray-50 p-3 bg-gray-50/50 flex justify-center items-center text-sm font-semibold text-gray-500 group-hover:text-brand-primary group-hover:bg-brand-primary/5 transition-colors w-full">
                        Explore <ArrowRight className="ml-1 h-4 w-4" />
                     </div>
                   </Card>
@@ -112,7 +113,7 @@ const CategoriesPage = () => {
             ))}
           </motion.div>
         ) : (
-          <div className="text-center py-24 bg-white rounded-xl shadow-sm border border-gray-100">
+          <div className="text-center py-24 bg-white rounded-xl shadow-sm border border-gray-100 w-full">
             <FolderOpen className="h-12 w-12 text-gray-300 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-900 mb-2">No categories found</h3>
             <p className="text-gray-500">Check back later for new content.</p>

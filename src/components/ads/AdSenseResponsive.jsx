@@ -2,11 +2,13 @@
 import React from 'react';
 import AdSenseAd from './AdSenseAd';
 import { cn } from '@/lib/utils';
-import { useAdSense } from '@/contexts/AdSenseProvider';
+import { useAdSense, useAdSenseLoadStatus } from '@/contexts/AdSenseProvider';
 
-const AdSenseResponsive = ({ className, slot }) => {
+const AdSenseResponsive = ({ className, slot, layoutKey }) => {
   const { shouldShowAds } = useAdSense();
-  if (!shouldShowAds) return null;
+  const status = useAdSenseLoadStatus(slot);
+
+  if (!shouldShowAds || status === 'failed') return null;
 
   return (
     <AdSenseAd 
@@ -14,6 +16,7 @@ const AdSenseResponsive = ({ className, slot }) => {
       format="auto" 
       responsive={true} 
       slot={slot} 
+      layoutKey={layoutKey}
     />
   );
 };

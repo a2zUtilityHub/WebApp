@@ -1,9 +1,9 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useAdSense } from '@/contexts/AdSenseProvider';
 import AdSidebarLayout from './AdSidebarLayout';
 import AdSidebar from './AdSidebar';
-import AdContainer from './AdContainer';
+import AdSenseVertical from './AdSenseVertical';
 
 const AdSidebarLayoutWrapper = ({ 
   children, 
@@ -13,26 +13,36 @@ const AdSidebarLayoutWrapper = ({
   gap = '24px' 
 }) => {
   const { shouldShowAds } = useAdSense();
+  
+  const [leftActive, setLeftActive] = useState(true);
+  const [rightActive, setRightActive] = useState(true);
 
   if (!shouldShowAds) {
     return <div className="max-w-7xl mx-auto px-4 lg:px-8 w-full">{children}</div>;
   }
 
-  const leftSidebar = (
+  // If one fails, we can just hide that particular slot or the whole sidebar. 
+  // Let's rely on the child components to return null, and the AdSidebar container will shrink naturally.
+  // However, we can also conditionally render based on failure state.
+  
+  const handleLeftFail = () => setLeftActive(false);
+  const handleRightFail = () => setRightActive(false);
+
+  const leftSidebar = leftActive ? (
     <AdSidebar position="left" stickyOffset={stickyOffset}>
       {leftAdSlots.map((slot, index) => (
-        <AdContainer key={`${slot}-${index}`} adSlot={slot} />
+        <AdSenseVertical key={`${slot}-${index}`} slot={slot} onAdFailed={handleLeftFail} />
       ))}
     </AdSidebar>
-  );
+  ) : null;
 
-  const rightSidebar = (
+  const rightSidebar = rightActive ? (
     <AdSidebar position="right" stickyOffset={stickyOffset}>
       {rightAdSlots.map((slot, index) => (
-        <AdContainer key={`${slot}-${index}`} adSlot={slot} />
+        <AdSenseVertical key={`${slot}-${index}`} slot={slot} onAdFailed={handleRightFail} />
       ))}
     </AdSidebar>
-  );
+  ) : null;
 
   return (
     <AdSidebarLayout 

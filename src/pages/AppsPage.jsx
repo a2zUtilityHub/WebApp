@@ -83,7 +83,7 @@ const AppsPageContent = () => {
   };
 
   return (
-    <motion.div initial="hidden" animate="show" exit={{ opacity: 0 }} variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }}>
+    <motion.div initial="hidden" animate="show" exit={{ opacity: 0 }} variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }} className="w-full flex flex-col items-center flex-grow">
       <Helmet>
         <title>Applications - A2Z Utility Hub</title>
         <meta name="description" content="Discover powerful productivity applications to simplify your digital life." />
@@ -94,10 +94,15 @@ const AppsPageContent = () => {
         subtitle="Explore our complete collection of innovative applications designed for you"
       />
 
-      <div className="bg-gray-50/50 py-8">
+      <div className="bg-gray-50/50 py-8 w-full px-4">
         <AdSidebarLayoutWrapper leftAdSlots={['apps_left_1', 'apps_left_2']} rightAdSlots={['apps_right_1', 'apps_right_2']}>
           <div className="w-full min-w-0">
-            <div className="bg-white p-4 md:p-5 rounded-3xl border border-gray-200 shadow-sm mb-6">
+            <div className="section-header text-left">
+              <h2 className="section-title">Our Toolkit</h2>
+              <p className="section-subtitle">Find and use the perfect tools for your everyday tasks.</p>
+            </div>
+
+            <div className="bg-white p-4 md:p-5 rounded-3xl border border-gray-200 shadow-sm mb-6 w-full">
               <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4 w-full">
 
                 <div className="relative flex-1 min-w-0">
@@ -164,7 +169,7 @@ const AppsPageContent = () => {
               {loading ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                   {[...Array(6)].map((_, i) => (
-                    <div key={i} className="flex flex-col space-y-3 bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+                    <div key={i} className="flex flex-col space-y-3 bg-white rounded-xl p-6 border border-gray-200 shadow-sm w-full">
                       <Skeleton className="h-12 w-12 rounded-lg mb-2" />
                       <Skeleton className="h-6 w-3/4" />
                       <Skeleton className="h-4 w-full mt-2" />
@@ -178,15 +183,15 @@ const AppsPageContent = () => {
                     variants={containerVariants}
                     initial="hidden"
                     animate="show"
-                    className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"
+                    className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 w-full"
                   >
                     <AnimatePresence mode="popLayout">
                       {paginatedApps.map((app, index) => (
                         <React.Fragment key={app.id}>
                           <AppCard app={app} index={index} />
                           {index === 5 && (
-                            <div className="col-span-full">
-                              <AdSenseContainer>
+                            <div className="col-span-full w-full">
+                              <AdSenseContainer className="w-full">
                                 <AdSenseResponsive slot="apps_mid" />
                               </AdSenseContainer>
                             </div>
@@ -197,7 +202,7 @@ const AppsPageContent = () => {
                   </motion.div>
                 </>
               ) : (
-                <div className="text-center py-20 px-8 bg-white rounded-2xl border border-gray-200 shadow-sm">
+                <div className="text-center py-20 px-8 bg-white rounded-2xl border border-gray-200 shadow-sm w-full">
                   <div className="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                     <LucideIcons.Search className="h-8 w-8 text-gray-400" />
                   </div>
@@ -209,7 +214,7 @@ const AppsPageContent = () => {
             </ErrorBoundaryWithRetry>
 
             {!loading && paginatedApps.length > 0 && totalPages > 1 && (
-              <div className="mt-8 flex justify-center">
+              <div className="mt-8 flex justify-center w-full">
                 <Pagination>
                   <PaginationContent>
                     <PaginationItem>
@@ -236,7 +241,7 @@ const AppsPageContent = () => {
           </div>
         </AdSidebarLayoutWrapper>
         
-        <AdSenseContainer className="mt-12 max-w-7xl mx-auto px-4">
+        <AdSenseContainer className="mt-12 w-full px-4">
             <AdSenseHorizontal slot="apps_footer" />
         </AdSenseContainer>
       </div>

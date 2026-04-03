@@ -81,7 +81,7 @@ const AdminNotificationsPage = lazy(() => import('@/pages/admin/AdminNotificatio
 const AdminSEOPage = lazy(() => import('@/pages/admin/AdminSEOPage'));
 
 const PageLoader = () => (
-  <div className="flex h-screen items-center justify-center bg-background">
+  <div className="flex h-screen items-center justify-center bg-background w-full">
     <Loader2 className="h-10 w-10 animate-spin text-primary" />
   </div>
 );
@@ -89,7 +89,7 @@ const PageLoader = () => (
 const PublicLayout = ({ children }) => (
   <>
     <Navbar />
-    <main className="flex-grow flex flex-col relative z-10 pb-[80px] md:pb-0 min-w-0 overflow-x-hidden">
+    <main className="flex-grow flex flex-col relative z-10 w-full overflow-x-hidden">
       {children}
     </main>
     <Footer />
@@ -102,7 +102,7 @@ function App() {
   return (
     <CartProvider>
       <AdSenseProvider>
-        <div className="flex min-h-screen flex-col bg-background text-foreground font-sans antialiased">
+        <div className="flex min-h-screen flex-col w-full bg-background text-foreground font-sans antialiased overflow-x-hidden">
           <Helmet>
             <title>A2Z Utility Hub - All Your Tools in One Place</title>
             <meta name="description" content="Discover powerful productivity apps, amazing store deals, and valuable utilities." />
@@ -137,7 +137,7 @@ function App() {
                 <Route path="notifications" element={<AdminNotificationsPage />} />
                 <Route path="seo" element={<AdminSEOPage />} />
                 <Route path="*" element={
-                  <div className="p-12 flex flex-col items-center justify-center text-center max-w-md mx-auto min-h-[50vh]">
+                  <div className="p-12 flex flex-col items-center justify-center text-center w-full mx-auto min-h-[50vh]">
                     <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 ring-8 ring-primary/5">
                        <Loader2 className="w-8 h-8 text-primary animate-spin" />
                     </div>
@@ -154,11 +154,9 @@ function App() {
                     <Route path="/apps" element={<AppsPage />} />
                     <Route path="/apps/url-shortener" element={<UrlShortenerPage />} />
                     
-                    {/* Video Editor Routes - Publicly Accessible (with internal auth check) */}
                     <Route path="/apps/video-editor" element={<VideoEditorPage />} />
                     <Route path="/editor" element={<Navigate to="/apps/video-editor" replace />} />
                     
-                    {/* Task Manager Base + Nested Routes */}
                     <Route path="/apps/task-manager/*" element={<TaskManagerPage />} />
                     <Route path="/task-manager/*" element={<Navigate to="/apps/task-manager" replace />} />
                     
@@ -192,7 +190,6 @@ function App() {
                     <Route path="/auth" element={<AuthPage />} />
                     <Route path="/pricing" element={<PricingPage />} />
                     
-                    {/* Protected User Routes */}
                     <Route path="/dashboard/*" element={<ProtectedRoute requireAdmin={false}><DashboardPage /></ProtectedRoute>} />
                     <Route path="/settings" element={<ProtectedRoute requireAdmin={false}><SettingsPage /></ProtectedRoute>} />
                     <Route path="/wishlist" element={<ProtectedRoute requireAdmin={false}><WishlistPage /></ProtectedRoute>} />

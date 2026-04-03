@@ -18,6 +18,7 @@
 - [Blog - A2Z Utility Hub](/blog): Latest news, updates, and articles from the A2Z Utility Hub team.
 - [Careers at a2z Utility Hub](/careers): Join our team and help build the future of digital utilities. Explore open positions.
 - [Contact Us | a2z Utility Hub](/contact): Get in touch with a2z Utility Hub. We are here to help.
+- [Coupons & Deals - a2z Utility Hub](/coupons): Find the latest and greatest coupons, deals, and promo codes from your favorite brands. Save money on every purchase.
 - [Coupons & Deals | a2z Utility Hub](/category): No description available
 - [Coupons & Deals | a2z Utility Hub](/couponcategory): No description available
 - [Coupons & Promo Codes | a2z Utility Hub](/couponstore): No description available
@@ -37,6 +38,7 @@
 - [Share & Earn | a2z Utility Hub - Earn Rewards by Sharing](/shareearn): Share great content from a2z Utility Hub and earn rewards. Earn points for every share and redeem them for exclusive benefits!
 - [Sitemap | a2z Utility Hub](/sitemap): Overview of all pages available on a2z Utility Hub.
 - [Start a New Discussion - A2Z Utility Hub](/creatediscussion): No description available
+- [Store | a2z Utility Hub](/store): Browse our exclusive collection of high-quality products. Shop now for the best deals!
 - [Support Center | a2z Utility Hub](/support): Get help from our support team and find answers to common questions.
 - [Task Manager | a2z Utility Hub](/taskmanager): No description available
 - [Terms of Service | a2z Utility Hub - Legal Terms & Conditions](/termsofservice): Read our comprehensive Terms of Service to understand your rights and responsibilities when using a2z Utility Hub.

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams, Link } from 'react-router-dom';
@@ -54,7 +55,7 @@ function ProductDetailPage() {
   }, [id]);
 
   if (loading) return <ProductDetailSkeleton />;
-  if (error || !product) return <div className="text-center p-8"><p className="text-red-500 mb-4">{error}</p></div>;
+  if (error || !product) return <div className="text-center p-8 w-full"><p className="text-red-500 mb-4">{error}</p></div>;
 
   const price = selectedVariant?.sale_price_formatted ?? selectedVariant?.price_formatted;
   const isWished = isInWishlist(product.id);
@@ -62,14 +63,14 @@ function ProductDetailPage() {
   return (
     <>
       <Helmet><title>{product.title} - Our Store</title></Helmet>
-      <div className="bg-gray-50 min-h-screen py-12">
-        <div className="content-container">
+      <div className="bg-gray-50 min-h-screen py-12 w-full">
+        <div className="w-full px-4">
           <Link to="/store" className="inline-flex items-center gap-2 text-gray-500 hover:text-brand-primary mb-6"><ArrowLeft size={16} /> Back</Link>
           
-          <div className="bg-white rounded-2xl shadow-sm p-6 md:p-10 grid lg:grid-cols-2 gap-10 mb-8">
+          <div className="bg-white rounded-2xl shadow-sm p-6 md:p-10 grid lg:grid-cols-2 gap-10 mb-8 w-full">
             <ProductImageGallery images={product.images} alt={product.title} />
-            <div className="flex flex-col">
-              <div className="flex justify-between items-start mb-4">
+            <div className="flex flex-col w-full">
+              <div className="flex justify-between items-start mb-4 w-full">
                 <h1 className="text-3xl font-bold">{product.title}</h1>
                 <Button variant="ghost" size="icon" onClick={() => toggleWishlist(product)}>
                   <Heart className={`w-6 h-6 ${isWished ? 'fill-red-500 text-red-500' : 'text-gray-400'}`} />
@@ -78,7 +79,7 @@ function ProductDetailPage() {
               <div className="text-3xl font-bold text-brand-primary mb-8">{price}</div>
               <div className="prose text-gray-600 mb-8" dangerouslySetInnerHTML={{ __html: product.description }} />
               
-              <div className="mt-auto space-y-4 bg-gray-50 p-6 rounded-xl border">
+              <div className="mt-auto space-y-4 bg-gray-50 p-6 rounded-xl border w-full">
                 <div className="flex items-center justify-between">
                   <span className="font-medium">Quantity</span>
                   <div className="flex items-center bg-white border rounded-lg p-1">
@@ -92,7 +93,7 @@ function ProductDetailPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-sm p-6 md:p-10">
+          <div className="bg-white rounded-2xl shadow-sm p-6 md:p-10 w-full">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-2xl font-bold">Customer Reviews</h2>
               <Button onClick={() => setShowReviewForm(!showReviewForm)}>
@@ -100,11 +101,13 @@ function ProductDetailPage() {
               </Button>
             </div>
             {showReviewForm && (
-              <div className="mb-8">
+              <div className="mb-8 w-full">
                 <ReviewForm productId={product.id} onSuccess={() => setShowReviewForm(false)} />
               </div>
             )}
-            <ReviewsList productId={product.id} />
+            <div className="w-full">
+               <ReviewsList productId={product.id} />
+            </div>
           </div>
         </div>
       </div>

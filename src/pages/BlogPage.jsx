@@ -11,10 +11,8 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 import BlogCard from '@/components/blog/BlogCard';
 import { logDebug } from '@/utils/categoryQueryHandler';
 import AdSenseContainer from '@/components/ads/AdSenseContainer';
-import AdSenseResponsive from '@/components/ads/AdSenseResponsive';
 import AdSenseHorizontal from '@/components/ads/AdSenseHorizontal';
 import AdSidebarLayoutWrapper from '@/components/ads/AdSidebarLayoutWrapper';
-import { useAdSense } from '@/contexts/AdSenseProvider';
 
 const POSTS_PER_PAGE = 9;
 
@@ -26,7 +24,6 @@ const BlogPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { toast } = useToast();
   const { i18n } = useTranslation();
-  const { shouldShowAds } = useAdSense();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -86,32 +83,30 @@ const BlogPage = () => {
   };
   
   return (
-    <>
+    <div className="flex-grow flex flex-col w-full items-center">
       <Helmet>
         <title>Blog - A2Z Utility Hub</title>
         <meta name="description" content="Latest news, updates, and articles from the A2Z Utility Hub team." />
       </Helmet>
       
-      {shouldShowAds && (
-        <AdSenseContainer className="max-w-7xl">
-          <AdSenseHorizontal slot="blog_top" />
-        </AdSenseContainer>
-      )}
+      <AdSenseContainer className="w-full px-4 mt-8">
+        <AdSenseHorizontal slot="blog_top" />
+      </AdSenseContainer>
 
-      <div className="py-12 bg-gray-50/30">
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-extrabold tracking-tight">Our Blog</h1>
-          <p className="mt-2 text-lg text-muted-foreground">News, updates, and insights from our team.</p>
+      <div className="py-12 bg-gray-50/30 w-full px-4">
+        <div className="section-header text-center mb-10 w-full">
+          <h1 className="section-title">Our Blog</h1>
+          <p className="section-subtitle">News, updates, and insights from our team.</p>
         </div>
 
         <AdSidebarLayoutWrapper leftAdSlots={['blog_left_1', 'blog_left_2']} rightAdSlots={['blog_right_1', 'blog_right_2']}>
           <div className="w-full min-w-0">
-            <div className="flex flex-col md:flex-row gap-4 mb-8 bg-white p-4 rounded-xl border shadow-sm">
+            <div className="flex flex-col md:flex-row gap-4 mb-8 bg-white p-4 rounded-xl border shadow-sm w-full">
               <div className="relative flex-grow">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input 
                   placeholder="Search articles..." 
-                  className="pl-10"
+                  className="pl-10 w-full"
                   value={searchTerm}
                   onChange={(e) => {
                     setSearchTerm(e.target.value);
@@ -133,25 +128,33 @@ const BlogPage = () => {
             </div>
             
             {loading ? (
-              <div className="flex justify-center items-center h-64">
+              <div className="flex justify-center items-center h-64 w-full">
                 <Loader2 className="h-12 w-12 animate-spin text-primary" />
               </div>
             ) : paginatedPosts.length > 0 ? (
               <>
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-                  {paginatedPosts.map((post) => (
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 w-full">
+                  {paginatedPosts.slice(0, 6).map((post) => (
                     <BlogCard key={post.id} post={post} />
                   ))}
                 </div>
 
-                {shouldShowAds && (
-                  <AdSenseContainer className="my-10">
-                    <AdSenseResponsive slot="blog_mid" />
+                {paginatedPosts.length > 6 && (
+                  <AdSenseContainer className="my-10 w-full">
+                    <AdSenseHorizontal slot="blog_mid" />
                   </AdSenseContainer>
                 )}
 
+                {paginatedPosts.length > 6 && (
+                  <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 mt-8 w-full">
+                    {paginatedPosts.slice(6).map((post) => (
+                      <BlogCard key={post.id} post={post} />
+                    ))}
+                  </div>
+                )}
+
                 {totalPages > 1 && (
-                  <Pagination className="mt-12">
+                  <Pagination className="mt-12 w-full justify-center">
                     <PaginationContent>
                       <PaginationItem>
                         <PaginationPrevious href="#" onClick={(e) => { e.preventDefault(); handlePageChange(currentPage - 1); }} disabled={currentPage === 1} />
@@ -171,7 +174,7 @@ const BlogPage = () => {
                 )}
               </>
             ) : (
-               <div className="text-center py-16 bg-white border rounded-xl shadow-sm">
+               <div className="text-center py-16 bg-white border rounded-xl shadow-sm w-full">
                  <h2 className="text-2xl font-semibold">No posts found</h2>
                  <p className="text-muted-foreground mt-2">There are no blog posts available for your criteria. Please try a different search or check back later.</p>
                </div>
@@ -179,7 +182,7 @@ const BlogPage = () => {
           </div>
         </AdSidebarLayoutWrapper>
       </div>
-    </>
+    </div>
   );
 };
 

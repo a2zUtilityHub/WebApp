@@ -15,14 +15,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { logDiagnostics } from '@/utils/supabaseConnectionDiagnostics';
 import AdSenseContainer from '@/components/ads/AdSenseContainer';
-import AdSenseResponsive from '@/components/ads/AdSenseResponsive';
+import AdSenseHorizontal from '@/components/ads/AdSenseHorizontal';
 import AdSidebarLayoutWrapper from '@/components/ads/AdSidebarLayoutWrapper';
-import { useAdSense } from '@/contexts/AdSenseProvider';
 
 const StorePageContent = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [diagnosticResults, setDiagnosticResults] = useState(null);
-  const { shouldShowAds } = useAdSense();
 
   const isDev = import.meta.env.DEV;
 
@@ -54,19 +52,10 @@ const StorePageContent = () => {
   );
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="bg-gray-50/50 min-h-screen">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="bg-gray-50/50 flex-grow w-full flex flex-col items-center">
       <Helmet>
         <title>Store | a2z Utility Hub</title>
         <meta name="description" content="Browse our exclusive collection of high-quality products. Shop now for the best deals!" />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-CJMK1M1R4H"></script>
-        <script>
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-CJMK1M1R4H');
-          `}
-        </script>
       </Helmet>
       
       {isDev && diagnosticResults && (
@@ -89,18 +78,21 @@ const StorePageContent = () => {
         subtitle="Shop premium products and exclusive deals"
       />
 
-      {shouldShowAds && (
-        <AdSenseContainer className="my-8 max-w-7xl mx-auto px-4">
-          <AdSenseResponsive slot="store_top" />
-        </AdSenseContainer>
-      )}
+      <AdSenseContainer className="w-full px-4">
+        <AdSenseHorizontal slot="store_top" />
+      </AdSenseContainer>
 
-      <div className="py-8">
+      <div className="py-8 w-full px-4">
         <AdSidebarLayoutWrapper 
           leftAdSlots={['store_left_1', 'store_left_2']} 
           rightAdSlots={['store_right_1', 'store_right_2']}
         >
           <div className="flex-1 w-full min-w-0">
+            <div className="section-header text-left">
+              <h2 className="section-title">Latest Products</h2>
+              <p className="section-subtitle">Discover our handpicked selection of top-rated items.</p>
+            </div>
+
             {isOffline && (
               <Alert variant="destructive" className="mb-6 border-orange-500 bg-orange-50 text-orange-800">
                 <WifiOff className="h-4 w-4" />
@@ -111,7 +103,7 @@ const StorePageContent = () => {
               </Alert>
             )}
 
-            <div className="bg-white p-4 md:p-5 rounded-3xl border border-gray-200 shadow-sm mb-8">
+            <div className="bg-white p-4 md:p-5 rounded-3xl border border-gray-200 shadow-sm mb-8 w-full">
               <div className="flex items-center gap-3 w-full">
                 <div className="relative flex-1 min-w-0">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
@@ -141,7 +133,7 @@ const StorePageContent = () => {
               {loading ? (
                 renderSkeletons()
               ) : error && !products.length ? (
-                <div className="flex flex-col items-center justify-center py-16 text-center bg-white rounded-2xl border border-gray-200 shadow-sm">
+                <div className="flex flex-col items-center justify-center py-16 text-center bg-white rounded-2xl border border-gray-200 shadow-sm w-full">
                   <div className="h-16 w-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
                     <AlertCircle className="h-8 w-8 text-red-600" />
                   </div>
@@ -152,7 +144,7 @@ const StorePageContent = () => {
                   </Button>
                 </div>
               ) : filteredProducts.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-16 text-center bg-white rounded-2xl border border-gray-200 shadow-sm">
+                <div className="flex flex-col items-center justify-center py-16 text-center bg-white rounded-2xl border border-gray-200 shadow-sm w-full">
                   <div className="h-16 w-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                     <PackageX className="h-8 w-8 text-gray-400" />
                   </div>
@@ -169,8 +161,21 @@ const StorePageContent = () => {
                     animate={{ opacity: 1, y: 0 }} 
                     exit={{ opacity: 0, y: -10 }} 
                     transition={{ duration: 0.2 }}
+                    className="w-full"
                   >
-                    <ProductsList products={filteredProducts} />
+                    <ProductsList products={filteredProducts.slice(0, 6)} />
+                    
+                    {filteredProducts.length > 6 && (
+                      <AdSenseContainer className="w-full">
+                        <AdSenseHorizontal slot="store_mid" />
+                      </AdSenseContainer>
+                    )}
+
+                    {filteredProducts.length > 6 && (
+                      <div className="mt-8 w-full">
+                         <ProductsList products={filteredProducts.slice(6)} />
+                      </div>
+                    )}
                   </motion.div>
                 </AnimatePresence>
               )}

@@ -1,171 +1,232 @@
+Here is a comprehensive, production-ready `README.md` for the **A2Z Utility Hub** project. 
+
+I have incorporated the detailed, beginner-friendly instructional style from the reference file you provided, adapting it specifically to your React/Vite/Supabase stack. This guide covers everything from local setup and environment variables to Docker deployment, testing, and Git workflow standards.
+
+***
+
+```markdown
 # 🛠️ A2Z Utility Hub
 
-Welcome to **A2Z Utility Hub**, a comprehensive, all-in-one web application suite. This platform combines a collection of productivity mini-apps, an e-commerce deals section, a blogging platform, and a highly advanced Admin Dashboard powered by Role-Based Access Control (RBAC).
+Welcome to the **A2Z Utility Hub** repository. This project is a comprehensive, all-in-one web application suite that combines a collection of productivity mini-apps, an e-commerce deals section, a blogging platform, and a highly advanced Admin Dashboard powered by Role-Based Access Control (RBAC).
 
 ---
 
-## 📖 1. Project Overview
+## 📖 1. Project Overview & Features
 
 ### Purpose
-The goal of A2Z Utility Hub is to provide a single, unified platform where users can access essential daily tools (like video editing, task management, and file conversion) without needing to visit multiple disparate websites, while also discovering curated deals and reading informative content.
+The goal of A2Z Utility Hub is to provide a single, unified platform where users can access essential daily tools without needing to visit multiple disparate websites, while also discovering curated deals and reading informative content.
 
-### Main Features & Use Cases
+### Core Modules
 * **🧩 Utility Apps Suite:**
-  * **Task Manager:** Kanban-style board with subtasks, tags, and time tracking.
-  * **Video Editor:** In-browser video manipulation (timeline, voiceover, noise removal, export) using WebCodecs/FFmpeg.
-  * **Tools:** URL Shortener, QR Code Generator, Barcode Scanner, File Converter, Profit Calculator, and JSON Formatter.
+  * **Task Manager:** Kanban-style board with subtasks, tags, time tracking, and team management.
+  * **Video Editor:** In-browser video manipulation (timeline, voiceover, noise removal, AI features) using WebCodecs/FFmpeg.
+  * **Quick Tools:** URL Shortener, QR Code Generator, Barcode Scanner, File Converter, Profit Calculator, and JSON Formatter.
 * **🛍️ E-Commerce & Deals:** Browse coupons, view product galleries, manage a shopping cart, and maintain a wishlist.
-* **🔐 Robust Authentication:** Multi-step signup, OTP, Google OAuth, and strict RBAC (User, Moderator, Admin).
 * **🎛️ Comprehensive Admin Dashboard:** Manage users, roles, system audit logs, blogs, SEO settings, support tickets, and an automated Chatbot.
+* **🔐 Robust Authentication:** Multi-step signup, OTP, Google OAuth, and strict RBAC (User, Moderator, Admin).
 
 ---
 
-## 💻 2. Tech Stack
+## 💻 2. Tech Stack Architecture
 
-* **Frontend:** React 18, Vite, Tailwind CSS, Shadcn UI (`components/ui`)
-* **Backend Architecture:** Serverless / Backend-as-a-Service (BaaS)
-* **Core Backend / Database:** Supabase (PostgreSQL, Supabase Auth, Storage)
-* **Production Server:** Node.js / Express (`server.js` for serving/SSR)
+* **Frontend:** React 18, Vite (Bundler), Tailwind CSS, Shadcn UI (`src/components/ui`)
 * **State Management:** React Context API & Custom Hooks
+* **Backend Architecture:** Serverless / Backend-as-a-Service (BaaS)
+* **Database & Auth:** Supabase (PostgreSQL, Supabase Auth, Storage)
+* **Production Node Server:** Express.js (`server.js` for serving built files)
 * **Infrastructure & Deployment:** Docker, Docker Compose, Nginx (Reverse Proxy)
-* **Testing:** Playwright (E2E) & Vitest (Unit Testing)
+* **Testing:** Playwright (End-to-End) & Vitest (Unit Testing)
 
 ---
 
-## 🚀 3. Setup Instructions
+## ⚙️ 3. Environment Configuration
 
-### Prerequisites
-* [Node.js](https://nodejs.org/) (v18+ recommended)
-* [npm](https://www.npmjs.com/) or yarn
-* [Docker](https://www.docker.com/) & Docker Compose (for containerized setup)
-* A [Supabase](https://supabase.com/) Account
+Before running the application, you must configure your environment variables. Never commit `.env` files containing real secrets.
 
-### Frontend Setup (Local / VS Code)
-1. **Clone & Open:** Open the project folder in VS Code.
-2. **Install Dependencies:**
+1. **Create your local environment file:**
    ```bash
-   npm install
+   # Copy the example file to create your local .env file
+   cp .env.example .env
    ```
-3. *(Optional)* Install missing Shadcn UI components if required:
-   ```bash
-   node tools/install-missing-components.js
-   ```
-4. **Run Development Server:**
-   ```bash
-   npm run dev
-   ```
-5. Navigate to `http://localhost:5173` in your browser.
 
-### Backend Setup (Supabase & Node Server)
-This project uses Supabase as its primary database and authentication provider.
-1. **Database Schema:**
-   * Go to your Supabase Dashboard -> SQL Editor.
-   * Run the contents of `db/init.sql` to set up extensions.
-   * Run the contents of `db/01-schema-and-seed.sql` to create tables, RLS policies, and seed initial admin data.
-2. **Local Node Server (Optional for Dev, Used in Prod):**
-   If you want to test the production Node server (`server.js`):
-   ```bash
-   npm run build
-   node server.js
+2. **Populate the `.env` file:**
+   Open `.env` in VS Code and fill in the required values. You will need a Supabase project to get these keys.
+   ```env
+   # Supabase Configuration (CRITICAL FOR BACKEND)
+   VITE_SUPABASE_URL=[https://your-project-ref.supabase.co](https://your-project-ref.supabase.co)
+   VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+
+   # Application Settings
+   VITE_APP_ENV=development 
+   PORT=3000 # Port used by server.js in production
+
+   # Analytics & Ads (Optional for Local Dev)
+   VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+   VITE_ADSENSE_CLIENT_ID=ca-pub-XXXXXXXXXXXXXXXX
    ```
-   This will serve the built Vite application on `http://localhost:3000`.
 
 ---
 
-## 🔗 4. Frontend–Backend Integration
+## 🚀 4. Local Development Setup
 
-The frontend connects directly to the Supabase PostgreSQL database and Auth services using the Supabase JS Client. 
+We maintain a decoupled BaaS architecture. The frontend runs via Vite, and it communicates directly with your Supabase PostgreSQL database.
 
-* **Configuration File:** The connection is initialized in `src/lib/customSupabaseClient.js`.
-* **API Flow Example (Fetching Tasks):**
-  1. A React component calls a function from `src/api/taskManagerApi.js`.
-  2. The API file uses the `supabase` client to query the `tasks` table.
-  3. Supabase validates the request against PostgreSQL **Row Level Security (RLS)** policies using the user's active JWT token.
-  4. Data is returned to the frontend and cached/managed by custom hooks (e.g., `useTaskManagement.js`).
+### Step 4.1: Database Setup (Supabase)
+1. Log in to your [Supabase Dashboard](https://supabase.com/).
+2. Navigate to the **SQL Editor**.
+3. Open `db/init.sql` from the repository, paste it into the SQL Editor, and run it to set up required extensions.
+4. Open `db/01-schema-and-seed.sql`, paste it, and run it. This will build your tables, establish Row Level Security (RLS) policies, and inject initial admin roles/users.
+
+### Step 4.2: Frontend Setup (React/Vite)
+Open your terminal (in VS Code or standalone) and navigate to the project root:
+
+```bash
+# 1. Install all Node.js dependencies
+npm install
+
+# 2. (Optional) Run the script to verify and install any missing Shadcn UI components
+node tools/install-missing-components.js
+
+# 3. Start the Vite hot-reloading development server
+npm run dev
+```
+*Your application should now be accessible at `http://localhost:5173`.*
+
+### Step 4.3: Running the Production Node Backend (Optional for Dev)
+To test the production-ready Node.js server (`server.js`) locally:
+```bash
+# Build the optimized production assets into the /dist folder
+npm run build
+
+# Start the Express server to serve the application
+node server.js
+```
+*The app will be accessible at `http://localhost:3000`.*
 
 ---
 
-## 🐳 5. Docker Configuration
+1. Install package
+Run this command to install the required dependencies.
+Details:
+npm install @supabase/supabase-js
+Code:
+File: Code
+```
+npm install @supabase/supabase-js
+```
 
-The project is fully dockerized for easy CI/CD and production deployment. The configuration files are located in the `infra/` directory.
+2. Add Supabase UI components
+Run this command to install the Supabase shadcn components.
+Details:
+npx shadcn@latest add @supabase/supabase-client-nextjs
+Code:
+File: Code
+```
+npx shadcn@latest add @supabase/supabase-client-nextjs
+```
 
-### Build and Run using Docker Compose
-1. Ensure your Docker daemon is running.
-2. Copy your `.env` file into the root directory (see section 6).
-3. Run the following command from the root of the project:
+3. Set env variables
+Add the following values to your env file.
+Code:
+File: .env.local
+```
+NEXT_PUBLIC_SUPABASE_URL=https://emgfcirrbenkwczlfcof.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVtZ2ZjaXJyYmVua3djemxmY29mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5MjgyOTUsImV4cCI6MjA3MjUwNDI5NX0.dax_Lv126OrP0JUS8K8OKOhkItkXBYohQCymXhiwgpM
+```
+
+4. Check out more UI components
+Add auth, realtime and storage functionality to your project
+Details:
+Explore supabase.com/ui
+
+5. Install Agent Skills (Optional)
+Agent Skills give AI coding tools ready-made instructions, scripts, and resources for working with Supabase more accurately and efficiently.
+Details:
+npx skills add supabase/agent-skills
+Code:
+File: Code
+```
+npx skills add supabase/agent-skills
+```
+
+## 🐳 5. Docker Deployment
+
+The project includes complete Infrastructure as Code (IaC) via Docker and Nginx for staging and production environments.
+
+### Build and Run Containers
+1. Ensure the Docker daemon is running on your machine.
+2. Verify your `.env` file is present in the root directory.
+3. Run the following command to build the images and start the containers in detached mode:
    ```bash
    docker-compose -f infra/docker/docker-compose.yml up -d --build
    ```
-4. **Access the app:** The Nginx container will serve the application, typically accessible at `http://localhost:80`.
+4. Access the application via `http://localhost` (Nginx serves it on port 80).
 
-### Stopping the Containers
+### Stop and Clean Up Containers
 ```bash
+# Stop containers and remove networks
 docker-compose -f infra/docker/docker-compose.yml down
+
+# If you need to rebuild completely without cache (useful if npm install hangs):
+docker-compose -f infra/docker/docker-compose.yml build --no-cache
 ```
 
 ---
 
-## 🔐 6. Environment Configuration
+## 🧪 6. Testing Guide
 
-You need to configure environment variables for the frontend to communicate with Supabase and other services.
+Ensure all tests pass before submitting code.
 
-1. Copy the example environment file:
-   ```bash
-   cp .env.example .env
-   ```
-2. Edit `.env` with your actual keys:
+**Unit Tests (Vitest):**
+```bash
+# Run unit tests to verify individual component/hook logic
+npm run test:unit
+```
 
-```env
-# Supabase Configuration (REQUIRED)
-VITE_SUPABASE_URL=[https://your-project-ref.supabase.co](https://your-project-ref.supabase.co)
-VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+**End-to-End Tests (Playwright):**
+```bash
+# (First time only) Install required browsers for Playwright
+npx playwright install 
 
-# Analytics & Ads (Optional)
-VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
-VITE_ADSENSE_CLIENT_ID=ca-pub-XXXXXXXXXXXXXXXX
-
-# Application Settings
-VITE_APP_ENV=development # or production
-PORT=3000 # Port for the Node server.js
+# Run the E2E test suite (verifies Auth, Admin, QR Generation, RBAC)
+npm run test:e2e
 ```
 
 ---
 
-## ⌨️ 7. Example Commands
+## 🤝 7. Git Workflow & Contribution Standards
 
-Here are the most common commands you will use during development:
+To keep our repository clean and organized, please adhere to the following standards when contributing:
 
-| Command | Description |
-| :--- | :--- |
-| `npm install` | Installs all Node modules. |
-| `npm run dev` | Starts the Vite hot-reloading development server. |
-| `npm run build` | Compiles the React application for production into `/dist`. |
-| `npm run preview` | Previews the production build locally. |
-| `npm run test:unit` | Runs unit tests using Vitest. |
-| `npm run test:e2e` | Runs End-to-End tests using Playwright. |
-| `node server.js` | Starts the production Node.js server. |
+### ❌ DON'T:
+* **DON'T** commit secrets. Never push `.env` files.
+* **DON'T** panic when you see a Git `CONFLICT`. It just means Git needs a human decision to merge overlapping changes.
+* **DON'T** push directly to `main`. Always create a new branch (`feature/your-feature-name` or `bugfix/issue-description`).
+
+### ✅ DO:
+* **DO** update `.env.example` with dummy values if you add new environment variables.
+* **DO** utilize GitHub Pull Requests (PRs) for code review before merging.
+
+### Git Color Indicators (Reading Code diffs):
+When reviewing code changes in VS Code or GitHub PRs, note the Git colors:
+* 🟩 **Green (Added):** New lines of code that did not exist previously.
+* 🟥 **Red (Deleted):** Lines that have been removed. (Modified lines show as one red deleted line and one green added line).
+* 🟦 **Blue (Context):** Unchanged code surrounding your edits.
+* 🟨 **Yellow:** Currently selected line or active cursor.
 
 ---
 
 ## 🚨 8. Troubleshooting
 
-### 1. "Failed to fetch" or "401 Unauthorized" in the App
+### "Failed to fetch" or "401 Unauthorized"
 * **Cause:** Supabase connection failure or RLS policy blocking access.
-* **Fix:** 1. Check that `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in your `.env` are exactly correct (no trailing slashes on the URL).
-  2. Ensure you have run the SQL scripts in `db/01-schema-and-seed.sql` to establish the correct RLS policies.
+* **Fix:** Verify your `.env` file variables (`VITE_SUPABASE_URL` must not have a trailing slash). Ensure you ran the `01-schema-and-seed.sql` script so your RLS policies are active.
 
-### 2. Video Editor Features (FFmpeg) Crash or Hang
-* **Cause:** Advanced video processing requires `SharedArrayBuffer`, which relies on Cross-Origin Isolation.
-* **Fix:** Ensure you are accessing the dev server via `http://localhost` or `http://127.0.0.1` (browsers treat these as secure contexts). In production, ensure Nginx is sending the following headers:
-  * `Cross-Origin-Opener-Policy: same-origin`
-  * `Cross-Origin-Embedder-Policy: require-corp`
+### Video Editor / FFmpeg Crashes
+* **Cause:** Advanced video processing requires `SharedArrayBuffer`, relying on Cross-Origin Isolation.
+* **Fix:** In local dev, access the app strictly via `http://localhost` or `http://127.0.0.1` (secure contexts). In production, ensure Nginx sends the required headers (`Cross-Origin-Opener-Policy` and `Cross-Origin-Embedder-Policy`), as configured in `infra/nginx/nginx.conf`.
 
-### 3. Port 5173 is already in use
-* **Cause:** Another process is using Vite's default port.
-* **Fix:** Run the dev server on a different port: `npm run dev -- --port 3001`
-
-### 4. Docker build fails at `npm install`
-* **Cause:** Cache issues or node version mismatches.
-* **Fix:** Run Docker system prune: `docker system prune -f`, then rebuild with the `--no-cache` flag: 
-  `docker-compose -f infra/docker/docker-compose.yml build --no-cache`
+### Port 5173 / 3000 is Already in Use
+* **Cause:** Another service is hogging the Vite or Node port.
+* **Fix:** Run Vite on a different port: `npm run dev -- --port 5174`.
 ```

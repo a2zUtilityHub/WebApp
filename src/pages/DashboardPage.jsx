@@ -50,24 +50,24 @@ const DashboardPage = () => {
     { id: 'addresses', label: 'Addresses', icon: MapPin },
   ];
 
-  if (authLoading) return <div className="flex justify-center min-h-[60vh] items-center"><Loader2 className="h-10 w-10 animate-spin text-primary" /></div>;
+  if (authLoading) return <div className="flex justify-center min-h-[60vh] items-center w-full"><Loader2 className="h-10 w-10 animate-spin text-primary" /></div>;
 
   const memberSince = profile?.created_at ? format(new Date(profile.created_at), 'MMMM yyyy') : 'Recently';
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl animate-fade-in">
+    <div className="w-full px-4 py-8 animate-fade-in">
       <Helmet><title>My Account - Dashboard</title></Helmet>
       
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">My Account</h1>
-          <p className="text-muted-foreground mt-1">Manage your profile, orders, and preferences.</p>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 w-full">
+        <div className="section-header text-left !mb-0">
+          <h1 className="section-title">My Account</h1>
+          <p className="section-subtitle mt-1">Manage your profile, orders, and preferences.</p>
         </div>
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 w-full">
         <aside className="lg:col-span-1">
-          <Card className="border-border/50 shadow-sm sticky top-24">
+          <Card className="border-border/50 shadow-sm sticky top-24 w-full">
             <CardContent className="p-3">
               <nav className="flex flex-col space-y-1">
                 {tabs.map(t => (
@@ -86,17 +86,17 @@ const DashboardPage = () => {
           </Card>
         </aside>
         
-        <div className="lg:col-span-3 min-h-[500px]">
+        <div className="lg:col-span-3 min-h-[500px] w-full">
           {isLoadingData ? (
-             <div className="flex justify-center items-center h-64 bg-card rounded-xl border border-border/50">
+             <div className="flex justify-center items-center h-64 bg-card rounded-xl border border-border/50 w-full">
                <Loader2 className="h-8 w-8 animate-spin text-primary" />
              </div>
           ) : (
-            <div className="animate-slide-in">
+            <div className="animate-slide-in w-full">
               {activeTab === 'overview' && (
-                <div className="space-y-6">
-                  <Card className="border-border/50 shadow-sm overflow-hidden">
-                    <div className="bg-gradient-to-r from-primary/10 to-transparent p-6 border-b border-border/50">
+                <div className="space-y-6 w-full">
+                  <Card className="border-border/50 shadow-sm overflow-hidden w-full">
+                    <div className="bg-gradient-to-r from-primary/10 to-transparent p-6 border-b border-border/50 w-full">
                       <div className="flex items-center gap-4">
                         <div className="h-16 w-16 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xl font-bold">
                           {profile?.first_name?.charAt(0) || 'U'}
@@ -107,8 +107,8 @@ const DashboardPage = () => {
                         </div>
                       </div>
                     </div>
-                    <CardContent className="p-6">
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <CardContent className="p-6 w-full">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
                         <div className="p-4 rounded-xl border border-border/50 bg-card hover:bg-accent/5 transition-colors">
                           <div className="flex items-center gap-3 mb-2">
                             <div className="p-2 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"><ShoppingBag className="h-5 w-5" /></div>
@@ -137,9 +137,9 @@ const DashboardPage = () => {
                   </Card>
                   
                   <h2 className="text-xl font-bold mt-8 mb-4">Recent Activity</h2>
-                  <div className="grid grid-cols-1 gap-4">
+                  <div className="grid grid-cols-1 gap-4 w-full">
                     {mockOrders.map(order => (
-                      <div key={order.id} className="flex items-center justify-between p-4 rounded-xl border border-border/50 bg-card hover:shadow-md transition-shadow cursor-pointer" onClick={() => handleTabChange('orders')}>
+                      <div key={order.id} className="flex items-center justify-between p-4 rounded-xl border border-border/50 bg-card hover:shadow-md transition-shadow cursor-pointer w-full" onClick={() => handleTabChange('orders')}>
                         <div className="flex items-center gap-4">
                           <div className="p-3 bg-secondary rounded-lg"><Package className="h-5 w-5 text-primary" /></div>
                           <div>
@@ -163,16 +163,16 @@ const DashboardPage = () => {
               {activeTab === 'profile' && <ProfileSection userProfile={profile} profileCompletion={85} onProfileUpdate={() => {}} />}
               
               {activeTab === 'orders' && (
-                <Card className="border-border/50 shadow-sm">
+                <Card className="border-border/50 shadow-sm w-full">
                   <CardHeader>
                     <CardTitle className="text-2xl">Order History</CardTitle>
                     <CardDescription>View and manage your recent purchases.</CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="w-full">
                     {mockOrders.length > 0 ? (
-                      <div className="space-y-4">
+                      <div className="space-y-4 w-full">
                         {mockOrders.map(order => (
-                          <div key={order.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-5 rounded-xl border border-border/50 bg-card gap-4">
+                          <div key={order.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-5 rounded-xl border border-border/50 bg-card gap-4 w-full">
                             <div>
                               <div className="flex items-center gap-3 mb-1">
                                 <h3 className="font-bold text-lg">{order.id}</h3>
@@ -190,7 +190,7 @@ const DashboardPage = () => {
                         ))}
                       </div>
                     ) : (
-                      <div className="text-center py-12">
+                      <div className="text-center py-12 w-full">
                         <ShoppingBag className="h-12 w-12 mx-auto text-muted-foreground/50 mb-4" />
                         <h3 className="text-lg font-medium mb-2">No orders yet</h3>
                         <p className="text-muted-foreground mb-6">When you place orders, they will appear here.</p>
@@ -202,7 +202,7 @@ const DashboardPage = () => {
               )}
               
               {activeTab === 'addresses' && (
-                <Card className="border-border/50 shadow-sm">
+                <Card className="border-border/50 shadow-sm w-full">
                   <CardHeader className="flex flex-row items-center justify-between">
                     <div>
                       <CardTitle className="text-2xl">Address Management</CardTitle>
@@ -210,13 +210,13 @@ const DashboardPage = () => {
                     </div>
                     <Button size="sm" className="hidden sm:flex"><Plus className="h-4 w-4 mr-2" /> Add New</Button>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="w-full">
                     <Button size="sm" className="w-full sm:hidden mb-6"><Plus className="h-4 w-4 mr-2" /> Add New Address</Button>
                     
                     {mockAddresses.length > 0 ? (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                         {mockAddresses.map(addr => (
-                          <div key={addr.id} className="p-5 rounded-xl border border-border relative bg-card">
+                          <div key={addr.id} className="p-5 rounded-xl border border-border relative bg-card w-full">
                             {addr.isDefault && <Badge className="absolute top-4 right-4 bg-primary/10 text-primary hover:bg-primary/20 border-0">Default</Badge>}
                             <div className="flex items-center gap-2 mb-3 text-muted-foreground font-medium">
                               <MapPin className="h-4 w-4" /> {addr.type}
@@ -225,7 +225,7 @@ const DashboardPage = () => {
                             <p className="text-muted-foreground mt-1 text-sm">{addr.street}</p>
                             <p className="text-muted-foreground text-sm">{addr.city}, {addr.state} {addr.zip}</p>
                             
-                            <div className="flex gap-2 mt-6 pt-4 border-t border-border/50">
+                            <div className="flex gap-2 mt-6 pt-4 border-t border-border/50 w-full">
                               <Button variant="ghost" size="sm" className="flex-1">Edit</Button>
                               <Button variant="ghost" size="sm" className="flex-1 text-destructive hover:text-destructive hover:bg-destructive/10">Delete</Button>
                             </div>
@@ -233,7 +233,7 @@ const DashboardPage = () => {
                         ))}
                       </div>
                     ) : (
-                      <div className="text-center py-12">
+                      <div className="text-center py-12 w-full">
                         <MapPin className="h-12 w-12 mx-auto text-muted-foreground/50 mb-4" />
                         <h3 className="text-lg font-medium mb-2">No saved addresses</h3>
                         <p className="text-muted-foreground mb-6">Add an address to speed up your checkout process.</p>

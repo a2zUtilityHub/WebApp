@@ -2,11 +2,13 @@
 import React from 'react';
 import AdSenseAd from './AdSenseAd';
 import { cn } from '@/lib/utils';
-import { useAdSense } from '@/contexts/AdSenseProvider';
+import { useAdSense, useAdSenseLoadStatus } from '@/contexts/AdSenseProvider';
 
 const AdSenseVertical = ({ className, slot }) => {
   const { shouldShowAds } = useAdSense();
-  if (!shouldShowAds) return null;
+  const status = useAdSenseLoadStatus(slot);
+
+  if (!shouldShowAds || status === 'failed') return null;
 
   return (
     <AdSenseAd 

@@ -1,31 +1,81 @@
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
+import { useAdSense } from '@/contexts/AdSenseProvider';
 
-const AdSenseAd = ({ className, format, width, height, slot, style, responsive }) => {
+const AdSenseAd = ({ className, format, width, height, slot, style, responsive, layoutKey }) => {
+  const adRef = useRef(null);
+  const { registerSlotStatus, slotStatuses } = useAdSense();
+  const status = slotStatuses[slot] || 'loading';
+
+  useEffect(() => {
+    let checkInterval;
+    let isMounted = true;
+
+    // Register initial loading state
+    registerSlotStatus(slot, 'loading');
+
+    try {
+      if (typeof window !== 'undefined' && adRef.current) {
+        if (!adRef.current.hasAttribute('data-adsbygoogle-status')) {
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        }
+
+        checkInterval = setInterval(() => {
+          if (!isMounted || !adRef.current) return;
+          
+          const adStatus = adRef.current.getAttribute('data-ad-status');
+          if (adStatus === 'filled') {
+            registerSlotStatus(slot, 'loaded');
+            clearInterval(checkInterval);
+          } else if (adStatus === 'unfilled') {
+            registerSlotStatus(slot, 'failed');
+            clearInterval(checkInterval);
+          }
+        }, 500);
+      }
+    } catch (e) {
+      console.error('[AdSense] Initialization error:', e);
+      registerSlotStatus(slot, 'failed');
+    }
+
+    const failTimeout = setTimeout(() => {
+      if (isMounted && slotStatuses[slot] !== 'loaded') {
+        registerSlotStatus(slot, 'failed');
+        clearInterval(checkInterval);
+      }
+    }, 10000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(checkInterval);
+      clearTimeout(failTimeout);
+    };
+  }, [slot, registerSlotStatus]);
+
+  // Always render the <ins> tag so AdSense can attempt to fill it, 
+  // but hide it visually if it hasn't loaded to prevent empty containers.
   return (
     <div
       className={cn(
-        'flex flex-col items-center justify-center bg-muted/30 border-2 border-dashed border-border/60 rounded-xl overflow-hidden relative',
+        'transition-all duration-500',
+        status === 'loaded' ? 'opacity-100 h-auto' : 'opacity-0 h-0 overflow-hidden',
         className
       )}
       style={{
-        width: responsive ? '100%' : width ? `${width}px` : '100%',
-        height: responsive ? 'auto' : height ? `${height}px` : 'auto',
-        minHeight: responsive ? '120px' : height ? `${height}px` : '90px',
         ...style
       }}
     >
-      <span className="text-[10px] text-muted-foreground absolute top-2 left-3 uppercase tracking-widest font-bold bg-background/80 px-2 py-0.5 rounded shadow-sm">
-        Advertisement
-      </span>
-      <div className="text-muted-foreground/60 font-medium text-sm mt-4 flex items-center gap-2">
-        <span>Ad Slot:</span>
-        <span className="font-mono text-primary/60 bg-primary/5 px-2 py-1 rounded-md">{slot}</span>
-      </div>
-      {format && (
-        <div className="text-muted-foreground/40 text-xs mt-1">Format: {format}</div>
-      )}
+      <ins
+        ref={adRef}
+        className="adsbygoogle w-full"
+        style={{ display: 'block', width: responsive ? '100%' : width, height: responsive ? 'auto' : height }}
+        data-ad-client="ca-pub-9198321800783167"
+        data-ad-slot={slot}
+        data-ad-format={format || (responsive ? 'auto' : undefined)}
+        data-full-width-responsive={responsive ? 'true' : 'false'}
+        data-ad-layout-key={layoutKey}
+      />
     </div>
   );
 };
