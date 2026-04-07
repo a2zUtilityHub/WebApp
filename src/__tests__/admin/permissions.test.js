@@ -1,4 +1,3 @@
-
 /* global describe, it, expect, beforeEach, afterEach, vi */
 
 import { renderHook } from '@testing-library/react';

@@ -14,7 +14,7 @@
 - [Advertise With Us | a2z Utility Hub](/advertise): Reach a targeted audience with our advertising solutions.
 - [All Categories | Apps, Blogs & Deals - a2z Utility Hub](/categories): Browse our complete directory of utility apps, informative blogs, and exclusive discount coupons across all categories.
 - [Applications - A2Z Utility Hub](/apps): Discover powerful productivity applications to simplify your digital life.
-- [Authenticating... - a2z Utility Hub](/oauthcallback): Completing your authentication with Google
+- [Authenticating... - a2z Utility Hub](/oauthcallback): Completing your authentication
 - [Blog - A2Z Utility Hub](/blog): Latest news, updates, and articles from the A2Z Utility Hub team.
 - [Careers at a2z Utility Hub](/careers): Join our team and help build the future of digital utilities. Explore open positions.
 - [Contact Us | a2z Utility Hub](/contact): Get in touch with a2z Utility Hub. We are here to help.
@@ -29,6 +29,8 @@
 - [My Account - Dashboard](/dashboard): No description available
 - [My Wishlist | a2z Utility Hub](/wishlist): View and manage your favorite products.
 - [Notifications - a2z Utility Hub](/notifications): No description available
+- [OAuth Configuration Guide | Setup](/oauthconfigurationguide): No description available
+- [OAuth Configuration Status | Diagnostics](/oauthstatus): No description available
 - [Payment Successful - a2z Utility Hub](/paymentsuccess): Your payment was successful. Thank you for your purchase!
 - [Press & News | a2z Utility Hub](/press): Latest news, updates, and announcements from a2z Utility Hub.
 - [Pricing Plans - A2Z Utility Hub](/pricing): Simple, transparent pricing for all our premium apps and utilities.

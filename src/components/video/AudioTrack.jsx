@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import { Music, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';

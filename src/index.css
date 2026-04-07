@@ -33,7 +33,6 @@
     --app-section-bg: 0 0% 100%;
     --app-section-border: 220 14% 96%;
     
-    /* Layout Tokens - Full Width */
     --container-width: 100%;
     --spacing-unit: 16px;
   }
@@ -100,7 +99,6 @@
 }
 
 @layer components {
-  /* Full Width Layout Classes */
   .content-container {
     width: 100%;
     max-width: none;
@@ -110,7 +108,6 @@
     padding-right: var(--spacing-unit);
   }
 
-  /* Responsive Section Headers */
   .section-header {
     display: flex;
     flex-direction: column;
@@ -159,7 +156,6 @@
     }
   }
 
-  /* Ad Container Styles */
   .ad-wrapper {
     background-color: hsl(var(--muted) / 0.3);
     border: 1px solid hsl(var(--border));
@@ -170,20 +166,23 @@
     align-items: center;
   }
   
-  .ad-horizontal {
-    width: 100%;
-  }
-  
-  .ad-vertical {
-    width: 100%;
-  }
-  
-  .ad-responsive {
+  .ad-horizontal, .ad-vertical, .ad-responsive {
     width: 100%;
   }
 
   .ad-transition {
     transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s ease-in-out, padding 0.4s ease-in-out;
+  }
+
+  /* OAuth Status Styles */
+  .oauth-error-box {
+    @apply border-destructive/20 bg-destructive/10 text-destructive p-4 rounded-lg flex gap-3;
+  }
+  .oauth-warning-box {
+    @apply border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-500 p-4 rounded-lg flex gap-3;
+  }
+  .oauth-success-box {
+    @apply border-green-500/20 bg-green-500/10 text-green-600 dark:text-green-500 p-4 rounded-lg flex gap-3;
   }
 }
 

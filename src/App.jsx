@@ -12,10 +12,11 @@ import ProtectedRoute from '@/components/admin/ProtectedRoute';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { CartProvider } from '@/hooks/useCart';
 import { AdSenseProvider } from '@/contexts/AdSenseProvider';
+import { AuthProvider } from '@/contexts/SupabaseAuthContext';
 
 import '@/styles/AdSidebarLayout.css';
 
-// Lazy load standard pages
+// Lazy load pages
 const HomePage = lazy(() => import('@/pages/HomePage'));
 const AppsPage = lazy(() => import('@/pages/AppsPage'));
 const AppDetailPage = lazy(() => import('@/pages/AppDetailPage'));
@@ -51,7 +52,12 @@ const TermsPage = lazy(() => import('@/pages/TermsPage'));
 const ReferEarnPage = lazy(() => import('@/pages/ReferEarnPage'));
 const ShareEarnPage = lazy(() => import('@/pages/ShareEarnPage'));
 
-// New Dynamic Pages
+// OAuth specifics
+const OAuthCallbackPage = lazy(() => import('@/pages/OAuthCallbackPage'));
+const OAuthStatusPage = lazy(() => import('@/pages/OAuthStatusPage'));
+const OAuthConfigurationGuide = lazy(() => import('@/pages/OAuthConfigurationGuide'));
+
+// Dynamic Pages
 const PopularDealsPage = lazy(() => import('@/pages/PopularDealsPage'));
 const PopularDealsCategoryPage = lazy(() => import('@/pages/PopularDealsCategoryPage'));
 const CategoriesPage = lazy(() => import('@/pages/CategoriesPage'));
@@ -80,6 +86,41 @@ const AdminSettingsPage = lazy(() => import('@/pages/admin/AdminSettingsPage'));
 const AdminNotificationsPage = lazy(() => import('@/pages/admin/AdminNotificationsPage'));
 const AdminSEOPage = lazy(() => import('@/pages/admin/AdminSEOPage'));
 
+class GlobalErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error, errorInfo) {
+    console.error("Global routing/rendering error:", error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center bg-background">
+          <div className="w-16 h-16 bg-destructive/10 text-destructive rounded-full flex items-center justify-center mb-6">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold mb-2">Something went wrong</h1>
+          <p className="text-muted-foreground mb-6 max-w-md">
+            An unexpected error occurred. This could be due to a configuration issue or a temporary glitch.
+          </p>
+          <div className="flex gap-4">
+            <button onClick={() => window.location.href = '/'} className="px-4 py-2 bg-primary text-primary-foreground rounded-md">Return Home</button>
+            <button onClick={() => window.location.reload()} className="px-4 py-2 border rounded-md">Reload Page</button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 const PageLoader = () => (
   <div className="flex h-screen items-center justify-center bg-background w-full">
     <Loader2 className="h-10 w-10 animate-spin text-primary" />
@@ -100,115 +141,124 @@ const PublicLayout = ({ children }) => (
 
 function App() {
   return (
-    <CartProvider>
-      <AdSenseProvider>
-        <div className="flex min-h-screen flex-col w-full bg-background text-foreground font-sans antialiased overflow-x-hidden">
-          <Helmet>
-            <title>A2Z Utility Hub - All Your Tools in One Place</title>
-            <meta name="description" content="Discover powerful productivity apps, amazing store deals, and valuable utilities." />
-          </Helmet>
-          
-          <DevelopmentBanner />
-          
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              <Route path="/admin/login" element={<AdminLogin />} />
+    <GlobalErrorBoundary>
+      <CartProvider>
+        <AdSenseProvider>
+          <AuthProvider>
+            <div className="flex min-h-screen flex-col w-full bg-background text-foreground font-sans antialiased overflow-x-hidden">
+              <Helmet>
+                <title>A2Z Utility Hub - All Your Tools in One Place</title>
+                <meta name="description" content="Discover powerful productivity apps, amazing store deals, and valuable utilities." />
+              </Helmet>
+              
+              <DevelopmentBanner />
+              
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  <Route path="/admin/login" element={<AdminLogin />} />
 
-              <Route path="/admin" element={<ProtectedRoute requireAdmin={true}><AdminLayout /></ProtectedRoute>}>
-                <Route index element={<Navigate to="dashboard" replace />} />
-                <Route path="access-denied" element={<AdminAccessDenied />} />
-                <Route path="dashboard" element={<AdminDashboardPage />} />
-                <Route path="users" element={<AdminUsersPage />} />
-                <Route path="roles" element={<AdminRolesPage />} />
-                <Route path="apps" element={<AdminAppsManager />} />
-                <Route path="coupons" element={<AdminCouponsManager />} />
-                <Route path="blogs" element={<AdminBlogsManager />} />
-                <Route path="deals" element={<AdminDealsManager />} />
-                <Route path="categories" element={<AdminCategoriesManager />} />
-                <Route path="plans" element={<AdminPlansPage />} />
-                <Route path="messaging" element={<AdminMessagingPage />} />
-                <Route path="chatbot" element={<AdminChatbotPage />} />
-                <Route path="support" element={<AdminSupportPage />} />
-                <Route path="tasks" element={<AdminTasksPage />} />
-                <Route path="hr" element={<AdminHRPage />} />
-                <Route path="audit" element={<AdminActivityPage />} />
-                <Route path="backup" element={<AdminBackupPage />} />
-                <Route path="settings" element={<AdminSettingsPage />} />
-                <Route path="notifications" element={<AdminNotificationsPage />} />
-                <Route path="seo" element={<AdminSEOPage />} />
-                <Route path="*" element={
-                  <div className="p-12 flex flex-col items-center justify-center text-center w-full mx-auto min-h-[50vh]">
-                    <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 ring-8 ring-primary/5">
-                       <Loader2 className="w-8 h-8 text-primary animate-spin" />
-                    </div>
-                    <h2 className="text-3xl font-bold tracking-tight mb-3">Module Under Construction</h2>
-                    <p className="text-muted-foreground text-lg">This section of the admin panel is currently being developed.</p>
-                  </div>
-                } />
-              </Route>
+                  <Route path="/admin" element={<ProtectedRoute requireAdmin={true}><AdminLayout /></ProtectedRoute>}>
+                    <Route index element={<Navigate to="dashboard" replace />} />
+                    <Route path="access-denied" element={<AdminAccessDenied />} />
+                    <Route path="dashboard" element={<AdminDashboardPage />} />
+                    <Route path="users" element={<AdminUsersPage />} />
+                    <Route path="roles" element={<AdminRolesPage />} />
+                    <Route path="apps" element={<AdminAppsManager />} />
+                    <Route path="coupons" element={<AdminCouponsManager />} />
+                    <Route path="blogs" element={<AdminBlogsManager />} />
+                    <Route path="deals" element={<AdminDealsManager />} />
+                    <Route path="categories" element={<AdminCategoriesManager />} />
+                    <Route path="plans" element={<AdminPlansPage />} />
+                    <Route path="messaging" element={<AdminMessagingPage />} />
+                    <Route path="chatbot" element={<AdminChatbotPage />} />
+                    <Route path="support" element={<AdminSupportPage />} />
+                    <Route path="tasks" element={<AdminTasksPage />} />
+                    <Route path="hr" element={<AdminHRPage />} />
+                    <Route path="audit" element={<AdminActivityPage />} />
+                    <Route path="backup" element={<AdminBackupPage />} />
+                    <Route path="settings" element={<AdminSettingsPage />} />
+                    <Route path="notifications" element={<AdminNotificationsPage />} />
+                    <Route path="seo" element={<AdminSEOPage />} />
+                    <Route path="*" element={
+                      <div className="p-12 flex flex-col items-center justify-center text-center w-full mx-auto min-h-[50vh]">
+                        <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 ring-8 ring-primary/5">
+                           <Loader2 className="w-8 h-8 text-primary animate-spin" />
+                        </div>
+                        <h2 className="text-3xl font-bold tracking-tight mb-3">Module Under Construction</h2>
+                        <p className="text-muted-foreground text-lg">This section of the admin panel is currently being developed.</p>
+                      </div>
+                    } />
+                  </Route>
 
-              <Route path="/*" element={
-                <PublicLayout>
-                  <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/apps" element={<AppsPage />} />
-                    <Route path="/apps/url-shortener" element={<UrlShortenerPage />} />
-                    
-                    <Route path="/apps/video-editor" element={<VideoEditorPage />} />
-                    <Route path="/editor" element={<Navigate to="/apps/video-editor" replace />} />
-                    
-                    <Route path="/apps/task-manager/*" element={<TaskManagerPage />} />
-                    <Route path="/task-manager/*" element={<Navigate to="/apps/task-manager" replace />} />
-                    
-                    <Route path="/apps/:slug" element={<AppDetailPage />} />
-                    <Route path="/categories" element={<CategoriesPage />} />
-                    <Route path="/categories/:category" element={<CategoryDetailPage />} />
-                    <Route path="/popular-deals" element={<PopularDealsPage />} />
-                    <Route path="/popular-deals/:category" element={<PopularDealsCategoryPage />} />
-                    <Route path="/coupons" element={<CouponsPage />} />
-                    <Route path="/coupons/:category" element={<CouponCategoryPage />} />
-                    <Route path="/store" element={<StorePage />} />
-                    <Route path="/product/:id" element={<ProductDetailPage />} />
-                    <Route path="/blogs" element={<BlogsPage />} />
-                    <Route path="/blog" element={<BlogPage />} />
-                    <Route path="/discussion" element={<DiscussionForumPage />} />
-                    
-                    <Route path="/about" element={<AboutPage />} />
-                    <Route path="/contact" element={<ContactPage />} />
-                    <Route path="/faq" element={<FAQPage />} />
-                    <Route path="/help" element={<HelpPage />} />
-                    <Route path="/careers" element={<CareersPage />} />
-                    <Route path="/testimonials" element={<TestimonialsPage />} />
-                    <Route path="/press" element={<PressPage />} />
-                    <Route path="/how-it-works" element={<HowItWorksPage />} />
-                    <Route path="/privacy" element={<PrivacyPage />} />
-                    <Route path="/terms" element={<TermsPage />} />
-                    <Route path="/refer-earn" element={<ReferEarnPage />} />
-                    <Route path="/share-earn" element={<ShareEarnPage />} />
-                    <Route path="/support" element={<SupportPage />} />
-                    <Route path="/donate" element={<DonatePage />} />
-                    <Route path="/auth" element={<AuthPage />} />
-                    <Route path="/pricing" element={<PricingPage />} />
-                    
-                    <Route path="/dashboard/*" element={<ProtectedRoute requireAdmin={false}><DashboardPage /></ProtectedRoute>} />
-                    <Route path="/settings" element={<ProtectedRoute requireAdmin={false}><SettingsPage /></ProtectedRoute>} />
-                    <Route path="/wishlist" element={<ProtectedRoute requireAdmin={false}><WishlistPage /></ProtectedRoute>} />
-                    <Route path="/notifications" element={<ProtectedRoute requireAdmin={false}><NotificationsPage /></ProtectedRoute>} />
-                    
-                    <Route path="/about-us" element={<AboutPage />} />
-                    <Route path="/contact-us" element={<ContactPage />} />
-                    <Route path="/legal/privacy" element={<PrivacyPage />} />
-                    <Route path="/legal/terms" element={<TermsPage />} />
+                  {/* Auth Callbacks & Diagnostics */}
+                  <Route path="/auth/callback" element={<OAuthCallbackPage />} />
+                  <Route path="/oauth-status" element={<PublicLayout><OAuthStatusPage /></PublicLayout>} />
+                  <Route path="/oauth-guide" element={<PublicLayout><OAuthConfigurationGuide /></PublicLayout>} />
 
-                    <Route path="*" element={<NotFoundPage />} />
-                  </Routes>
-                </PublicLayout>
-              } />
-            </Routes>
-          </Suspense>
-        </div>
-      </AdSenseProvider>
-    </CartProvider>
+                  <Route path="/*" element={
+                    <PublicLayout>
+                      <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/apps" element={<AppsPage />} />
+                        <Route path="/apps/url-shortener" element={<UrlShortenerPage />} />
+                        
+                        <Route path="/apps/video-editor" element={<VideoEditorPage />} />
+                        <Route path="/editor" element={<Navigate to="/apps/video-editor" replace />} />
+                        
+                        <Route path="/apps/task-manager/*" element={<TaskManagerPage />} />
+                        <Route path="/task-manager/*" element={<Navigate to="/apps/task-manager" replace />} />
+                        
+                        <Route path="/apps/:slug" element={<AppDetailPage />} />
+                        <Route path="/categories" element={<CategoriesPage />} />
+                        <Route path="/categories/:category" element={<CategoryDetailPage />} />
+                        <Route path="/popular-deals" element={<PopularDealsPage />} />
+                        <Route path="/popular-deals/:category" element={<PopularDealsCategoryPage />} />
+                        <Route path="/coupons" element={<CouponsPage />} />
+                        <Route path="/coupons/:category" element={<CouponCategoryPage />} />
+                        <Route path="/store" element={<StorePage />} />
+                        <Route path="/product/:id" element={<ProductDetailPage />} />
+                        <Route path="/blogs" element={<BlogsPage />} />
+                        <Route path="/blog" element={<BlogPage />} />
+                        <Route path="/discussion" element={<DiscussionForumPage />} />
+                        
+                        <Route path="/about" element={<AboutPage />} />
+                        <Route path="/contact" element={<ContactPage />} />
+                        <Route path="/faq" element={<FAQPage />} />
+                        <Route path="/help" element={<HelpPage />} />
+                        <Route path="/careers" element={<CareersPage />} />
+                        <Route path="/testimonials" element={<TestimonialsPage />} />
+                        <Route path="/press" element={<PressPage />} />
+                        <Route path="/how-it-works" element={<HowItWorksPage />} />
+                        <Route path="/privacy" element={<PrivacyPage />} />
+                        <Route path="/terms" element={<TermsPage />} />
+                        <Route path="/refer-earn" element={<ReferEarnPage />} />
+                        <Route path="/share-earn" element={<ShareEarnPage />} />
+                        <Route path="/support" element={<SupportPage />} />
+                        <Route path="/donate" element={<DonatePage />} />
+                        <Route path="/auth" element={<AuthPage />} />
+                        <Route path="/pricing" element={<PricingPage />} />
+                        
+                        <Route path="/dashboard/*" element={<ProtectedRoute requireAdmin={false}><DashboardPage /></ProtectedRoute>} />
+                        <Route path="/settings" element={<ProtectedRoute requireAdmin={false}><SettingsPage /></ProtectedRoute>} />
+                        <Route path="/wishlist" element={<ProtectedRoute requireAdmin={false}><WishlistPage /></ProtectedRoute>} />
+                        <Route path="/notifications" element={<ProtectedRoute requireAdmin={false}><NotificationsPage /></ProtectedRoute>} />
+                        
+                        <Route path="/about-us" element={<AboutPage />} />
+                        <Route path="/contact-us" element={<ContactPage />} />
+                        <Route path="/legal/privacy" element={<PrivacyPage />} />
+                        <Route path="/legal/terms" element={<TermsPage />} />
+
+                        <Route path="*" element={<NotFoundPage />} />
+                      </Routes>
+                    </PublicLayout>
+                  } />
+                </Routes>
+              </Suspense>
+            </div>
+          </AuthProvider>
+        </AdSenseProvider>
+      </CartProvider>
+    </GlobalErrorBoundary>
   );
 }
 

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Scissors, Mic, Type, Music, Undo2, Redo2, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';

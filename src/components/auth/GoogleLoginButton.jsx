@@ -1,8 +1,10 @@
-import React from 'react';
-import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
+
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
+import { Loader2, AlertCircle } from 'lucide-react';
 import { useToast } from "@/components/ui/use-toast";
+import { useAuth } from '@/contexts/SupabaseAuthContext';
+import { checkGoogleProviderStatus } from '@/utils/oauthDiagnostics';
 
 const GoogleIcon = () => (
   <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
@@ -13,49 +15,74 @@ const GoogleIcon = () => (
   </svg>
 );
 
-const InnerGoogleLoginButton = ({ redirectUri }) => {
+const GoogleLoginButton = () => {
   const { toast } = useToast();
+  const { signInWithGoogle } = useAuth();
+  const [isInitializing, setIsInitializing] = useState(false);
+  const [providerStatus, setProviderStatus] = useState({ checked: false, enabled: true, error: null });
 
-  const login = useGoogleLogin({
-    flow: 'auth-code',
-    ux_mode: 'redirect',
-    redirect_uri: redirectUri,
-    onSuccess: (codeResponse) => {
-        // This usually only fires for popup mode or implicit flow if not redirected.
-        // Since we use ux_mode: 'redirect', the browser will navigate away.
-        console.log("Redirecting to Google...");
-    },
-    onError: (error) => {
-        console.error('Login Failed:', error);
-        toast({
-            title: "Google Login Failed",
-            description: "Could not initiate Google login.",
-            variant: "destructive"
-        });
-    },
-  });
+  useEffect(() => {
+    const verifyProvider = async () => {
+      const status = await checkGoogleProviderStatus();
+      setProviderStatus({ checked: true, ...status });
+    };
+    verifyProvider();
+  }, []);
+
+  const handleLoginClick = async () => {
+    if (!providerStatus.enabled) {
+      toast({
+        title: "Configuration Error",
+        description: providerStatus.error || "Google Login is currently unavailable.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      setIsInitializing(true);
+      const { error } = await signInWithGoogle();
+      if (error) {
+        throw error;
+      }
+    } catch (err) {
+      console.error("Google Login Error:", err);
+      setIsInitializing(false);
+      toast({
+        title: "Google Login Failed",
+        description: err.message || "Could not initiate Google login. Please try again.",
+        variant: "destructive",
+        action: <Button variant="outline" size="sm" onClick={handleLoginClick}>Retry</Button>
+      });
+    }
+  };
 
   return (
-    <Button 
-        variant="outline" 
-        className="w-full" 
-        onClick={() => login()} 
-        type="button"
-    >
-        <GoogleIcon />
-        Sign in with Google
-    </Button>
+    <div className="flex flex-col gap-2 w-full">
+      <Button 
+          variant="outline" 
+          className="w-full relative" 
+          onClick={handleLoginClick} 
+          type="button"
+          disabled={isInitializing || (providerStatus.checked && !providerStatus.enabled)}
+      >
+          {isInitializing ? (
+            <Loader2 className="h-5 w-5 animate-spin" />
+          ) : (
+            <>
+              <GoogleIcon />
+              Sign in with Google
+            </>
+          )}
+      </Button>
+      {providerStatus.checked && !providerStatus.enabled && (
+        <div className="text-xs text-destructive flex items-center justify-center gap-1 mt-1 bg-destructive/10 p-2 rounded-md">
+          <AlertCircle className="h-3 w-3" />
+          <span>Google Provider is not enabled.</span>
+        </div>
+      )}
+    </div>
   );
-};
-
-const GoogleLoginButton = ({ clientId, redirectUri }) => {
-    if (!clientId) return null;
-
-    return (
-        <GoogleOAuthProvider clientId={clientId}>
-            <InnerGoogleLoginButton redirectUri={redirectUri} />
-        </GoogleOAuthProvider>
-    );
 };
 
 export default GoogleLoginButton;

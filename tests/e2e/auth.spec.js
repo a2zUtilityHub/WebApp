@@ -1,4 +1,3 @@
-
 /* global describe, it, expect, beforeEach, afterEach, process */
 import { test, expect } from '@playwright/test';
 

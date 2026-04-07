@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { Button } from '@/components/ui/button';
@@ -7,7 +8,6 @@ import { Separator } from '@/components/ui/separator';
 import { Loader2 } from 'lucide-react';
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from 'react-router-dom';
-import { useOAuthSettings } from '@/hooks/useOAuthSettings';
 import GoogleLoginButton from './GoogleLoginButton';
 
 const LoginForm = ({ onAuthSuccess, setView }) => {
@@ -16,9 +16,7 @@ const LoginForm = ({ onAuthSuccess, setView }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(null); // null, 'email'
-  
-  const { settings, loading: settingsLoading, error: settingsError } = useOAuthSettings();
+  const [loading, setLoading] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,27 +33,20 @@ const LoginForm = ({ onAuthSuccess, setView }) => {
         title: "Login Successful!",
         description: "Welcome back!",
       });
-      onAuthSuccess();
+      onAuthSuccess?.();
     }
     setLoading(null);
   };
   
   const handleForgotPassword = () => {
-      // Use the parent's setView if available (in modal), otherwise navigate
-      if (setView) {
-          setView('forgot-password');
-      } else {
-          navigate('/auth?mode=forgot-password');
-      }
+      if (setView) setView('forgot-password');
+      else navigate('/auth?mode=forgot-password');
   };
 
   const handleSignup = () => {
-       if (setView) {
-          setView('signup');
-      } else {
-          navigate('/auth?mode=signup');
-      }
-  }
+       if (setView) setView('signup');
+       else navigate('/auth?mode=signup');
+  };
 
   return (
     <div className="grid gap-6">
@@ -70,7 +61,7 @@ const LoginForm = ({ onAuthSuccess, setView }) => {
             onChange={(e) => setEmail(e.target.value)} 
             required 
             disabled={!!loading}
-            className="text-gray-900"
+            className="text-foreground bg-background border-input"
           />
         </div>
         <div className="grid gap-2">
@@ -80,7 +71,7 @@ const LoginForm = ({ onAuthSuccess, setView }) => {
               variant="link" 
               type="button" 
               size="sm" 
-              className="ml-auto h-auto p-0" 
+              className="ml-auto h-auto p-0 text-primary" 
               onClick={handleForgotPassword}
               disabled={!!loading}
             >
@@ -95,62 +86,40 @@ const LoginForm = ({ onAuthSuccess, setView }) => {
             onChange={(e) => setPassword(e.target.value)} 
             required 
             disabled={!!loading}
-            className="text-gray-900"
+            className="text-foreground bg-background border-input"
           />
         </div>
         <Button 
           type="submit" 
           disabled={!!loading} 
-          className="w-full bg-[#4fd1c5] hover:bg-[#4fd1c5]/90 text-white"
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2 shadow-sm transition-all"
         >
           {loading === 'email' ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Signing In...
-            </>
-          ) : (
-            'Sign In'
-          )}
+            <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Signing In...</>
+          ) : 'Sign In'}
         </Button>
       </form>
       
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <Separator />
+          <Separator className="bg-border" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+          <span className="bg-background px-2 text-muted-foreground font-medium">Or continue with</span>
         </div>
       </div>
       
       <div className="grid gap-2">
-        {settingsLoading ? (
-            <div className="flex justify-center p-2">
-                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-            </div>
-        ) : settingsError ? (
-            <div className="text-center text-sm text-red-500">
-                Unable to load login options
-            </div>
-        ) : settings?.enabled && settings?.client_id ? (
-            <GoogleLoginButton 
-                clientId={settings.client_id} 
-                redirectUri={settings.redirect_uri}
-            />
-        ) : (
-            <div className="text-center text-sm text-muted-foreground italic">
-                Google login is currently unavailable
-            </div>
-        )}
+        <GoogleLoginButton />
       </div>
       
-      <div className="text-center text-sm text-muted-foreground">
+      <div className="text-center text-sm text-muted-foreground mt-2">
         Don't have an account?{' '}
         <Button 
           variant="link" 
           type="button" 
           size="sm" 
-          className="h-auto p-0" 
+          className="h-auto p-0 font-semibold text-primary hover:text-primary/80" 
           onClick={handleSignup}
           disabled={!!loading}
         >

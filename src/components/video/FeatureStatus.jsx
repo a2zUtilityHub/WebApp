@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useVideoContext } from '@/contexts/VideoContext';

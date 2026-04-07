@@ -1,4 +1,3 @@
-
 # AdSense Compliance Guide
 
 ## 1. Policy Overview

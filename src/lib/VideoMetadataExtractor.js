@@ -1,4 +1,3 @@
-
 export const extractVideoMetadata = (file) => {
   return new Promise((resolve, reject) => {
     try {

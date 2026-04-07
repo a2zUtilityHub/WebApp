@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useVideoEditorComments } from '@/hooks/useVideoEditorComments';

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Film, Info, BookOpen, HelpCircle, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';

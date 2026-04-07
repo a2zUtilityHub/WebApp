@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Home, KanbanSquare, Settings, Activity, Clock } from 'lucide-react';

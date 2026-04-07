@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Type, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';

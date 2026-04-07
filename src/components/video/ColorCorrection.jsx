@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Palette, RefreshCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';

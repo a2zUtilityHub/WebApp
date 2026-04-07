@@ -1,4 +1,3 @@
-
 export const analyticsService = {
   calculateMetrics: (tasks = []) => {
     const total = tasks.length;

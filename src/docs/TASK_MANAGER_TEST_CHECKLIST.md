@@ -1,4 +1,3 @@
-
 # Task Manager Pro - Quality Assurance & Test Checklist
 
 This document serves as the comprehensive checklist for testing all features, components, and edge cases inside the `TaskManagerPage` application and its sub-routes. Use this checklist during manual or automated QA passes to guarantee stability and feature completeness.
@@ -59,4 +58,4 @@ This document serves as the comprehensive checklist for testing all features, co
 - [x] **Boundary Protection:** Deliberate errors inside sub-components should be caught by `GlobalErrorBoundary` without bringing down the whole app structure.
 
 ---
-**Audit Summary:** All missing routes (`/team` and `/settings`) have been created, added to the internal routing block inside `TaskManagerPage.jsx`, and validated. The `MobileNavigation.jsx` has been fixed to correctly route to `/apps/task-manager` instead of a broken `/board` path. 
+**Audit Summary:** All missing routes (`/team` and `/settings`) have been created, added to the internal routing block inside `TaskManagerPage.jsx`, and validated. The `MobileNavigation.jsx` has been fixed to correctly route to `/apps/task-manager` instead of a broken `/board` path.

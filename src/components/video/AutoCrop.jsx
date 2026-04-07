@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Crop, ScanFace } from 'lucide-react';
 import { Button } from '@/components/ui/button';

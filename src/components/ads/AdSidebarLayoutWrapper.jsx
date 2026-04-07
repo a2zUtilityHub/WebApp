@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useAdSense } from '@/contexts/AdSenseProvider';
 import AdSidebarLayout from './AdSidebarLayout';

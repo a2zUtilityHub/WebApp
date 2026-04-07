@@ -1,4 +1,3 @@
-
 import React, { useMemo } from 'react';
 import { ShieldCheck, ShieldAlert, Globe } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';

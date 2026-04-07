@@ -1,4 +1,3 @@
-
 import React, { useRef, useState, useEffect } from 'react';
 import { useVideoContext } from '@/contexts/VideoContext';
 import { formatDuration } from '@/lib/VideoMetadataExtractor';

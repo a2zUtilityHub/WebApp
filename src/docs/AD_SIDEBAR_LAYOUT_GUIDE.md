@@ -1,4 +1,3 @@
-
 # Ad Sidebar Layout Guide
 
 This guide documents the Three-Column Ad Sidebar Layout System implemented across A2Z Utility Hub.
@@ -38,4 +37,3 @@ To maximize ad revenue without disrupting user experience, a three-column layout
 
 ### Wrapping Page Content
 To apply the sidebar layout, simply import `AdSidebarLayoutWrapper` and wrap your main content. It's best to exclude full-width elements like Hero Sections from the wrapper.
-

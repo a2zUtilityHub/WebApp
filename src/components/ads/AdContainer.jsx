@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import AdSenseVertical from './AdSenseVertical';
 import { cn } from '@/lib/utils';

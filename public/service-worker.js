@@ -1,4 +1,3 @@
-
 /* global clients, self, caches, importScripts, fetch, Request, Response, ExtendableEvent, FetchEvent, InstallEvent, ActivateEvent */
 
 const CACHE_NAME = 'task-manager-cache-v1';

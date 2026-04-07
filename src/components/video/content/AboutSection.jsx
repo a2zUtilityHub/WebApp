@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Info, Film, Sparkles, Scissors, Mic, Type, Download, Globe, Play, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';

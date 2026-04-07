@@ -1,4 +1,3 @@
-
 /**
  * Utility to verify AdSense policy compliance during development.
  */

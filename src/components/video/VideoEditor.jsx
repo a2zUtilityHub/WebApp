@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import VideoUploadSection from './VideoUploadSection';
 import VideoPlayer from './VideoPlayer';

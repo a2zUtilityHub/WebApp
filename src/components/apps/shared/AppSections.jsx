@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Info, BookOpen, HelpCircle, Users, CheckCircle, Lightbulb, ListOrdered, Shield, MessageSquare, Send, Trash2, Edit2 } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";

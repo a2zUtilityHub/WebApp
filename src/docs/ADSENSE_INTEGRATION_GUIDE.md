@@ -1,4 +1,3 @@
-
 # Google AdSense Integration Guide
 
 ## Overview

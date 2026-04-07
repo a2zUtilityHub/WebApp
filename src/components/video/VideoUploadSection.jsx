@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { UploadCloud, FileVideo, AlertCircle, CheckCircle2 } from 'lucide-react';

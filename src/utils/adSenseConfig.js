@@ -1,4 +1,3 @@
-
 export const ADSENSE_CLIENT_ID = 'ca-pub-9198321800783167';
 
 export const AD_FORMATS = {

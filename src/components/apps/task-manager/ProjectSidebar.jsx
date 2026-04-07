@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { FolderKanban, BarChart3, Users, Settings, Plus } from 'lucide-react';

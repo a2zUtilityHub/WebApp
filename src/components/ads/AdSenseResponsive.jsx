@@ -1,4 +1,3 @@
-
 import React from 'react';
 import AdSenseAd from './AdSenseAd';
 import { cn } from '@/lib/utils';

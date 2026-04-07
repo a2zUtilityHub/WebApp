@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Subtitles as Captions, Wand2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';

@@ -1,4 +1,3 @@
-
 # Layout & Ads Testing Documentation
 
 ## Overview

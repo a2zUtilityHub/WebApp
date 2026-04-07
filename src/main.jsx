@@ -75,7 +75,7 @@ ReactDOM.createRoot(rootElement).render(
   <>
     <ErrorBoundaryWithRetry>
       <Suspense fallback={<LoadingFallback />}>
-        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <BrowserRouter>
           <ThemeProvider defaultTheme="light" storageKey="a2z-ui-theme">
             <CartProvider>
               <AuthProvider>
