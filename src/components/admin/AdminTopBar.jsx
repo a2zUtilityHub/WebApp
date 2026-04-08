@@ -56,7 +56,7 @@ const AdminTopBar = ({ onMobileMenuToggle }) => {
               <Avatar className="h-9 w-9 border border-border">
                 <AvatarImage src={profile?.avatar_url} alt="Admin" className="object-cover" />
                 <AvatarFallback className="bg-primary/10 text-primary font-medium text-sm">
-                  {profile?.first_name?.[0] || adminUser?.email?.[0]?.toUpperCase() || 'A'}
+                  {String(profile?.first_name || adminUser?.email || 'A').charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
             </Button>

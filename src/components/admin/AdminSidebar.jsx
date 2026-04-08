@@ -88,7 +88,8 @@ const AdminSidebar = ({ isMobile, setMobileOpen }) => {
       <ScrollArea className="flex-1 py-4 px-3 custom-scrollbar">
         <nav className="space-y-1">
           {navItems.map((item) => {
-            const isActive = location.pathname.startsWith(item.path);
+            // Strictly matches exact path or sub-paths (e.g., /admin/users or /admin/users/123, but NOT /admin/users-settings)
+            const isActive = location.pathname === item.path || location.pathname.startsWith(`${item.path}/`);
             const Icon = item.icon;
 
             return (
@@ -123,7 +124,7 @@ const AdminSidebar = ({ isMobile, setMobileOpen }) => {
           <Avatar className="h-10 w-10 border border-border shadow-sm">
             <AvatarImage src={profile?.avatar_url} alt="Admin" className="object-cover" />
             <AvatarFallback className="bg-primary/10 text-primary font-medium">
-              {profile?.first_name?.[0] || adminUser?.email?.[0]?.toUpperCase() || 'A'}
+              {String(profile?.first_name || adminUser?.email || 'A').charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col flex-1 overflow-hidden">

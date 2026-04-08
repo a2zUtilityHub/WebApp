@@ -74,7 +74,10 @@ const AdminDashboardPage = () => {
                     <CartesianGrid strokeDasharray="3 3" vertical={false} />
                     <XAxis dataKey="date" />
                     <YAxis />
-                    <Tooltip />
+                    <Tooltip 
+                      contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', borderRadius: '0.5rem', color: 'hsl(var(--card-foreground))' }}
+                      itemStyle={{ color: 'hsl(var(--foreground))' }}
+                    />
                     <Line type="monotone" dataKey="amount" stroke="#2563eb" strokeWidth={3} dot={false} />
                   </LineChart>
                 </ResponsiveContainer>
@@ -93,7 +96,10 @@ const AdminDashboardPage = () => {
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
-                    <Tooltip />
+                    <Tooltip 
+                      contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', borderRadius: '0.5rem', color: 'hsl(var(--card-foreground))' }}
+                      itemStyle={{ color: 'hsl(var(--foreground))' }}
+                    />
                   </PieChart>
                 </ResponsiveContainer>
               )}

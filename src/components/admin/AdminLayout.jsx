@@ -43,7 +43,7 @@ const AdminLayout = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm lg:hidden"
             onClick={() => setIsMobileMenuOpen(false)}
           />
         )}
@@ -52,7 +52,7 @@ const AdminLayout = () => {
       {/* Sidebar - Fixed width on desktop, sliding on mobile */}
       <aside 
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-[260px] transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 bg-[hsl(var(--admin-sidebar-bg))] border-r border-[hsl(var(--admin-border))] flex flex-col h-full shadow-2xl lg:shadow-none",
+          "fixed inset-y-0 left-0 z-[60] w-[260px] transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 bg-[hsl(var(--admin-sidebar-bg))] border-r border-[hsl(var(--admin-border))] flex flex-col h-full shadow-2xl lg:shadow-none",
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
