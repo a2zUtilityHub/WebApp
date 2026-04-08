@@ -50,6 +50,7 @@ const AdSenseAd = ({ className, format, width, height, slot, style, responsive, 
       clearInterval(checkInterval);
       clearTimeout(failTimeout);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slot, registerSlotStatus]);
 
   // Always render the <ins> tag so AdSense can attempt to fill it, 
