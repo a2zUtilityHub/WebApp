@@ -28,14 +28,16 @@ const Footer = () => {
     
     const checkVisibility = async () => {
         const { data } = await supabase.from('pages').select('slug, is_visible').in('slug', ['about-us', 'contact-us', 'share-earn', 'testimonials']);
-        const visibility = { ...visiblePages };
-        data?.forEach(p => {
-            if (p.slug === 'about-us') visibility.about = p.is_visible;
-            if (p.slug === 'contact-us') visibility.contact = p.is_visible;
-            if (p.slug === 'share-earn') visibility.share = p.is_visible;
-            if (p.slug === 'testimonials') visibility.testimonials = p.is_visible;
+        setVisiblePages(prev => {
+            const visibility = { ...prev };
+            data?.forEach(p => {
+                if (p.slug === 'about-us') visibility.about = p.is_visible;
+                if (p.slug === 'contact-us') visibility.contact = p.is_visible;
+                if (p.slug === 'share-earn') visibility.share = p.is_visible;
+                if (p.slug === 'testimonials') visibility.testimonials = p.is_visible;
+            });
+            return visibility;
         });
-        setVisiblePages(visibility);
     };
     checkVisibility();
   }, [fetchCopyright]);

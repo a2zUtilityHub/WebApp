@@ -258,18 +258,18 @@ const ProfileSection = ({ userProfile, onProfileUpdate, profileCompletion }) => 
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   
-  const defaultValues = {
-    first_name: userProfile?.first_name || '',
-    last_name: userProfile?.last_name || '',
-    dob: userProfile?.dob ? new Date(userProfile.dob) : null,
-    gender: userProfile?.gender || '',
-    country: userProfile?.country || '',
-    state: userProfile?.state || '',
-    city: userProfile?.city || '',
-    zip_code: userProfile?.zip_code || '',
-  };
-
-  const { register, handleSubmit, formState: { errors }, control, reset, setValue } = useForm({ defaultValues });
+  const { register, handleSubmit, formState: { errors }, control, reset, setValue } = useForm({ 
+    defaultValues: {
+      first_name: userProfile?.first_name || '',
+      last_name: userProfile?.last_name || '',
+      dob: userProfile?.dob ? new Date(userProfile.dob) : null,
+      gender: userProfile?.gender || '',
+      country: userProfile?.country || '',
+      state: userProfile?.state || '',
+      city: userProfile?.city || '',
+      zip_code: userProfile?.zip_code || '',
+    } 
+  });
 
   const editor = useEditor({
     extensions: [StarterKit.configure({
@@ -292,7 +292,16 @@ const ProfileSection = ({ userProfile, onProfileUpdate, profileCompletion }) => 
   });
 
   useEffect(() => {
-    reset(defaultValues);
+    reset({
+      first_name: userProfile?.first_name || '',
+      last_name: userProfile?.last_name || '',
+      dob: userProfile?.dob ? new Date(userProfile.dob) : null,
+      gender: userProfile?.gender || '',
+      country: userProfile?.country || '',
+      state: userProfile?.state || '',
+      city: userProfile?.city || '',
+      zip_code: userProfile?.zip_code || '',
+    });
     editor?.commands.setContent(userProfile?.bio || '');
   }, [userProfile, reset, editor]);
 

@@ -49,7 +49,7 @@ const AppsPageContent = () => {
   );
 
   const loading = appsLoading || catsLoading;
-  const apps = appsData || [];
+  const apps = useMemo(() => appsData || [], [appsData]);
 
   const filteredAndSortedApps = useMemo(() => {
     return apps

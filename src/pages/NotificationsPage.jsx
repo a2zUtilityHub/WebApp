@@ -135,6 +135,50 @@ const NotificationsPage = () => {
               </div>
               
               <div className="text-foreground">
+                <NotificationsList 
+                  notifications={notifications}
+                  loading={loading}
+                  error={error}
+                  isOffline={isOffline}
+                  onMarkRead={markAsRead}
+                  onDelete={deleteNotification}
+                  onRetry={() => fetchNotifications(page, filter)}
+                  page={page}
+                  setPage={setPage}
+                  totalCount={totalCount}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+export default NotificationsPage;
+                <NotificationsList 
+                  notifications={notifications}
+                  loading={loading}
+                  error={error}
+                  isOffline={isOffline}
+                  onMarkRead={markAsRead}
+                  onDelete={deleteNotification}
+                  onRetry={() => fetchNotifications(page, filter)}
+                  page={page}
+                  setPage={setPage}
+                  totalCount={totalCount}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+export default NotificationsPage;
               
               <div className="text-gray-800">
                 <NotificationsList 

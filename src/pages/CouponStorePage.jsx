@@ -10,24 +10,24 @@ import CouponBreadcrumbs from '@/components/CouponBreadcrumbs';
 import ShareButtons from '@/components/ShareButtons';
 import CouponCard from '@/components/coupons/CouponCard';
 
+// Mock store data mapping for now until DB tables are fully populated by admin
+const storeInfoMap = {
+    'pizzahut': { name: 'Pizza Hut', description: 'Get the best deals on pizzas, sides, and drinks.' },
+    'dominos': { name: "Domino's", description: 'Save on your favorite pizzas with exclusive Domino\'s coupons.' },
+    'bigbasket': { name: 'BigBasket', description: 'Fresh groceries delivered to your doorstep at discounted prices.' },
+    'cleartrip': { name: 'ClearTrip', description: 'Best offers on flight bookings and hotel stays.' },
+    'makemytrip': { name: 'MakeMyTrip', description: 'Plan your travel with amazing discounts on flights and hotels.' },
+    'amazon': { name: 'Amazon', description: 'Shop for everything you need with top Amazon promo codes.' },
+    'flipkart': { name: 'Flipkart', description: 'Electronics, fashion, and more at unbeatable prices.' },
+    'godaddy': { name: 'GoDaddy', description: 'Domains, hosting, and website builders for less.' },
+    'paytm': { name: 'Paytm', description: 'Recharges, bill payments, and shopping made rewarding.' },
+};
+
 const CouponStorePage = () => {
     const { store } = useParams();
     const [storeData, setStoreData] = useState(null);
     const [coupons, setCoupons] = useState([]);
     const [loading, setLoading] = useState(true);
-
-    // Mock store data mapping for now until DB tables are fully populated by admin
-    const storeInfoMap = {
-        'pizzahut': { name: 'Pizza Hut', description: 'Get the best deals on pizzas, sides, and drinks.' },
-        'dominos': { name: "Domino's", description: 'Save on your favorite pizzas with exclusive Domino\'s coupons.' },
-        'bigbasket': { name: 'BigBasket', description: 'Fresh groceries delivered to your doorstep at discounted prices.' },
-        'cleartrip': { name: 'ClearTrip', description: 'Best offers on flight bookings and hotel stays.' },
-        'makemytrip': { name: 'MakeMyTrip', description: 'Plan your travel with amazing discounts on flights and hotels.' },
-        'amazon': { name: 'Amazon', description: 'Shop for everything you need with top Amazon promo codes.' },
-        'flipkart': { name: 'Flipkart', description: 'Electronics, fashion, and more at unbeatable prices.' },
-        'godaddy': { name: 'GoDaddy', description: 'Domains, hosting, and website builders for less.' },
-        'paytm': { name: 'Paytm', description: 'Recharges, bill payments, and shopping made rewarding.' },
-    };
 
     useEffect(() => {
         const fetchStoreData = async () => {
