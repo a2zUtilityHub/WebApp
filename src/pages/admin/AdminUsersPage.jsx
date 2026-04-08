@@ -9,9 +9,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogT
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Users, Plus, Edit2, Trash2, Search, Filter, ShieldAlert, CheckCircle2, XCircle } from 'lucide-react';
+import { Users, Plus, Edit2, Trash2, Search, Filter, ShieldAlert, CheckCircle2, XCircle, UserX } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
+import AdminEmptyState from '@/components/admin/AdminEmptyState';
 
 const mockUsers = [
   { id: 1, name: 'Alice Smith', email: 'alice@example.com', role: 'Super Admin', status: 'Active', lastActive: '2 mins ago', avatar: '' },
@@ -92,24 +93,24 @@ const AdminUsersPage = () => {
             <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50">
               <DialogTitle className="text-lg font-semibold">{editingUser ? 'Edit User Profile' : 'Create New User'}</DialogTitle>
             </div>
-            <form onSubmit={handleSaveUser} className="p-6 space-y-5 bg-white dark:bg-gray-950">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name" className="text-gray-700 dark:text-gray-300">Full Name</Label>
-                  <Input id="name" name="name" defaultValue={editingUser?.name} required className="rounded-xl bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white" placeholder="John Doe" />
+            <form onSubmit={handleSaveUser} className="p-6 space-y-6 bg-card">
+              <div className="space-y-5">
+                <div className="space-y-1.5">
+                  <Label htmlFor="name" className="text-sm font-medium text-foreground">Full Name</Label>
+                  <Input id="name" name="name" defaultValue={editingUser?.name} required className="h-11 rounded-xl bg-muted/50 border-border/50 focus:bg-background transition-colors" placeholder="e.g. Jane Doe" />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-gray-700 dark:text-gray-300">Email Address</Label>
-                  <Input id="email" name="email" type="email" defaultValue={editingUser?.email} required className="rounded-xl bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white" placeholder="john@example.com" />
+                <div className="space-y-1.5">
+                  <Label htmlFor="email" className="text-sm font-medium text-foreground">Email Address</Label>
+                  <Input id="email" name="email" type="email" defaultValue={editingUser?.email} required className="h-11 rounded-xl bg-muted/50 border-border/50 focus:bg-background transition-colors" placeholder="e.g. jane@example.com" />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="role" className="text-gray-700 dark:text-gray-300">Role</Label>
+                <div className="grid grid-cols-2 gap-5">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="role" className="text-sm font-medium text-foreground">Role</Label>
                     <Select name="role" defaultValue={editingUser?.role || 'User'}>
-                      <SelectTrigger className="rounded-xl bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-800">
+                      <SelectTrigger className="h-11 rounded-xl bg-muted/50 border-border/50 focus:bg-background transition-colors">
                         <SelectValue placeholder="Select role" />
                       </SelectTrigger>
-                      <SelectContent className="rounded-xl">
+                      <SelectContent className="rounded-xl border-border/50 shadow-xl">
                         <SelectItem value="Super Admin">Super Admin</SelectItem>
                         <SelectItem value="Admin">Admin</SelectItem>
                         <SelectItem value="Editor">Editor</SelectItem>
@@ -118,13 +119,13 @@ const AdminUsersPage = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="status" className="text-gray-700 dark:text-gray-300">Status</Label>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="status" className="text-sm font-medium text-foreground">Status</Label>
                     <Select name="status" defaultValue={editingUser?.status || 'Active'}>
-                      <SelectTrigger className="rounded-xl bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-800">
+                      <SelectTrigger className="h-11 rounded-xl bg-muted/50 border-border/50 focus:bg-background transition-colors">
                         <SelectValue placeholder="Select status" />
                       </SelectTrigger>
-                      <SelectContent className="rounded-xl">
+                      <SelectContent className="rounded-xl border-border/50 shadow-xl">
                         <SelectItem value="Active">Active</SelectItem>
                         <SelectItem value="Inactive">Inactive</SelectItem>
                         <SelectItem value="Suspended">Suspended</SelectItem>
@@ -133,9 +134,9 @@ const AdminUsersPage = () => {
                   </div>
                 </div>
               </div>
-              <DialogFooter className="pt-4 border-t border-gray-100 dark:border-gray-800">
-                <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)} className="rounded-xl">Cancel</Button>
-                <Button type="submit" className="rounded-xl bg-blue-600 text-white hover:bg-blue-700">{editingUser ? 'Save Changes' : 'Create User'}</Button>
+              <DialogFooter className="pt-6 border-t border-border/50 flex gap-3">
+                <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)} className="rounded-xl w-full sm:w-auto hover:bg-muted">Cancel</Button>
+                <Button type="submit" className="rounded-xl w-full sm:w-auto bg-primary text-primary-foreground shadow-md hover:shadow-lg transition-all">{editingUser ? 'Save Changes' : 'Create User'}</Button>
               </DialogFooter>
             </form>
           </DialogContent>
@@ -159,18 +160,18 @@ const AdminUsersPage = () => {
         </CardHeader>
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-gray-50/80 dark:bg-gray-800/80 border-b border-gray-100 dark:border-gray-800">
-              <TableRow className="hover:bg-transparent">
-                <TableHead className="px-6 py-4 font-semibold text-gray-600 dark:text-gray-300">User Profile</TableHead>
-                <TableHead className="py-4 font-semibold text-gray-600 dark:text-gray-300">Role</TableHead>
-                <TableHead className="py-4 font-semibold text-gray-600 dark:text-gray-300">Status</TableHead>
-                <TableHead className="py-4 font-semibold text-gray-600 dark:text-gray-300">Last Active</TableHead>
-                <TableHead className="px-6 py-4 text-right font-semibold text-gray-600 dark:text-gray-300">Actions</TableHead>
+            <TableHeader className="bg-muted/50 border-b border-border/50">
+              <TableRow className="hover:bg-transparent border-0">
+                <TableHead className="px-6 py-4 font-medium text-muted-foreground uppercase tracking-wider text-xs">User Profile</TableHead>
+                <TableHead className="py-4 font-medium text-muted-foreground uppercase tracking-wider text-xs">Role</TableHead>
+                <TableHead className="py-4 font-medium text-muted-foreground uppercase tracking-wider text-xs">Status</TableHead>
+                <TableHead className="py-4 font-medium text-muted-foreground uppercase tracking-wider text-xs">Last Active</TableHead>
+                <TableHead className="px-6 py-4 text-right font-medium text-muted-foreground uppercase tracking-wider text-xs">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredUsers.length > 0 ? filteredUsers.map((user) => (
-                <TableRow key={user.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition-colors border-b border-gray-100 dark:border-gray-800">
+                <TableRow key={user.id} className="hover:bg-muted/30 transition-colors border-b border-border/50 group">
                   <TableCell className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <Avatar className="h-10 w-10 border border-gray-200 dark:border-gray-700">
@@ -207,13 +208,13 @@ const AdminUsersPage = () => {
                   </TableCell>
                   <TableCell className="py-4 text-sm text-gray-500 dark:text-gray-400">{user.lastActive}</TableCell>
                   <TableCell className="px-6 py-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
-                      <Button variant="ghost" size="icon" onClick={() => openEditModal(user)} className="text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg h-8 w-8">
+                    <div className="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-200">
+                      <Button variant="ghost" size="icon" onClick={() => openEditModal(user)} className="text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg h-8 w-8 transition-colors">
                         <Edit2 className="w-4 h-4" />
                       </Button>
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
-                          <Button variant="ghost" size="icon" className="text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg h-8 w-8">
+                          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg h-8 w-8 transition-colors">
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         </AlertDialogTrigger>
@@ -237,8 +238,15 @@ const AdminUsersPage = () => {
                 </TableRow>
               )) : (
                 <TableRow>
-                  <TableCell colSpan={5} className="h-32 text-center text-gray-500">
-                    No users found matching "{search}"
+                  <TableCell colSpan={5} className="h-[400px] p-0">
+                    <AdminEmptyState 
+                      icon={UserX}
+                      title="No users found"
+                      description={search ? `We couldn't find any users matching "${search}". Try adjusting your filters.` : "There are no users in the system yet. Add one to get started."}
+                      actionLabel={search ? "Clear Search" : "Add New User"}
+                      onAction={() => search ? setSearch('') : openAddModal()}
+                      className="border-0 bg-transparent rounded-none h-full shadow-none hover:bg-transparent"
+                    />
                   </TableCell>
                 </TableRow>
               )}
