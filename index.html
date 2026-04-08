@@ -2,8 +2,22 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      const originalFetch = window.fetch;
+      window.fetch = async function(...args) {
+          try {
+              return await originalFetch.apply(this, args);
+          } catch (error) {
+              const url = args[0] ? args[0].toString() : '';
+              if (url.includes('google') || url.includes('doubleclick') || url.includes('analytics')) {
+                  return new Response(null, { status: 200, statusText: 'Blocked by client' });
+              }
+              throw error;
+          }
+      };
+    </script>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CJMK1M1R4H"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9198321800783167" crossorigin="anonymous" onerror="console.warn('AdSense script blocked by client layout')"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -25,7 +39,7 @@
     <title>A2Z Utility Hub</title>
     
     <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9198321800783167" crossorigin="anonymous"></script>
+     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9198321800783167" crossorigin="anonymous" onerror="console.warn('AdSense script blocked by client layout')"></script>
 
     <!-- Ad Blocking Recovery Tag -->
     <script async src="https://fundingchoicesmessages.google.com/i/pub-9198321800783167?ers=1"></script><script>(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>

@@ -7,7 +7,7 @@ const HeroSection = ({ title, subtitle, ctaButtons }) => {
       className="w-full flex flex-col justify-center items-center text-center overflow-hidden relative min-h-[200px] md:min-h-[240px] lg:min-h-[320px] py-8 md:py-12 lg:py-16"
       style={{ background: 'linear-gradient(135deg, #0EA5E9, #7C3AED, #EC4899)' }}
     >
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none" />
+      <div className="absolute inset-0 bg-[url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")] opacity-10 mix-blend-overlay pointer-events-none" />
       
       <motion.div 
         initial={{ opacity: 0, y: 20 }} 
