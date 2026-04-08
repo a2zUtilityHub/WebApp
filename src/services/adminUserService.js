@@ -1,58 +1,58 @@
 import { supabase } from '@/lib/customSupabaseClient';
 
 export const adminUserService = {
+  // SEED: Inserts demo data with is_mock flag
+  seedUsers: async (users) => {
+    const { data, error } = await supabase.from('profiles').insert(
+      users.map(u => {
+        const parts = u.name.split(' ');
+        return {
+          first_name: parts[0],
+          last_name: parts.slice(1).join(' ') || '',
+          email: u.email,
+          role: u.role.toLowerCase(),
+          status: u.status.toLowerCase(),
+          is_mock: true 
+        };
+      })
+    );
+    return { data, error };
+  },
+
+  // REMOVE MOCK: Deletes only seeded demo records
+  removeMockUsers: async () => {
+    const { error } = await supabase.from('profiles').delete().eq('is_mock', true);
+    return { error };
+  },
+
+  // RESET: Super Admin only - Wipes table except current user
+  resetAllUsers: async () => {
+    const { data: { user: authUser } } = await supabase.auth.getUser();
+    const { error } = await supabase.from('profiles').delete().neq('id', authUser?.id);
+    return { error };
+  },
+
+  // CRUD: Add User with Schema-correct columns
+  createUser: async (userData) => {
+    const parts = userData.name.split(' ');
+    const { data, error } = await supabase.from('profiles').insert([{
+      first_name: parts[0],
+      last_name: parts.slice(1).join(' ') || '',
+      email: userData.email,
+      role: userData.role.toLowerCase(),
+      status: userData.status.toLowerCase(),
+      is_mock: false
+    }]);
+    return { data, error };
+  },
+
   async getAllAdminUsers() {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*, roles(name)')
-      .not('role_id', 'is', null);
-      
-    if (error) throw error;
-    return data;
+    const { data, error } = await supabase.from('profiles').select('*').order('created_at', { ascending: false });
+    return { data, error };
   },
 
-  async assignRoleToAdmin(userId, roleId) {
-    const { data, error } = await supabase
-      .from('profiles')
-      .update({ role_id: roleId })
-      .eq('id', userId)
-      .select();
-      
-    if (error) throw error;
-    return data;
-  },
-
-  async createAdminUser(userData) {
-    // This typically requires Supabase Admin API or an Edge Function
-    // as creating a user is an Auth level operation.
-    // For now, we'll assume we are updating an existing profile to be admin
-    // or creating profile metadata.
-    
-    // Real implementation would invoke an Edge Function:
-    const { data, error } = await supabase.functions.invoke('admin-user-management', {
-        body: { action: 'create', ...userData }
-    });
-    
-    if (error) throw error;
-    return data;
-  },
-
-  async updateAdminUser(userId, updates) {
-    const { data, error } = await supabase
-      .from('profiles')
-      .update(updates)
-      .eq('id', userId)
-      .select();
-
-    if (error) throw error;
-    return data;
-  },
-
-  async deleteAdminUser(userId) {
-     const { data, error } = await supabase.functions.invoke('admin-user-management', {
-        body: { action: 'delete', userId }
-    });
-    if (error) throw error;
-    return data;
+  async deleteUser(userId) {
+    const { error } = await supabase.from('profiles').delete().eq('id', userId);
+    return { error };
   }
 };

@@ -67,7 +67,7 @@ const AdminLayout = () => {
         <AdminTopBar onMobileMenuToggle={() => setIsMobileMenuOpen(true)} />
         
         <main className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar bg-[hsl(var(--admin-bg))]">
-          <div className="max-w-[1600px] w-full mx-auto p-4 md:p-6 lg:p-8">
+          <div className="w-full mx-auto p-[10px]">
             <AdminBreadcrumbs />
             
             <motion.div

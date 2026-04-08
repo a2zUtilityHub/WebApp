@@ -7,31 +7,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { AreaChart, Area, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Users, DollarSign, ShoppingCart, Activity } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import StatCard from '@/components/admin/dashboard/StatCard';
 
 import AdSenseContainer from '@/components/ads/AdSenseContainer';
 import AdSenseResponsive from '@/components/ads/AdSenseResponsive';
 import AdSenseVertical from '@/components/ads/AdSenseVertical';
-
-const StatCard = ({ title, value, icon: Icon, loading, prefix = "" }) => (
-  <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-primary/30 relative overflow-hidden group bg-card">
-    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-    <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0 relative z-10">
-      <CardTitle className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">{title}</CardTitle>
-      <div className="p-2 bg-muted rounded-xl group-hover:bg-primary/10 group-hover:text-primary transition-colors duration-300">
-        <Icon className="h-4 w-4" />
-      </div>
-    </CardHeader>
-    <CardContent className="relative z-10">
-      {loading ? (
-        <div className="space-y-2 mt-1">
-          <Skeleton className="h-8 w-[60%] rounded-lg" />
-        </div>
-      ) : (
-        <div className="text-3xl font-bold tracking-tight">{prefix}{value}</div>
-      )}
-    </CardContent>
-  </Card>
-);
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#a855f7'];
 
@@ -41,11 +21,11 @@ const AdminDashboardPage = () => {
   const { data, loading } = useDashboardData(parseInt(days));
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500 pb-10 p-6 flex flex-col xl:flex-row gap-6">
-      <div className="flex-1 space-y-8">
+    <div className="w-full flex flex-col xl:flex-row gap-[10px] animate-in fade-in duration-500">
+      <div className="flex-1 space-y-[10px]">
         <Helmet><title>Analytics Dashboard - Admin</title></Helmet>
 
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gradient-to-r from-brand-primary/10 to-transparent p-6 rounded-xl border border-brand-primary/20">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-[10px] bg-gradient-to-r from-brand-primary/10 to-transparent p-[10px] rounded-xl border border-brand-primary/20">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">Analytics Dashboard</h1>
             <p className="text-muted-foreground mt-1">Performance overview and business metrics.</p>
