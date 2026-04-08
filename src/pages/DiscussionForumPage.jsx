@@ -53,11 +53,7 @@ const DiscussionForumPage = () => {
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
   return (
-    <div className="min-h-screen bg-background pb-20 relative overflow-hidden">
-      {/* Background Glowing Orbs */}
-      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
-      <div className="absolute bottom-1/4 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none z-0"></div>
-      
+    <div className="min-h-screen bg-gray-50/50 pb-20">
       <Helmet>
         <title>Discussion Forum - A2Z Utility Hub</title>
         <meta name="description" content="Join the community discussion, ask questions, give feedback, and connect with other users of A2Z Utility Hub." />
@@ -67,7 +63,7 @@ const DiscussionForumPage = () => {
         title="Discussion & Community"
         subtitle="Join our community, share ideas, and discuss topics with fellow users"
         ctaButtons={
-          <Button asChild size="lg" className="rounded-2xl bg-gradient-to-r from-primary to-primary/90 text-primary-foreground hover:from-primary/90 hover:to-primary border-0 shadow-lg hover:shadow-xl h-14 text-lg transition-all duration-300 hover:-translate-y-1 font-bold px-8">
+          <Button asChild size="lg" className="rounded-full bg-white text-brand-primary hover:bg-gray-50 border-0 shadow-lg h-14 md:h-12 text-lg md:text-base transition-all duration-150 hover:-translate-y-1">
             <Link to="/discussion/new">Start a Discussion</Link>
           </Button>
         }
@@ -83,17 +79,17 @@ const DiscussionForumPage = () => {
             className="mb-8"
           />
 
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 relative z-10">
-            <div className="relative w-full max-w-md group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <div className="relative w-full max-w-md">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
               <Input 
                 placeholder="Search discussions..." 
-                className="pl-12 h-14 bg-background/60 backdrop-blur-xl border-border/50 rounded-2xl focus-visible:ring-4 focus-visible:ring-primary/10 shadow-sm hover:border-primary/50 transition-all text-[15px]"
+                className="pl-10 h-12 bg-white border-gray-200 rounded-xl focus:ring-brand-primary"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <Button asChild className="shrink-0 h-14 px-8 rounded-2xl bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 font-bold">
+            <Button asChild className="shrink-0 h-12 px-6 rounded-xl bg-brand-primary hover:bg-brand-primary-dark">
               <Link to="/discussion/new">
                 <PlusCircle className="mr-2 h-5 w-5" /> New Discussion
               </Link>
@@ -122,33 +118,31 @@ const DiscussionForumPage = () => {
             ) : threads.length > 0 ? (
               <>
                 {threads.map(thread => (
-                  <Card key={thread.id} className="hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-border/50 bg-background/60 backdrop-blur-xl rounded-[1.5rem] overflow-hidden group relative z-10">
-                    <Link to={`/discussion/thread/${thread.slug}`} className="block">
-                      <CardHeader className="pb-4">
+                  <Card key={thread.id} className="hover:shadow-md transition-shadow border-gray-200/60 bg-white">
+                    <Link to={`/discussion/thread/${thread.slug}`}>
+                      <CardHeader className="pb-3">
                         <div className="flex items-start justify-between gap-4">
                           <div>
-                            <CardTitle className="text-xl text-foreground group-hover:text-primary transition-colors flex items-center gap-3">
-                              {thread.is_pinned && <Badge variant="default" className="bg-blue-500/10 text-blue-500 hover:bg-blue-500/20 border-none rounded-full px-3">Pinned</Badge>}
-                              {thread.is_locked && <Badge variant="destructive" className="bg-destructive/10 text-destructive hover:bg-destructive/20 border-none rounded-full px-3">Locked</Badge>}
-                              <span className="leading-tight">{thread.title}</span>
+                            <CardTitle className="text-xl text-gray-900 group-hover:text-brand-primary transition-colors flex items-center gap-2">
+                              {thread.is_pinned && <Badge variant="default" className="bg-blue-100 text-blue-800 hover:bg-blue-200 border-none">Pinned</Badge>}
+                              {thread.is_locked && <Badge variant="destructive" className="bg-red-100 text-red-800 hover:bg-red-200 border-none">Locked</Badge>}
+                              {thread.title}
                             </CardTitle>
-                            <CardDescription className="mt-3 text-[14px] text-muted-foreground flex items-center gap-2">
-                              <span>Started by <span className="font-semibold text-foreground/80">{thread.author?.first_name || 'Anonymous'}</span></span>
-                              <span className="w-1 h-1 rounded-full bg-muted-foreground/30"></span>
-                              <span>{formatDistanceToNow(new Date(thread.created_at), { addSuffix: true })}</span>
+                            <CardDescription className="mt-2 text-sm text-gray-500">
+                              Started by <span className="font-semibold text-gray-700">{thread.author?.first_name || 'Anonymous'}</span> • {formatDistanceToNow(new Date(thread.created_at), { addSuffix: true })}
                             </CardDescription>
                           </div>
                         </div>
                       </CardHeader>
-                      <CardFooter className="flex justify-between items-center py-4 border-t border-border/50 bg-muted/10">
+                      <CardFooter className="flex justify-between items-center py-4 border-t border-gray-50 bg-gray-50/30">
                         <div className="flex flex-wrap gap-2">
                           {thread.tags?.map(t => (
-                            <Badge key={t.thread_tags?.slug} variant="secondary" className="bg-background/80 backdrop-blur-sm text-muted-foreground border border-border/50 font-medium rounded-lg">
+                            <Badge key={t.thread_tags?.slug} variant="secondary" className="bg-gray-100 text-gray-600 hover:bg-gray-200 border-none font-medium">
                               {t.thread_tags?.name}
                             </Badge>
                           ))}
                         </div>
-                        <div className="flex items-center gap-2 text-[14px] font-bold text-muted-foreground group-hover:text-primary transition-colors shrink-0 bg-background/50 px-3 py-1.5 rounded-full border border-border/50 shadow-sm">
+                        <div className="flex items-center gap-2 text-sm font-medium text-gray-500 shrink-0">
                           <MessageSquare className="h-4 w-4" />
                           <span>{thread.comments?.[0]?.count || 0} Replies</span>
                         </div>
@@ -158,23 +152,23 @@ const DiscussionForumPage = () => {
                 ))}
 
                 {totalPages > 1 && (
-                  <div className="flex justify-center items-center gap-4 mt-12 relative z-10">
+                  <div className="flex justify-center items-center gap-4 mt-10">
                     <Button 
                       variant="outline" 
                       onClick={() => setPage(p => Math.max(1, p - 1))}
                       disabled={page === 1}
-                      className="border-border/50 rounded-xl h-11 px-6 shadow-sm bg-background/60 backdrop-blur-sm"
+                      className="border-gray-200 text-gray-600"
                     >
                       Previous
                     </Button>
-                    <span className="text-[15px] font-semibold text-foreground bg-muted/30 px-4 py-2 rounded-full border border-border/50">
+                    <span className="text-sm font-medium text-gray-600">
                       Page {page} of {totalPages}
                     </span>
                     <Button 
                       variant="outline" 
                       onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                       disabled={page === totalPages}
-                      className="border-border/50 rounded-xl h-11 px-6 shadow-sm bg-background/60 backdrop-blur-sm"
+                      className="border-gray-200 text-gray-600"
                     >
                       Next
                     </Button>
@@ -182,17 +176,14 @@ const DiscussionForumPage = () => {
                 )}
               </>
             ) : (
-              <div className="text-center py-24 border border-border/50 rounded-[2.5rem] bg-background/60 backdrop-blur-xl shadow-lg relative overflow-hidden z-10">
-                <div className="absolute top-0 right-0 p-16 opacity-5 bg-gradient-to-bl from-primary to-transparent rounded-bl-full z-0 w-48 h-48"></div>
-                <div className="mx-auto w-24 h-24 bg-muted/50 border border-border/50 shadow-sm rounded-full flex items-center justify-center mb-6 relative z-10">
-                   <MessageSquare className="h-10 w-10 text-muted-foreground" />
-                </div>
-                <h2 className="text-3xl font-extrabold text-foreground relative z-10">No discussions found</h2>
-                <p className="text-muted-foreground text-lg mt-3 max-w-md mx-auto relative z-10">
+              <div className="text-center py-20 border border-gray-200 rounded-2xl bg-white shadow-sm">
+                <MessageSquare className="mx-auto h-16 w-16 text-gray-300 mb-4" />
+                <h2 className="text-2xl font-bold text-gray-900">No discussions found</h2>
+                <p className="text-gray-500 mt-2 max-w-md mx-auto">
                   {searchQuery ? "Try adjusting your search terms to find what you're looking for." : "Be the first to start a conversation in our community!"}
                 </p>
                 {!searchQuery && (
-                  <Button asChild className="mt-8 h-14 px-8 rounded-2xl bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 font-bold relative z-10">
+                  <Button asChild className="mt-8 bg-brand-primary hover:bg-brand-primary-dark">
                     <Link to="/discussion/new">Start a Discussion</Link>
                   </Button>
                 )}

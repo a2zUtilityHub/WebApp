@@ -27,12 +27,11 @@ const TestimonialsSection = () => {
     if (testimonials.length === 0) return null;
 
     return (
-        <section id="testimonials" className="py-24 bg-background relative overflow-hidden border-y border-border/50">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
-            <div className="container px-4 relative z-10">
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6 text-foreground">What Our Users Say</h2>
-                    <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Discover why thousands of people trust a2z Utility Hub for their daily digital needs.</p>
+        <section id="testimonials" className="py-16 bg-muted/30">
+            <div className="container px-4">
+                <div className="text-center mb-10">
+                    <h2 className="text-3xl font-bold tracking-tight mb-4">What Our Users Say</h2>
+                    <p className="text-muted-foreground max-w-2xl mx-auto">Discover why thousands of people trust a2z Utility Hub for their daily digital needs.</p>
                 </div>
 
                 <Swiper
@@ -48,24 +47,23 @@ const TestimonialsSection = () => {
                     className="pb-12"
                 >
                     {testimonials.map((item) => (
-                        <SwiperSlide key={item.id} className="h-full py-4 px-2">
-                            <Card className="h-full border border-border/50 bg-background/60 backdrop-blur-xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 rounded-3xl overflow-hidden group">
-                                <div className="h-1.5 w-full bg-gradient-to-r from-primary/40 to-primary group-hover:from-primary group-hover:to-primary/40 transition-all duration-500"></div>
-                                <CardContent className="pt-8 px-8 pb-8 flex flex-col h-full">
-                                    <div className="flex gap-1 mb-6 text-yellow-500">
+                        <SwiperSlide key={item.id} className="h-full">
+                            <Card className="h-full border-none shadow-md">
+                                <CardContent className="pt-6 flex flex-col h-full">
+                                    <div className="flex gap-1 mb-4 text-yellow-500">
                                         {[...Array(5)].map((_, i) => (
-                                            <Star key={i} className={`h-5 w-5 ${i < item.rating ? 'fill-current drop-shadow-sm' : 'text-muted/50'}`} />
+                                            <Star key={i} className={`h-4 w-4 ${i < item.rating ? 'fill-current' : 'text-gray-300'}`} />
                                         ))}
                                     </div>
-                                    <p className="text-muted-foreground/90 text-lg leading-relaxed mb-8 flex-grow italic">"{item.content}"</p>
-                                    <div className="flex items-center gap-4 mt-auto">
-                                        <Avatar className="h-12 w-12 border-2 border-primary/20 shadow-sm">
+                                    <p className="text-muted-foreground mb-6 flex-grow italic">"{item.content}"</p>
+                                    <div className="flex items-center gap-3 mt-auto">
+                                        <Avatar>
                                             <AvatarImage src={item.author_image} />
-                                            <AvatarFallback className="bg-primary/10 text-primary font-bold">{item.author_name.charAt(0)}</AvatarFallback>
+                                            <AvatarFallback>{item.author_name.charAt(0)}</AvatarFallback>
                                         </Avatar>
                                         <div>
-                                            <p className="font-bold text-[15px] text-foreground">{item.author_name}</p>
-                                            {item.author_title && <p className="text-[13px] font-medium text-muted-foreground">{item.author_title}</p>}
+                                            <p className="font-semibold text-sm">{item.author_name}</p>
+                                            {item.author_title && <p className="text-xs text-muted-foreground">{item.author_title}</p>}
                                         </div>
                                     </div>
                                 </CardContent>

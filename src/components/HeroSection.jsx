@@ -4,14 +4,10 @@ import { motion } from 'framer-motion';
 const HeroSection = ({ title, subtitle, ctaButtons }) => {
   return (
     <section 
-      className="w-full flex flex-col justify-center items-center text-center overflow-hidden relative min-h-[200px] md:min-h-[240px] lg:min-h-[320px] py-16 md:py-24 lg:py-32 bg-background border-b border-border/50"
+      className="w-full flex flex-col justify-center items-center text-center overflow-hidden relative min-h-[200px] md:min-h-[240px] lg:min-h-[320px] py-8 md:py-12 lg:py-16"
+      style={{ background: 'linear-gradient(135deg, #0EA5E9, #7C3AED, #EC4899)' }}
     >
-      {/* Dynamic Animated Orbs */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-         <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[150%] bg-primary/10 rounded-full blur-[100px] animate-pulse" style={{ animationDuration: '8s' }}></div>
-         <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[150%] bg-accent/10 rounded-full blur-[100px] animate-pulse" style={{ animationDuration: '10s', animationDelay: '2s' }}></div>
-         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-[50%] bg-primary/5 rounded-t-full blur-[100px]"></div>
-      </div>
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none" />
       
       <motion.div 
         initial={{ opacity: 0, y: 20 }} 
@@ -19,11 +15,11 @@ const HeroSection = ({ title, subtitle, ctaButtons }) => {
         transition={{ duration: 0.5, ease: "easeOut" }} 
         className="w-full max-w-[1200px] mx-auto px-4 relative z-10"
       >
-        <h1 className="text-foreground font-extrabold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
+        <h1 className="text-white font-bold text-[32px] md:text-[40px] lg:text-[48px] leading-tight mb-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
           {title}
         </h1>
         {subtitle && (
-          <p className="text-muted-foreground font-medium text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mb-10">
+          <p className="text-white font-medium text-[14px] md:text-[16px] lg:text-[18px] max-w-2xl mx-auto leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)] mb-8">
             {subtitle}
           </p>
         )}

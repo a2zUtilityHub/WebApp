@@ -75,7 +75,7 @@ const ChatbotInput = ({ onSend, isLoading, settings }) => {
                 )}
             </AnimatePresence>
             
-            <div className="flex items-end gap-2 bg-background/60 backdrop-blur-md p-1.5 rounded-3xl border border-input focus-within:ring-4 focus-within:ring-primary/10 focus-within:border-primary transition-all duration-300 shadow-sm">
+            <div className="flex items-end gap-2 bg-muted/50 p-1.5 rounded-2xl border focus-within:ring-2 focus-within:ring-brand-primary/20 transition-all">
                 {enableFileUploads && (
                     <>
                         <input
@@ -103,7 +103,7 @@ const ChatbotInput = ({ onSend, isLoading, settings }) => {
                     onChange={autoResize}
                     onKeyDown={handleKeyDown}
                     placeholder="Ask a question..."
-                    className="min-h-[40px] max-h-[120px] bg-transparent border-0 focus-visible:ring-0 px-3 py-2.5 resize-none text-[15px] text-foreground placeholder:text-muted-foreground/60"
+                    className="min-h-[36px] max-h-[120px] bg-transparent border-0 focus-visible:ring-0 px-2 py-2 resize-none text-sm"
                     disabled={isLoading}
                     rows={1}
                 />

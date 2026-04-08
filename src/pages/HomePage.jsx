@@ -60,10 +60,10 @@ const HomePageContent = () => {
 
   const heroCtaButtons = (
     <>
-      <Button asChild size="lg" className="rounded-2xl bg-gradient-to-r from-primary to-primary/90 text-primary-foreground hover:from-primary/90 hover:to-primary border-0 w-full sm:w-auto shadow-lg hover:shadow-xl h-14 text-lg transition-all duration-300 hover:-translate-y-1 font-bold px-8">
+      <Button asChild size="lg" className="rounded-full bg-white text-brand-primary hover:bg-gray-50 border-0 w-full sm:w-auto shadow-lg h-14 md:h-12 text-lg md:text-base transition-all duration-150 hover:-translate-y-1">
         <Link to="/apps">Explore Applications</Link>
       </Button>
-      <Button asChild size="lg" variant="outline" className="rounded-2xl border border-border/50 bg-background/60 backdrop-blur-xl text-foreground hover:bg-background/80 hover:text-primary w-full sm:w-auto h-14 text-lg shadow-md transition-all duration-300 hover:-translate-y-1 font-bold px-8">
+      <Button asChild size="lg" variant="outline" className="rounded-full border-2 border-white/40 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 w-full sm:w-auto h-14 md:h-12 text-lg md:text-base shadow-lg transition-all duration-150 hover:-translate-y-1">
         <Link to="/coupons">View Best Deals</Link>
       </Button>
     </>
@@ -109,7 +109,7 @@ const HomePageContent = () => {
                       </motion.div>
                     ))}
                   </motion.div>
-                ) : <p className="text-muted-foreground bg-background/60 backdrop-blur-md rounded-3xl py-12 px-6 border border-border/50 shadow-sm w-full text-center font-medium">No featured applications available right now.</p>}
+                ) : <p className="text-[#4B5563] bg-gray-50 rounded-xl py-12 px-6 border border-gray-200 w-full text-center">No featured applications available right now.</p>}
               </ErrorBoundaryWithRetry>
             )}
             <div className="mt-8 text-left">
@@ -148,7 +148,7 @@ const HomePageContent = () => {
                       </motion.div>
                     ))}
                   </motion.div>
-                ) : <p className="text-muted-foreground bg-background/60 backdrop-blur-md rounded-3xl py-12 px-6 border border-border/50 shadow-sm w-full text-center font-medium">No coupons available currently.</p>}
+                ) : <p className="text-[#4B5563] bg-gray-50 rounded-xl py-12 px-6 border border-gray-200 w-full text-center">No coupons available currently.</p>}
               </ErrorBoundaryWithRetry>
             )}
             
@@ -181,7 +181,7 @@ const HomePageContent = () => {
                       </motion.div>
                     ))}
                   </motion.div>
-                ) : <p className="text-muted-foreground bg-background/60 backdrop-blur-md rounded-3xl py-12 px-6 border border-border/50 shadow-sm w-full text-center font-medium">No recent blog posts to show.</p>}
+                ) : <p className="text-[#4B5563] bg-white rounded-xl py-12 px-6 border border-gray-200 shadow-sm w-full text-center">No recent blog posts to show.</p>}
               </ErrorBoundaryWithRetry>
             )}
           </section>

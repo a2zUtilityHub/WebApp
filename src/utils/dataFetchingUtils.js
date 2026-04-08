@@ -1,8 +1,7 @@
 import { executeQuery } from './supabaseErrorHandler';
-import { getCachedData, setCachedData } from './queryCache';
 
 /**
- * Enhanced safe query wrapper with comprehensive error handling and caching
+ * Enhanced safe query wrapper with comprehensive error handling
  * @param {Function} queryFn - Function returning a Supabase query promise
  * @param {Object} options - Options for the query
  * @returns {Promise<{data: any, error: Error|null}>}
@@ -13,34 +12,16 @@ export const safeQuery = async (queryFn, options = {}) => {
     retries = 3,
     timeout = 30000,
     fallbackData = null,
-    throwOnError = false,
-    cacheKey = null,
-    cacheMinutes = 5
+    throwOnError = false
   } = options;
 
-  // 1. Check Cache First (Instant Return)
-  if (cacheKey) {
-    const cached = getCachedData(cacheKey);
-    if (cached !== null) {
-      return { data: cached, error: null };
-    }
-  }
-
-  // 2. Fetch if not cached
-  const result = await executeQuery(queryFn, {
+  return executeQuery(queryFn, {
     context,
     maxRetries: retries,
     timeout,
     fallbackData,
     throwOnError
   });
-  
-  // 3. Save to Cache on Success
-  if (cacheKey && result.data && !result.error) {
-    setCachedData(cacheKey, result.data, cacheMinutes);
-  }
-  
-  return result;
 };
 
 /**

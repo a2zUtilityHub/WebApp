@@ -1,3 +1,4 @@
+
 export const PERMISSIONS = {
   // Dashboard
   VIEW_DASHBOARD: 'view:dashboard',
@@ -32,6 +33,7 @@ export const PERMISSIONS = {
 
   // Settings & System
   MANAGE_SETTINGS: 'manage:settings',
+  MANAGE_DATABASE: 'manage:database',
   MANAGE_LEGAL: 'manage:legal',
   EXPORT_DATA: 'export_data',
   MANAGE_HR: 'manage_hr',

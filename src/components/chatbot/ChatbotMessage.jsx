@@ -25,11 +25,11 @@ const ChatbotMessage = ({ message, settings, onClose }) => {
             className={cn("flex gap-3 w-full mb-4", isBot ? "justify-start" : "justify-end")}
         >
             {isBot && (
-                <Avatar className="h-8 w-8 shrink-0 border border-primary/20 bg-primary/10 shadow-sm">
+                <Avatar className="h-8 w-8 shrink-0 border border-brand-primary/20 bg-brand-primary/10">
                      {avatarUrl ? (
                          <AvatarImage src={avatarUrl} />
                      ) : (
-                        <AvatarFallback className="bg-gradient-to-br from-primary/80 to-primary text-primary-foreground"><Bot className="h-4 w-4" /></AvatarFallback>
+                        <AvatarFallback className="bg-brand-primary text-white"><Bot className="h-4 w-4" /></AvatarFallback>
                      )}
                 </Avatar>
             )}
@@ -37,10 +37,10 @@ const ChatbotMessage = ({ message, settings, onClose }) => {
             <div className={cn("flex flex-col max-w-[85%]", isBot ? "items-start" : "items-end")}>
                 <div 
                     className={cn(
-                        "rounded-2xl px-4 py-3 text-[15px] shadow-sm relative",
+                        "rounded-2xl px-4 py-3 text-sm shadow-sm relative",
                         isBot 
-                            ? "bg-muted/30 backdrop-blur-md text-foreground rounded-tl-sm border border-border/50" 
-                            : "bg-gradient-to-br from-primary to-primary/90 text-primary-foreground rounded-tr-sm shadow-md"
+                            ? "bg-muted/80 text-foreground rounded-tl-none border" 
+                            : "bg-brand-primary text-white rounded-tr-none"
                     )}
                 >
                     <div className="whitespace-pre-wrap leading-relaxed">

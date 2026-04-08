@@ -1,12 +1,8 @@
-
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Loader2 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
-import { Toaster } from '@/components/ui/toaster';
-import { Toaster as Sonner } from '@/components/ui/sonner';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import Footer from '@/components/layout/Footer';
 import MobileMenu from '@/components/layout/MobileMenu';
 import DevelopmentBanner from '@/components/DevelopmentBanner';
@@ -88,6 +84,8 @@ const AdminBackupPage = lazy(() => import('@/pages/admin/AdminBackupPage'));
 const AdminSettingsPage = lazy(() => import('@/pages/admin/AdminSettingsPage'));
 const AdminNotificationsPage = lazy(() => import('@/pages/admin/AdminNotificationsPage'));
 const AdminSEOPage = lazy(() => import('@/pages/admin/AdminSEOPage'));
+const AdminDatabaseManagementPage = lazy(() => import('@/pages/admin/DatabaseManagementPage'));
+const AdminStoreManagementPage = lazy(() => import('@/pages/admin/AdminStoreManagementPage'));
 
 class GlobalErrorBoundary extends React.Component {
   constructor(props) {
@@ -125,8 +123,8 @@ class GlobalErrorBoundary extends React.Component {
 }
 
 const PageLoader = () => (
-  <div className="flex h-[calc(100vh-4rem)] items-center justify-center bg-background/50 backdrop-blur-sm w-full z-50">
-    <LoadingSpinner size="xl" text="Loading amazing things..." />
+  <div className="flex h-screen items-center justify-center bg-background w-full">
+    <Loader2 className="h-10 w-10 animate-spin text-primary" />
   </div>
 );
 
@@ -154,10 +152,6 @@ function App() {
                 <meta name="description" content="Discover powerful productivity apps, amazing store deals, and valuable utilities." />
               </Helmet>
               
-              {/* Global Feedback Mechanisms */}
-              <Toaster />
-              <Sonner position="top-right" />
-              
               <DevelopmentBanner />
               
               <Suspense fallback={<PageLoader />}>
@@ -184,6 +178,8 @@ function App() {
                     <Route path="audit" element={<AdminActivityPage />} />
                     <Route path="backup" element={<AdminBackupPage />} />
                     <Route path="settings" element={<AdminSettingsPage />} />
+                    <Route path="database-management" element={<AdminDatabaseManagementPage />} />
+                    <Route path="store-management" element={<AdminStoreManagementPage />} />
                     <Route path="notifications" element={<AdminNotificationsPage />} />
                     <Route path="seo" element={<AdminSEOPage />} />
                     <Route path="*" element={

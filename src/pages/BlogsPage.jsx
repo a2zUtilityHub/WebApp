@@ -117,17 +117,14 @@ const BlogsPage = () => {
         subtitle="Read insightful articles and stay updated with latest trends"
       />
 
-      <div className="full-width-section bg-background py-16 relative overflow-hidden">
-        {/* Soft Glowing Background Orbs */}
-        <div className="absolute top-20 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
-
-        <div className="content-container relative z-10">
-          <div className="flex flex-col md:flex-row gap-4 mb-12 bg-background/60 backdrop-blur-xl p-4 md:p-5 rounded-[2rem] border border-border/50 shadow-sm">
-            <div className="relative flex-grow group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors z-10" />
+      <div className="full-width-section bg-white">
+        <div className="content-container">
+          <div className="flex flex-col md:flex-row gap-4 mb-8">
+            <div className="relative flex-grow">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-brand-primary/50" />
               <Input 
                 placeholder="Search articles..." 
-                className="pl-12 h-12 bg-background/80 border-input text-foreground focus-visible:ring-4 focus-visible:ring-primary/10 hover:border-primary/50 shadow-sm rounded-2xl transition-all"
+                className="pl-10 h-11 focus-visible:ring-brand-primary focus:border-brand-primary border-gray-200"
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
@@ -136,10 +133,10 @@ const BlogsPage = () => {
               />
             </div>
             <Select value={selectedCategoryId} onValueChange={(v) => { setSelectedCategoryId(v); setCurrentPage(1); }}>
-              <SelectTrigger className="w-full md:w-[220px] h-12 bg-background/80 border-input text-foreground focus:ring-4 focus:ring-primary/10 hover:border-primary/50 shadow-sm rounded-2xl transition-all">
+              <SelectTrigger className="w-full md:w-[220px] h-11 focus:ring-brand-primary focus:border-brand-primary">
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
-              <SelectContent className="rounded-2xl border-border/50 bg-background/80 backdrop-blur-xl shadow-xl">
+              <SelectContent>
                 <SelectItem value="all">All Categories</SelectItem>
                 {categories.map(cat => <SelectItem key={cat.id} value={String(cat.id)}>{cat.name}</SelectItem>)}
               </SelectContent>
@@ -191,12 +188,9 @@ const BlogsPage = () => {
               )}
             </>
           ) : (
-             <div className="text-center py-20 bg-background/60 backdrop-blur-xl rounded-[2.5rem] px-8 border border-border/50 shadow-sm">
-               <div className="mx-auto w-16 h-16 bg-muted/50 border border-border/50 rounded-full flex items-center justify-center mb-6">
-                 <Search className="h-8 w-8 text-muted-foreground" />
-               </div>
-               <h2 className="text-2xl font-extrabold text-foreground tracking-tight">No posts found</h2>
-               <p className="text-muted-foreground text-lg mt-3 max-w-md mx-auto">There are no blog posts available for your criteria. Please try a different search or check back later.</p>
+             <div className="text-left py-16 bg-brand-primary/5 rounded-xl px-8 border border-brand-primary/20">
+               <h2 className="text-2xl font-semibold text-brand-primary">No posts found</h2>
+               <p className="text-[#4B5563] mt-2">There are no blog posts available for your criteria. Please try a different search or check back later.</p>
              </div>
           )}
         </div>

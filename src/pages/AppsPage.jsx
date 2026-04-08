@@ -49,7 +49,7 @@ const AppsPageContent = () => {
   );
 
   const loading = appsLoading || catsLoading;
-  const apps = useMemo(() => appsData || [], [appsData]);
+  const apps = appsData || [];
 
   const filteredAndSortedApps = useMemo(() => {
     return apps
@@ -93,26 +93,22 @@ const AppsPageContent = () => {
         subtitle="Explore our complete collection of innovative applications designed for you"
       />
 
-      <div className="bg-background py-16 w-full px-4 relative overflow-hidden">
-        {/* Soft Glowing Background Orbs */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none z-0"></div>
-
+      <div className="bg-gray-50/50 py-8 w-full px-4">
         <AdSidebarLayoutWrapper leftAdSlots={['apps_left_1', 'apps_left_2']} rightAdSlots={['apps_right_1', 'apps_right_2']}>
-          <div className="w-full min-w-0 relative z-10">
-            <div className="section-header text-left mb-10">
-              <h2 className="text-4xl font-extrabold tracking-tight text-foreground">Our Toolkit</h2>
-              <p className="text-lg text-muted-foreground mt-2">Find and use the perfect tools for your everyday tasks.</p>
+          <div className="w-full min-w-0">
+            <div className="section-header text-left">
+              <h2 className="section-title">Our Toolkit</h2>
+              <p className="section-subtitle">Find and use the perfect tools for your everyday tasks.</p>
             </div>
 
-            <div className="bg-background/60 backdrop-blur-2xl p-5 md:p-6 rounded-[2rem] border border-border/50 shadow-sm mb-10 w-full relative z-10">
+            <div className="bg-white p-4 md:p-5 rounded-3xl border border-gray-200 shadow-sm mb-6 w-full">
               <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4 w-full">
 
-                <div className="relative flex-1 min-w-0 group">
-                  <LucideIcons.Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors z-10" />
+                <div className="relative flex-1 min-w-0">
+                  <LucideIcons.Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
                   <Input
-                    placeholder="Search premium applications..."
-                    className="pl-12 pr-10 bg-background/80 border-input text-foreground focus-visible:ring-4 focus-visible:ring-primary/10 hover:border-primary/50 shadow-sm h-12 w-full rounded-2xl transition-all"
+                    placeholder="Search apps..."
+                    className="pl-11 pr-10 bg-gray-50/50 border-gray-200 text-gray-900 focus-visible:ring-brand-primary h-11 w-full rounded-2xl transition-all"
                     value={searchTerm}
                     onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
                   />
@@ -129,10 +125,10 @@ const AppsPageContent = () => {
                 <div className="flex flex-row items-center gap-2 md:gap-3 shrink-0">
                   <div className="flex-1 md:flex-none">
                     <Select value={selectedCategory} onValueChange={(val) => { setSelectedCategory(val); setCurrentPage(1); }}>
-                      <SelectTrigger className="w-full md:w-[180px] bg-background/80 h-12 border-input text-foreground focus:ring-4 focus:ring-primary/10 hover:border-primary/50 shadow-sm rounded-2xl transition-all">
+                      <SelectTrigger className="w-full md:w-[180px] bg-gray-50/50 h-11 border-gray-200 text-gray-900 focus:ring-brand-primary rounded-2xl">
                         <SelectValue placeholder="Category" />
                       </SelectTrigger>
-                      <SelectContent className="rounded-2xl border-border/50 bg-background/80 backdrop-blur-xl shadow-xl">
+                      <SelectContent>
                         <SelectItem value="all">All Categories</SelectItem>
                         {categories?.map(cat => <SelectItem key={cat.id} value={cat.slug}>{cat.name}</SelectItem>)}
                       </SelectContent>
@@ -141,10 +137,10 @@ const AppsPageContent = () => {
 
                   <div className="flex-1 md:flex-none">
                     <Select value={sortOption} onValueChange={(val) => { setSortOption(val); setCurrentPage(1); }}>
-                      <SelectTrigger className="w-full md:w-[160px] bg-background/80 h-12 border-input text-foreground focus:ring-4 focus:ring-primary/10 hover:border-primary/50 shadow-sm rounded-2xl transition-all">
-                        <SelectValue placeholder="Sort By" />
+                      <SelectTrigger className="w-full md:w-[150px] bg-gray-50/50 h-11 border-gray-200 text-gray-900 focus:ring-brand-primary rounded-2xl">
+                        <SelectValue placeholder="Featured" />
                       </SelectTrigger>
-                      <SelectContent className="rounded-2xl border-border/50 bg-background/80 backdrop-blur-xl shadow-xl">
+                      <SelectContent>
                         <SelectItem value="is_featured">Featured</SelectItem>
                         <SelectItem value="name-asc">A-Z</SelectItem>
                         <SelectItem value="name-desc">Z-A</SelectItem>
@@ -205,14 +201,13 @@ const AppsPageContent = () => {
                   </motion.div>
                 </>
               ) : (
-                <div className="text-center py-24 px-8 bg-background/60 backdrop-blur-xl rounded-[2.5rem] border border-border/50 shadow-lg w-full relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 p-16 opacity-5 bg-gradient-to-bl from-primary to-transparent rounded-bl-full z-0 w-48 h-48"></div>
-                  <div className="mx-auto w-20 h-20 bg-muted/50 border border-border/50 shadow-sm rounded-full flex items-center justify-center mb-6 relative z-10">
-                    <LucideIcons.Search className="h-10 w-10 text-muted-foreground" />
+                <div className="text-center py-20 px-8 bg-white rounded-2xl border border-gray-200 shadow-sm w-full">
+                  <div className="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                    <LucideIcons.Search className="h-8 w-8 text-gray-400" />
                   </div>
-                  <h3 className="mb-3 text-2xl font-extrabold text-foreground relative z-10">No applications found</h3>
-                  <p className="text-muted-foreground text-lg mb-8 max-w-md mx-auto relative z-10">We couldn't find any apps matching your search criteria. Try adjusting your filters.</p>
-                  <Button variant="outline" className="h-12 px-8 rounded-xl border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground transition-all shadow-sm relative z-10" onClick={handleClearFilters}>Clear All Filters</Button>
+                  <h3 className="mb-2 text-xl font-bold text-gray-900">No applications found</h3>
+                  <p className="text-gray-500 mb-6 max-w-md mx-auto">We couldn't find any apps matching your search criteria.</p>
+                  <Button variant="outline" className="border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white" onClick={handleClearFilters}>Clear All Filters</Button>
                 </div>
               )}
             </ErrorBoundaryWithRetry>

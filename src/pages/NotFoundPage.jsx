@@ -32,13 +32,13 @@ const NotFoundPage = () => {
           Oops! The page you are looking for seems to have wandered off. It might have been removed, renamed, or currently unavailable.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
-          <Button variant="outline" size="lg" onClick={() => navigate(-1)} className="h-14 px-8 rounded-2xl gap-2 font-bold border-border/50 bg-background/60 backdrop-blur-sm hover:bg-muted/50 transition-all">
-            <ArrowLeft className="h-5 w-5" /> Go Back
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button variant="outline" size="lg" onClick={() => navigate(-1)} className="gap-2">
+            <ArrowLeft className="h-4 w-4" /> Go Back
           </Button>
-          <Button size="lg" asChild className="h-14 px-8 rounded-2xl gap-2 font-bold bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <Button size="lg" asChild className="gap-2">
             <Link to="/">
-              <Home className="h-5 w-5" /> Return Home
+              <Home className="h-4 w-4" /> Go Home
             </Link>
           </Button>
         </div>

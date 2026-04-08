@@ -76,17 +76,16 @@ const DashboardOverview = ({ profileCompletion, subscription, servicesCount }) =
           initial="hidden"
           animate="visible"
         >
-          <Card className="h-full flex flex-col border border-border/50 bg-background/60 backdrop-blur-xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 rounded-2xl overflow-hidden group">
-            <div className="h-1.5 w-full bg-gradient-to-r from-primary/40 to-primary group-hover:from-primary group-hover:to-primary/40 transition-all duration-500"></div>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 pt-5">
+          <Card className="h-full flex flex-col hover:shadow-lg transition-shadow duration-300">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-lg font-medium">{card.title}</CardTitle>
               <card.icon className="h-5 w-5 text-muted-foreground" />
             </CardHeader>
             <CardContent className="flex-grow">{card.content}</CardContent>
-            <div className="p-6 pt-0 mt-auto">
-              <Button asChild variant="outline" className="w-full rounded-xl group-hover:border-primary/50 group-hover:text-primary transition-colors">
+            <div className="p-6 pt-0">
+              <Button asChild variant="outline" className="w-full">
                 <Link to={card.link}>
-                  Manage {card.title} <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  Manage {card.title} <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>

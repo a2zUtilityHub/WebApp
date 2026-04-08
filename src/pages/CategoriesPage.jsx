@@ -29,10 +29,7 @@ const CategoriesPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20 w-full relative overflow-hidden">
-      {/* Background Glowing Orbs */}
-      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
-      <div className="absolute bottom-1/4 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none z-0"></div>
+    <div className="min-h-screen bg-gray-50/50 pb-20 w-full">
       <Helmet>
         <title>All Categories | Apps, Blogs & Deals - a2z Utility Hub</title>
         <meta name="description" content="Browse our complete directory of utility apps, informative blogs, and exclusive discount coupons across all categories." />
@@ -65,9 +62,9 @@ const CategoriesPage = () => {
         )}
 
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full relative z-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
             {[...Array(12)].map((_, i) => (
-              <Card key={i} className="border border-border/50 bg-background/60 backdrop-blur-md rounded-3xl w-full">
+              <Card key={i} className="border-gray-200 w-full">
                 <CardContent className="p-6 flex items-center space-x-4">
                   <Skeleton className="h-12 w-12 rounded-full" />
                   <div className="space-y-2 flex-1">
@@ -83,32 +80,31 @@ const CategoriesPage = () => {
             variants={containerVariants}
             initial="hidden"
             animate="show"
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full relative z-10"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full"
           >
             {categories.map(category => (
               <motion.div key={category.id} variants={itemVariants} className="w-full">
                 <Link to={`/categories/${category.slug || category.id}`} className="block h-full group w-full">
-                  <Card className="h-full flex flex-col hover:shadow-xl hover:border-primary/40 transition-all duration-500 border border-border/50 bg-background/60 backdrop-blur-xl group-hover:-translate-y-2 w-full rounded-[2rem] overflow-hidden">
-                    <CardContent className="p-8 flex flex-col items-center text-center flex-grow w-full relative">
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      <div className="h-20 w-20 rounded-[1.5rem] bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 shadow-sm border border-primary/20 z-10">
+                  <Card className="h-full flex flex-col hover:shadow-xl hover:border-brand-primary/40 transition-all duration-300 border-gray-200/80 bg-white group-hover:-translate-y-1 w-full">
+                    <CardContent className="p-6 flex flex-col items-center text-center flex-grow w-full">
+                      <div className="h-16 w-16 rounded-2xl bg-brand-primary/5 text-brand-primary flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-brand-primary group-hover:text-white transition-all duration-300 shadow-sm">
                         {category.icon_url ? (
-                          <img src={category.icon_url} alt="" className="h-10 w-10 object-contain" />
+                          <img src={category.icon_url} alt="" className="h-8 w-8 object-contain" />
                         ) : (
-                          <FolderOpen className="h-10 w-10" />
+                          <FolderOpen className="h-8 w-8" />
                         )}
                       </div>
                       
-                      <CardTitle className="text-xl font-extrabold mb-3 text-foreground group-hover:text-primary transition-colors capitalize z-10">
+                      <CardTitle className="text-lg mb-2 text-gray-800 group-hover:text-brand-primary transition-colors capitalize">
                         {category.name}
                       </CardTitle>
                       
-                      <Badge variant="secondary" className="mt-auto bg-muted text-muted-foreground font-semibold px-4 py-1.5 border-0 shadow-sm z-10">
+                      <Badge variant="secondary" className="mt-auto bg-gray-100 text-gray-600 font-medium px-3 py-1 border-none shadow-sm">
                         {category.item_count} Item{category.item_count !== 1 && 's'}
                       </Badge>
                     </CardContent>
-                    <div className="border-t border-border/50 p-4 bg-muted/10 flex justify-center items-center text-[15px] font-bold text-muted-foreground group-hover:text-primary group-hover:bg-primary/5 transition-colors w-full z-10 relative">
-                       Explore Category <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    <div className="border-t border-gray-50 p-3 bg-gray-50/50 flex justify-center items-center text-sm font-semibold text-gray-500 group-hover:text-brand-primary group-hover:bg-brand-primary/5 transition-colors w-full">
+                       Explore <ArrowRight className="ml-1 h-4 w-4" />
                     </div>
                   </Card>
                 </Link>
@@ -116,12 +112,10 @@ const CategoriesPage = () => {
             ))}
           </motion.div>
         ) : (
-          <div className="text-center py-28 bg-background/60 backdrop-blur-xl rounded-[2.5rem] shadow-sm border border-border/50 w-full relative z-10">
-            <div className="bg-muted/50 h-24 w-24 rounded-full flex items-center justify-center mx-auto mb-6 border border-border/50 shadow-sm">
-                <FolderOpen className="h-12 w-12 text-muted-foreground/50" />
-            </div>
-            <h3 className="text-2xl font-extrabold text-foreground tracking-tight mb-2">No categories found</h3>
-            <p className="text-muted-foreground text-lg">Check back later for new content and updates.</p>
+          <div className="text-center py-24 bg-white rounded-xl shadow-sm border border-gray-100 w-full">
+            <FolderOpen className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">No categories found</h3>
+            <p className="text-gray-500">Check back later for new content.</p>
           </div>
         )}
       </div>

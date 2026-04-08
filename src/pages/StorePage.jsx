@@ -51,9 +51,7 @@ const StorePageContent = () => {
   );
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="bg-background flex-grow w-full flex flex-col items-center relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
-      <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] pointer-events-none z-0"></div>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="bg-gray-50/50 flex-grow w-full flex flex-col items-center">
       <Helmet>
         <title>Store | a2z Utility Hub</title>
         <meta name="description" content="Browse our exclusive collection of high-quality products. Shop now for the best deals!" />
@@ -104,28 +102,28 @@ const StorePageContent = () => {
               </Alert>
             )}
 
-            <div className="bg-background/60 backdrop-blur-xl p-4 md:p-5 rounded-[2rem] border border-border/50 shadow-sm mb-8 w-full relative z-10">
+            <div className="bg-white p-4 md:p-5 rounded-3xl border border-gray-200 shadow-sm mb-8 w-full">
               <div className="flex items-center gap-3 w-full">
-                <div className="relative flex-1 min-w-0 group">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors z-10" />
+                <div className="relative flex-1 min-w-0">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
                   <Input 
-                    placeholder="Search premium products..." 
-                    className="pl-12 pr-10 bg-background/80 border-input text-foreground focus-visible:ring-4 focus-visible:ring-primary/10 h-12 w-full rounded-2xl transition-all shadow-sm hover:border-primary/50" 
+                    placeholder="Search products..." 
+                    className="pl-11 pr-10 bg-gray-50/50 border-gray-200 text-gray-900 focus-visible:ring-brand-primary h-11 w-full rounded-2xl transition-all" 
                     value={searchTerm} 
                     onChange={(e) => setSearchTerm(e.target.value)} 
                   />
                   {searchTerm && (
                     <button 
                       onClick={() => setSearchTerm('')}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary z-10 bg-background/80 backdrop-blur-sm rounded-full p-1 border border-border/50 shadow-sm"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-brand-primary z-10"
                     >
                       <RotateCcw className="h-4 w-4" />
                     </button>
                   )}
                 </div>
                 
-                <div className="hidden md:flex bg-primary/10 p-3 rounded-2xl items-center justify-center border border-primary/20 shrink-0 shadow-sm">
-                  <ShoppingBag className="h-6 w-6 text-primary" />
+                <div className="hidden md:flex bg-brand-primary/10 p-2.5 rounded-xl items-center justify-center border border-brand-primary/20 shrink-0">
+                  <ShoppingBag className="h-5 w-5 text-brand-primary" />
                 </div>
               </div>
             </div>

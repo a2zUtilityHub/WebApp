@@ -142,17 +142,23 @@ const AdminSettingsPage = () => {
   };
 
   if (loading) {
-    return <div className="flex justify-center items-center h-full"><Loader2 className="h-8 w-8 animate-spin" /></div>;
+    return <div className="flex justify-center items-center h-full min-h-[400px]"><Loader2 className="h-8 w-8 animate-spin" /></div>;
   }
   
   const paymentGatewaysAllowed = hasPermission('manage:payment_gateways');
 
   return (
-    <>
+    <div className="w-full">
       <Helmet><title>System Settings - Admin</title></Helmet>
+      
+      <div className="section-header">
+        <h1 className="section-title">System Settings</h1>
+        <p className="section-subtitle">Manage global configuration and integrations.</p>
+      </div>
+
       <div className="space-y-6">
-        <Tabs defaultValue="general">
-            <TabsList>
+        <Tabs defaultValue="general" className="w-full">
+            <TabsList className="flex flex-wrap h-auto">
                 <TabsTrigger value="general">General</TabsTrigger>
                 <TabsTrigger value="pagination">Pagination</TabsTrigger>
                 {paymentGatewaysAllowed && <TabsTrigger value="payment">Payment Gateways</TabsTrigger>}
@@ -253,7 +259,7 @@ const AdminSettingsPage = () => {
           </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

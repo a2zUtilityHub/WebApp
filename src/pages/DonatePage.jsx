@@ -134,37 +134,29 @@ const DonatePage = () => {
           `}
         </script>
       </Helmet>
-      <div className="bg-background relative overflow-hidden min-h-screen">
-        {/* Deep Glowing Orbs */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] pointer-events-none z-0"></div>
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-red-500/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
-
-        <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
+      <div className="bg-muted/20">
+        <div className="container mx-auto px-4 py-12 md:py-20">
           <motion.div
             className="max-w-2xl mx-auto text-center"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="w-24 h-24 mx-auto bg-red-500/10 rounded-full flex items-center justify-center mb-6 border border-red-500/20 shadow-sm relative">
-               <div className="absolute inset-0 bg-red-500/20 blur-xl rounded-full"></div>
-               <Heart className="w-12 h-12 text-red-500 relative z-10" fill="currentColor" />
-            </div>
-            <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-6">
+            <Heart className="w-16 h-16 text-red-500 mx-auto mb-4" />
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
               Support Our Mission
             </h1>
-            <p className="text-xl text-muted-foreground mb-14 leading-relaxed">
+            <p className="text-lg text-muted-foreground mb-12">
               Your generous donation powers a2z Utility Hub, keeping our tools free and accessible for everyone. Every contribution makes a difference.
             </p>
           </motion.div>
 
-          <Card className="max-w-3xl mx-auto border border-border/50 bg-background/60 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl overflow-hidden relative">
-            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-red-500 to-primary"></div>
-            <CardContent className="p-6 md:p-10 pt-10">
+          <Card className="max-w-3xl mx-auto shadow-xl">
+            <CardContent className="p-2 md:p-6">
               <Tabs defaultValue="upi-bank">
-                <TabsList className="grid w-full grid-cols-2 mb-8 bg-background/60 backdrop-blur-md shadow-sm border border-border/50 rounded-2xl p-1.5 h-16">
-                  <TabsTrigger value="upi-bank" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md rounded-xl font-bold text-[16px]">UPI & Bank Transfer</TabsTrigger>
-                  <TabsTrigger value="card" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md rounded-xl font-bold text-[16px]">Donate by Card</TabsTrigger>
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="upi-bank">UPI & Bank Transfer</TabsTrigger>
+                  <TabsTrigger value="card">Donate by Card</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="upi-bank" className="pt-6">
@@ -202,37 +194,37 @@ const DonatePage = () => {
                     <CardDescription>Choose an amount or enter a custom one.</CardDescription>
                   </CardHeader>
                   <div className="max-w-md mx-auto">
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
                       {currencyInfo.baseAmounts.map((amount) => (
                         <Button
                           key={amount}
                           variant={selectedAmount === amount ? 'default' : 'outline'}
-                          className={`h-16 text-xl font-black rounded-2xl transition-all shadow-sm ${selectedAmount === amount ? 'bg-gradient-to-br from-primary to-primary/90 text-primary-foreground shadow-md scale-105' : 'bg-background/60 backdrop-blur-sm border-border/50 hover:border-primary/50 hover:bg-background/80'}`}
+                          className="py-6 text-lg font-bold"
                           onClick={() => setSelectedAmount(amount)}
                         >
                           {currencyInfo.symbol}{amount}
                         </Button>
                       ))}
                     </div>
-                    <div className="flex items-center mb-8 relative group">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl font-black text-muted-foreground group-focus-within:text-primary transition-colors">{currencyInfo.symbol}</span>
+                    <div className="flex items-center mb-6">
+                      <span className="p-2 border rounded-l-md bg-muted text-lg font-bold">{currencyInfo.symbol}</span>
                       <input
                         type="number"
                         value={selectedAmount || ''}
                         onChange={(e) => setSelectedAmount(Number(e.target.value))}
-                        className="w-full h-16 pl-12 pr-16 bg-background/60 backdrop-blur-xl border border-input rounded-2xl text-2xl font-black text-center focus:ring-4 focus:ring-primary/10 focus:border-primary focus:outline-none transition-all shadow-inner text-foreground placeholder:text-muted-foreground/40"
-                        placeholder="Custom Amount"
+                        className="w-full h-10 p-2 border-t border-b text-lg font-bold text-center focus:ring-primary focus:border-primary focus:outline-none bg-background"
+                        placeholder="Custom"
                       />
-                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground bg-muted/50 px-2 py-1 rounded-lg">{currencyInfo.code}</span>
+                      <span className="p-2 border rounded-r-md bg-muted text-lg font-bold">{currencyInfo.code}</span>
                     </div>
-                    <div className="space-y-4 pt-2 border-t border-border/50">
-                      <Button size="lg" className="w-full h-16 rounded-2xl text-xl font-bold bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 mt-4" onClick={() => handlePayment('Card')} disabled={isProcessing}>
-                        {isProcessing ? <Loader2 className="mr-3 h-6 w-6 animate-spin" /> : <CreditCard className="mr-3 h-6 w-6" />} 
-                        Donate Securely
+                    <div className="space-y-4">
+                      <Button size="lg" className="w-full" onClick={() => handlePayment('Card')} disabled={isProcessing}>
+                        {isProcessing ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <CreditCard className="mr-2 h-5 w-5" />} 
+                        Donate with Card
                       </Button>
-                      <Button size="lg" variant="outline" className="w-full h-14 rounded-2xl font-bold border-border/50 bg-background/60 backdrop-blur-sm hover:bg-muted/50" onClick={() => handlePayment('Net Banking')} disabled={isProcessing}>
+                      <Button size="lg" variant="secondary" className="w-full" onClick={() => handlePayment('Net Banking')} disabled={isProcessing}>
                         {isProcessing ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Landmark className="mr-2 h-5 w-5" />}
-                        Pay with Net Banking
+                        Net Banking
                       </Button>
                     </div>
                     <p className="text-xs text-muted-foreground mt-4 text-center">

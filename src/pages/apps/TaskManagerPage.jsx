@@ -117,9 +117,9 @@ const TaskManagerBoard = ({
         </div>
       )}
 
-      <div className="min-h-[60vh] w-full pb-10 hide-scrollbar relative">
+      <div className="min-h-[50vh] w-full pb-10">
         <DragDropContext onDragEnd={onDragEnd}>
-          <div className="kanban-board flex gap-6 overflow-x-auto pb-6 px-1 h-full items-start">
+          <div className="kanban-board flex gap-4 overflow-x-auto pb-4">
             <TaskColumn id="todo" title="To Do" tasks={columns.todo} onEdit={handleOpenModal} onDelete={handleDeleteTask} onToggleComplete={handleToggleComplete} selectedTaskIds={selectedTaskIds} onToggleSelect={toggleSelectTask} />
             <TaskColumn id="inprogress" title="In Progress" tasks={columns.inprogress} onEdit={handleOpenModal} onDelete={handleDeleteTask} onToggleComplete={handleToggleComplete} selectedTaskIds={selectedTaskIds} onToggleSelect={toggleSelectTask} />
             <TaskColumn id="completed" title="Done" tasks={columns.completed} onEdit={handleOpenModal} onDelete={handleDeleteTask} onToggleComplete={handleToggleComplete} selectedTaskIds={selectedTaskIds} onToggleSelect={toggleSelectTask} />

@@ -1,5 +1,11 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { 
+  LayoutDashboard, Users, Shield, Key, Activity, Briefcase, FileText, 
+  FolderOpen, Ticket, ShoppingCart, MessageSquare, Bot, LifeBuoy, Bell, 
+  Settings, Database, Download, Globe, X, ChevronDown, ChevronRight, LogOut, Circle
+} from 'lucide-react';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -16,38 +22,26 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import {
-  LayoutDashboard, Users, Shield, AppWindow, Ticket, BookOpen, ShoppingBag, 
-  FolderTree, CreditCard, MessageSquare, Bot, LifeBuoy, CheckSquare, 
-  UserCog, Activity, Database, Settings, Bell, Search, LogOut, X
-} from 'lucide-react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { adminNavigation } from '@/config/adminNavigation';
 
-const navItems = [
-  { name: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
-  { name: 'User Management', path: '/admin/users', icon: Users },
-  { name: 'Role Management', path: '/admin/roles', icon: Shield },
-  { name: 'Apps', path: '/admin/apps', icon: AppWindow },
-  { name: 'Coupons', path: '/admin/coupons', icon: Ticket },
-  { name: 'Blogs', path: '/admin/blogs', icon: BookOpen },
-  { name: 'Deals', path: '/admin/deals', icon: ShoppingBag },
-  { name: 'Categories', path: '/admin/categories', icon: FolderTree },
-  { name: 'Plans', path: '/admin/plans', icon: CreditCard },
-  { name: 'Messaging', path: '/admin/messaging', icon: MessageSquare },
-  { name: 'Chatbot', path: '/admin/chatbot', icon: Bot },
-  { name: 'Support', path: '/admin/support', icon: LifeBuoy },
-  { name: 'Tasks', path: '/admin/tasks', icon: CheckSquare },
-  { name: 'HR', path: '/admin/hr', icon: UserCog },
-  { name: 'Audit', path: '/admin/audit', icon: Activity },
-  { name: 'Backup', path: '/admin/backup', icon: Database },
-  { name: 'Settings', path: '/admin/settings', icon: Settings },
-  { name: 'Notifications', path: '/admin/notifications', icon: Bell },
-  { name: 'SEO', path: '/admin/seo', icon: Search }
-];
+const iconMap = {
+  LayoutDashboard, Users, Shield, Key, Activity, Briefcase, FileText, 
+  FolderOpen, Ticket, ShoppingCart, MessageSquare, Bot, LifeBuoy, Bell, 
+  Settings, Database, Download, Globe
+};
 
 const AdminSidebar = ({ isMobile, setMobileOpen }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { profile, adminUser, adminSignOut } = useAuth();
+  const { profile, adminUser, adminSignOut, hasPermission } = useAuth();
+  
+  const [openGroups, setOpenGroups] = useState(() => {
+    const activeGroups = adminNavigation
+      .filter(group => group.items?.some(item => location.pathname.startsWith(item.route)))
+      .map(group => group.id);
+    return activeGroups.length ? activeGroups : [adminNavigation[0]?.id];
+  });
 
   const handleLinkClick = () => {
     if (isMobile && setMobileOpen) {
@@ -60,100 +54,141 @@ const AdminSidebar = ({ isMobile, setMobileOpen }) => {
     navigate('/admin/login');
   };
 
+  const toggleGroup = (id) => {
+    setOpenGroups(prev => 
+      prev.includes(id) ? prev.filter(groupId => groupId !== id) : [...prev, id]
+    );
+  };
+
+  const renderItem = (item) => {
+    if (item.permission && !hasPermission(item.permission)) {
+      return null;
+    }
+
+    const IconComponent = iconMap[item.icon] || Circle;
+    
+    // Explicitly define isActive by checking the current location path against the item route
+    const isActive = location.pathname === item.route || location.pathname.startsWith(`${item.route}/`);
+
+    return (
+      <NavLink
+        key={item.id}
+        to={item.route}
+        onClick={handleLinkClick}
+        className={cn(
+          "flex items-center gap-3 px-4 py-3 my-1 rounded-lg transition-all duration-200 text-sm font-medium",
+          isActive 
+            ? "bg-blue-600 text-white shadow-md border border-blue-500" 
+            : "text-slate-300 hover:bg-slate-800 hover:text-white border border-transparent"
+        )}
+      >
+        <IconComponent className={cn("h-5 w-5 shrink-0", isActive ? "text-white" : "text-slate-400")} />
+        <span className="truncate">{item.label}</span>
+      </NavLink>
+    );
+  };
+
   return (
-    <div className="flex flex-col h-full w-full bg-background/60 backdrop-blur-xl border-r border-border/50 text-foreground overflow-hidden">
-      {/* Brand Header */}
-      <div className="h-16 flex items-center justify-between px-6 border-b border-border/50 shrink-0 bg-background/40">
+    <div className="flex flex-col h-full w-[280px] min-w-[280px] bg-slate-950 text-slate-100 border-r border-slate-800 shadow-2xl">
+      {/* Header */}
+      <div className="h-16 flex items-center justify-between px-6 border-b border-slate-800 bg-slate-950 shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-primary-foreground font-bold shrink-0 shadow-md">
+          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold shrink-0 shadow-sm shadow-blue-900/50">
             A2
           </div>
-          <span className="font-bold text-lg tracking-tight text-foreground">
-            Admin Hub
-          </span>
+          <span className="font-bold text-lg tracking-tight text-white">Admin Hub</span>
         </div>
         {isMobile && (
           <Button 
             variant="ghost" 
             size="icon" 
             onClick={() => setMobileOpen(false)}
-            className="lg:hidden text-muted-foreground hover:text-foreground"
+            className="lg:hidden text-slate-400 hover:text-white hover:bg-slate-800"
           >
             <X className="h-5 w-5" />
           </Button>
         )}
       </div>
 
-      {/* Navigation Links */}
-      <ScrollArea className="flex-1 py-4 px-3 custom-scrollbar">
-        <nav className="space-y-1">
-          {navItems.map((item) => {
-            // Strictly matches exact path or sub-paths (e.g., /admin/users or /admin/users/123, but NOT /admin/users-settings)
-            const isActive = location.pathname === item.path || location.pathname.startsWith(`${item.path}/`);
-            const Icon = item.icon;
+      {/* Navigation Areas */}
+      <ScrollArea className="flex-1 py-6 px-4 custom-scrollbar">
+        <nav className="space-y-6">
+          {adminNavigation.map((group) => {
+            const hasVisibleItems = group.items?.some(item => !item.permission || hasPermission(item.permission));
+            
+            if (!hasVisibleItems) {
+              return null;
+            }
+
+            const isOpen = openGroups.includes(group.id);
 
             return (
-              <NavLink
-                key={item.name}
-                to={item.path}
-                onClick={handleLinkClick}
-                className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative text-[15px] font-medium",
-                  isActive 
-                    ? "bg-primary/10 text-primary shadow-sm" 
-                    : "text-muted-foreground/80 hover:bg-muted/50 hover:text-foreground"
-                )}
+              <Collapsible
+                key={group.id}
+                open={isOpen}
+                onOpenChange={() => toggleGroup(group.id)}
+                className="space-y-2"
               >
-                {isActive && (
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-primary rounded-r-full" />
-                )}
-                <Icon className={cn(
-                  "h-5 w-5 shrink-0 transition-colors",
-                  isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground"
-                )} />
-                <span className="truncate">{item.name}</span>
-              </NavLink>
+                <CollapsibleTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-between px-2 py-2 h-auto hover:bg-slate-900 hover:text-white group"
+                  >
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider group-hover:text-slate-200 transition-colors">
+                      {group.label}
+                    </span>
+                    {isOpen ? (
+                      <ChevronDown className="h-4 w-4 text-slate-500 group-hover:text-slate-300" />
+                    ) : (
+                      <ChevronRight className="h-4 w-4 text-slate-500 group-hover:text-slate-300" />
+                    )}
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent className="space-y-1.5 px-1 pt-1">
+                  {group.items.map(item => renderItem(item))}
+                </CollapsibleContent>
+              </Collapsible>
             );
           })}
         </nav>
       </ScrollArea>
 
-      {/* Footer Profile & Logout */}
-      <div className="p-4 border-t border-border/50 shrink-0 bg-background/40">
-        <div className="flex items-center gap-3 mb-4 px-2">
-          <Avatar className="h-10 w-10 border border-border shadow-sm">
+      {/* Footer Area */}
+      <div className="p-5 border-t border-slate-800 bg-slate-950 shrink-0">
+        <div className="flex items-center gap-3 mb-5 px-1">
+          <Avatar className="h-10 w-10 border border-slate-700 shadow-sm">
             <AvatarImage src={profile?.avatar_url} alt="Admin" className="object-cover" />
-            <AvatarFallback className="bg-primary/10 text-primary font-medium">
-              {String(profile?.first_name || adminUser?.email || 'A').charAt(0).toUpperCase()}
+            <AvatarFallback className="bg-blue-900/50 text-blue-400 font-medium">
+              {profile?.first_name?.[0] || adminUser?.email?.[0]?.toUpperCase() || 'A'}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col flex-1 overflow-hidden">
-            <span className="text-sm font-semibold text-foreground truncate">
-              {profile?.first_name || 'Admin User'}
+            <span className="text-sm font-semibold text-white truncate">
+              {profile?.first_name || adminUser?.email || 'Admin User'}
             </span>
-            <span className="text-xs text-muted-foreground truncate">
-              {adminUser?.roles?.name || 'Super Admin'}
+            <span className="text-xs text-slate-400 truncate">
+              {adminUser?.roles?.name || 'Administrator'}
             </span>
           </div>
         </div>
 
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="ghost" className="w-full justify-start text-destructive hover:bg-destructive/10 hover:text-destructive rounded-xl transition-colors">
-              <LogOut className="w-4 h-4 mr-2" />
+            <Button variant="ghost" className="w-full justify-start text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-lg transition-colors border border-transparent hover:border-red-500/20">
+              <LogOut className="w-4 h-4 mr-3" />
               Logout
             </Button>
           </AlertDialogTrigger>
-          <AlertDialogContent className="rounded-3xl border border-border/50 bg-background/80 backdrop-blur-xl shadow-2xl">
+          <AlertDialogContent className="bg-slate-900 border-slate-800 text-white">
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
-              <AlertDialogDescription>
-                You will be redirected to the login page and will need to authenticate again to access the admin panel.
+              <AlertDialogTitle>Log out of Admin Panel?</AlertDialogTitle>
+              <AlertDialogDescription className="text-slate-400">
+                You will be required to authenticate again to access this area.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel className="rounded-xl">Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleLogout} className="rounded-xl bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              <AlertDialogCancel className="bg-slate-800 text-white hover:bg-slate-700 hover:text-white border-slate-700">Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleLogout} className="bg-red-600 text-white hover:bg-red-700">
                 Log out
               </AlertDialogAction>
             </AlertDialogFooter>

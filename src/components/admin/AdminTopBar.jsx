@@ -19,7 +19,7 @@ const AdminTopBar = ({ onMobileMenuToggle }) => {
   };
 
   return (
-    <header className="h-16 flex items-center justify-between px-4 lg:px-8 bg-background/80 backdrop-blur-xl border-b border-border/50 sticky top-0 z-30 shadow-sm shrink-0">
+    <header className="h-16 flex items-center justify-between px-4 lg:px-8 bg-[hsl(var(--admin-bg))] border-b border-[hsl(var(--admin-border))] sticky top-0 z-30 shadow-sm/50 shrink-0">
       <div className="flex items-center gap-4">
         {/* Hamburger Menu - Visible only on mobile/tablet */}
         <Button 
@@ -56,12 +56,12 @@ const AdminTopBar = ({ onMobileMenuToggle }) => {
               <Avatar className="h-9 w-9 border border-border">
                 <AvatarImage src={profile?.avatar_url} alt="Admin" className="object-cover" />
                 <AvatarFallback className="bg-primary/10 text-primary font-medium text-sm">
-                  {String(profile?.first_name || adminUser?.email || 'A').charAt(0).toUpperCase()}
+                  {profile?.first_name?.[0] || adminUser?.email?.[0]?.toUpperCase() || 'A'}
                 </AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 mt-2 rounded-2xl border border-border/50 bg-background/80 backdrop-blur-xl shadow-2xl" align="end" forceMount>
+          <DropdownMenuContent className="w-56 mt-2 rounded-xl" align="end" forceMount>
             <DropdownMenuLabel className="font-normal p-3">
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-semibold leading-none text-foreground">

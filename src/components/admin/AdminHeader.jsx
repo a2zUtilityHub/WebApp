@@ -2,11 +2,12 @@ import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, LogOut, Bell, Shield } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUserPermissions } from '@/hooks/useUserPermissions';
 
-const AdminHeader = ({ navItems = [], onSignOut, onMobileMenuToggle }) => {
+const AdminHeader = ({ navItems = [], onSignOut }) => {
   const { adminUser } = useAuth();
   const location = useLocation();
   const { hasPermission } = useUserPermissions();
@@ -32,15 +33,44 @@ const AdminHeader = ({ navItems = [], onSignOut, onMobileMenuToggle }) => {
 
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-card px-4 lg:h-[60px] lg:px-6 sticky top-0 z-30 shadow-sm">
-      <Button 
-        variant="outline" 
-        size="icon" 
-        className="shrink-0 md:hidden"
-        onClick={onMobileMenuToggle}
-      >
-        <Menu className="h-5 w-5" />
-        <span className="sr-only">Toggle navigation menu</span>
-      </Button>
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button variant="outline" size="icon" className="shrink-0 md:hidden">
+            <Menu className="h-5 w-5" />
+            <span className="sr-only">Toggle navigation menu</span>
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="flex flex-col p-0 w-[280px]">
+            <div className="flex h-14 items-center border-b px-6">
+              <Link to="/admin" className="flex items-center gap-2 font-bold text-lg">
+                 <Shield className="h-6 w-6 text-primary" />
+                 <span>A2Z Admin</span>
+              </Link>
+            </div>
+            <nav className="grid gap-1 p-4 text-base font-medium overflow-y-auto">
+              {Array.isArray(navItems) && navItems.length > 0 ? (
+                navItems.map(item => {
+                    const canAccess = hasPermission ? hasPermission(item.permission) : false;
+                    if(item.permission && !canAccess) return null;
+
+                    const isActive = location.pathname.startsWith(item.href);
+                    return (
+                        <Link
+                            key={item.href}
+                            to={item.href}
+                            className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${
+                                isActive ? 'bg-muted text-primary' : 'text-muted-foreground'
+                            }`}
+                        >
+                            {item.icon && <item.icon className="h-5 w-5" />}
+                            {item.label}
+                        </Link>
+                    )
+                })
+              ) : null}
+            </nav>
+        </SheetContent>
+      </Sheet>
 
       <div className="w-full flex-1">
         <h1 className="font-semibold text-lg">{getPageTitle()}</h1>

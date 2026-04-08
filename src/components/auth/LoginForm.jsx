@@ -50,60 +50,62 @@ const LoginForm = ({ onAuthSuccess, setView }) => {
 
   return (
     <div className="grid gap-6">
-      <form onSubmit={handleSubmit} className="grid gap-2">
-        <div className="grid gap-1">
+      <form onSubmit={handleSubmit} className="grid gap-4">
+        <div className="grid gap-2">
+          <Label htmlFor="email">Email</Label>
           <Input 
             id="email" 
             type="email" 
-            label="Email Address"
-            placeholder="name@example.com" 
+            placeholder="example@example.com" 
             value={email} 
             onChange={(e) => setEmail(e.target.value)} 
             required 
             disabled={!!loading}
+            className="text-foreground bg-background border-input"
           />
         </div>
-        <div className="grid gap-1">
-          <div className="flex items-center justify-end px-1 -mb-2 z-10 relative">
+        <div className="grid gap-2">
+          <div className="flex items-center">
+            <Label htmlFor="password">Password</Label>
             <Button 
               variant="link" 
               type="button" 
               size="sm" 
-              className="h-auto p-0 text-primary/80 hover:text-primary transition-colors text-[13px]" 
+              className="ml-auto h-auto p-0 text-primary" 
               onClick={handleForgotPassword}
               disabled={!!loading}
             >
-              Forgot password?
+              Forgot your password?
             </Button>
           </div>
           <Input 
             id="password" 
             type="password" 
-            label="Password"
             placeholder="••••••••" 
             value={password} 
             onChange={(e) => setPassword(e.target.value)} 
             required 
             disabled={!!loading}
+            className="text-foreground bg-background border-input"
           />
         </div>
         <Button 
           type="submit" 
           disabled={!!loading} 
-          className="w-full h-12 mt-2 rounded-xl bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-medium shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2 shadow-sm transition-all"
         >
           {loading === 'email' ? (
-            <><Loader2 className="mr-2 h-5 w-5 animate-spin" />Authenticating...</>
-          ) : 'Sign In Securely'}
+            <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Signing In...</>
+          ) : 'Sign In'}
         </Button>
       </form>
       
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <Separator className="bg-border/50" />
+          <Separator className="bg-border" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-transparent backdrop-blur-md px-3 text-muted-foreground font-semibold rounded-full">Or continue with</span>
+          <span className="bg-background px-2 text-muted-foreground font-medium">Or continue with</span>
         </div>
       </div>
       

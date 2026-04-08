@@ -62,43 +62,43 @@ const ProductCard = ({ product, index }) => {
       className="h-full"
     >
       <Link to={`/product/${product.id}`} className="block h-full">
-        <div className="rounded-2xl border border-border/50 bg-background/60 backdrop-blur-xl shadow-sm overflow-hidden group transition-all duration-500 hover:shadow-2xl hover:-translate-y-1.5 hover:border-primary/50 h-full flex flex-col relative">
+        <div className="rounded-xl border bg-card text-card-foreground shadow-sm glass-card border-gray-100 overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full flex flex-col relative">
           
           <button 
             onClick={handleWishlist}
-            className="absolute top-3 right-3 z-10 p-2.5 rounded-full bg-background/80 backdrop-blur-md hover:bg-background border border-border/50 shadow-sm transition-all duration-300 hover:scale-110"
+            className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/80 hover:bg-white shadow-sm transition-all duration-200"
           >
-            <Heart className={`w-5 h-5 transition-colors ${isWished ? 'fill-red-500 text-red-500' : 'text-muted-foreground hover:text-red-500'}`} />
+            <Heart className={`w-5 h-5 ${isWished ? 'fill-red-500 text-red-500' : 'text-gray-500'}`} />
           </button>
 
-          <div className="relative overflow-hidden bg-muted/20">
+          <div className="relative overflow-hidden">
             <img
               src={product.image || placeholderImage}
               alt={product.title}
-              className="w-full h-56 object-cover transition-transform duration-700 group-hover:scale-110"
+              className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-all duration-300" />
             {product.ribbon_text && (
-              <div className="absolute top-3 left-3 bg-primary text-primary-foreground text-[11px] uppercase tracking-wider font-bold px-3 py-1.5 rounded-full shadow-md border border-primary-foreground/20">
+              <div className="absolute top-3 left-3 bg-brand-accent text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
                 {product.ribbon_text}
               </div>
             )}
           </div>
           
-          <div className="p-5 flex-grow flex flex-col bg-gradient-to-b from-transparent to-muted/10 relative">
-            <div className="mb-2 relative z-10">
-              <h3 className="text-lg font-bold text-foreground line-clamp-1 group-hover:text-primary transition-colors duration-300">{product.title}</h3>
-              <p className="text-[14px] text-muted-foreground/80 line-clamp-2 mt-1.5 min-h-[40px] leading-relaxed">
+          <div className="p-5 flex-grow flex flex-col bg-white">
+            <div className="mb-2">
+              <h3 className="text-lg font-bold text-gray-900 line-clamp-1">{product.title}</h3>
+              <p className="text-sm text-gray-500 line-clamp-2 mt-1 min-h-[40px]">
                 {product.subtitle || product.description?.replace(/<[^>]*>?/gm, '') || 'Check out this amazing product!'}
               </p>
             </div>
             
-            <div className="mt-auto pt-5 flex items-center justify-between relative z-10 border-t border-border/50">
+            <div className="mt-auto pt-4 flex items-center justify-between">
               <div className="flex flex-col">
-                {hasSale && <span className="line-through text-muted-foreground/60 text-xs font-medium">{originalPrice}</span>}
-                <span className="font-extrabold text-xl text-primary">{displayPrice}</span>
+                {hasSale && <span className="line-through text-gray-400 text-xs">{originalPrice}</span>}
+                <span className="font-bold text-lg text-brand-primary">{displayPrice}</span>
               </div>
-              <Button onClick={handleAddToCart} size="icon" className="rounded-xl w-11 h-11 shadow-sm bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 group-hover:scale-105 group-hover:shadow-md">
+              <Button onClick={handleAddToCart} size="sm" className="rounded-full w-10 h-10 p-0 shadow-md">
                 <ShoppingCart className="h-5 w-5" />
               </Button>
             </div>

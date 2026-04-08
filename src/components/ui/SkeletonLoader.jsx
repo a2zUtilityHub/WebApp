@@ -2,9 +2,9 @@ import React from 'react';
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const ProductCardSkeleton = () => (
-  <div className="rounded-2xl border border-border/50 bg-background/60 backdrop-blur-sm shadow-sm overflow-hidden flex flex-col h-full">
-    <Skeleton className="w-full h-64 bg-muted/40" />
-    <div className="p-4 space-y-3 flex-grow bg-gradient-to-b from-transparent to-muted/5">
+  <div className="rounded-lg border bg-card shadow-sm overflow-hidden flex flex-col h-full">
+    <Skeleton className="w-full h-64" />
+    <div className="p-4 space-y-3 flex-grow">
       <Skeleton className="h-6 w-3/4" />
       <Skeleton className="h-4 w-full" />
       <Skeleton className="h-4 w-2/3" />
@@ -35,7 +35,7 @@ export const ProductDetailSkeleton = () => (
 );
 
 export const ListItemSkeleton = () => (
-  <div className="flex items-center space-x-4 p-4 border border-border/50 bg-background/60 backdrop-blur-sm rounded-2xl mb-4 shadow-sm">
+  <div className="flex items-center space-x-4 p-4 border rounded-lg mb-4">
     <Skeleton className="h-12 w-12 rounded-full" />
     <div className="space-y-2 flex-grow">
       <Skeleton className="h-4 w-[250px]" />

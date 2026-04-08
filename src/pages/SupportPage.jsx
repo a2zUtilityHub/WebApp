@@ -107,8 +107,7 @@ const SupportPage = () => {
   };
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="min-h-screen bg-background pb-20 relative overflow-hidden">
-      <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="min-h-screen bg-gray-50/50 pb-20">
       <Helmet>
         <title>Support Center | a2z Utility Hub</title>
         <meta name="description" content="Get help from our support team and find answers to common questions." />
@@ -137,34 +136,34 @@ const SupportPage = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar */}
           <aside className="lg:w-72 flex-shrink-0 space-y-4">
-             <div className="space-y-2 relative z-10">
+             <div className="space-y-2">
                {sidebarItems.map((item) => (
                   <button
                      key={item.id}
                      onClick={() => handleTabChange(item.id)}
                      className={cn(
-                        "w-full flex items-center gap-3 px-5 py-4 text-[15px] font-semibold rounded-2xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20",
+                        "w-full flex items-center gap-3 px-4 py-3.5 text-sm font-semibold rounded-xl transition-all duration-200",
                         activeTab === item.id && !ticketId
-                           ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-md scale-[1.02]" 
-                           : "bg-background/60 backdrop-blur-md border border-border/50 hover:border-primary/50 hover:bg-background/80 text-muted-foreground/90 hover:text-foreground hover:-translate-y-0.5"
+                           ? "bg-brand-primary text-white shadow-md" 
+                           : "bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300 text-gray-700"
                      )}
                   >
-                     <item.icon className={cn("h-5 w-5 transition-colors", activeTab === item.id && !ticketId ? "text-primary-foreground" : "text-muted-foreground group-hover:text-primary")} />
+                     <item.icon className={cn("h-5 w-5", activeTab === item.id && !ticketId ? "text-white" : "text-gray-500")} />
                      {item.label}
                   </button>
                ))}
              </div>
              
-             <Separator className="my-8 border-border/50 relative z-10" />
+             <Separator className="my-6 border-gray-200" />
              
-             <div className="bg-background/60 backdrop-blur-xl rounded-3xl p-6 border border-border/50 shadow-sm relative z-10 hover:shadow-md transition-shadow">
-                <h4 className="font-bold mb-4 text-foreground flex items-center gap-2 text-lg">
-                   <div className="p-2 bg-primary/10 rounded-xl"><LifeBuoy className="h-5 w-5 text-primary" /></div>
+             <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+                <h4 className="font-bold mb-3 text-gray-900 flex items-center gap-2">
+                   <LifeBuoy className="h-5 w-5 text-brand-primary" />
                    Support Hours
                 </h4>
-                <div className="space-y-3">
-                  <p className="text-[15px] text-muted-foreground flex justify-between border-b border-border/50 pb-2"><span>Mon-Fri:</span> <span className="font-bold text-foreground">9am - 6pm EST</span></p>
-                  <p className="text-[15px] text-muted-foreground flex justify-between"><span>Weekend:</span> <span className="font-bold text-foreground">Limited Support</span></p>
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-600 flex justify-between"><span>Mon-Fri:</span> <span className="font-medium">9am - 6pm EST</span></p>
+                  <p className="text-sm text-gray-600 flex justify-between"><span>Weekend:</span> <span className="font-medium">Limited Support</span></p>
                 </div>
              </div>
 

@@ -13,13 +13,12 @@ import CategoryDataSection from '@/components/categories/CategoryDataSection';
 
 // Error Fallback for the entire page or specific sections
 const ErrorFallback = ({ error, resetErrorBoundary }) => (
-  <div className="min-h-[50vh] flex flex-col items-center justify-center p-10 text-center bg-background/60 backdrop-blur-xl border border-border/50 shadow-lg rounded-[2.5rem] m-4 md:m-8 relative overflow-hidden">
-    <div className="absolute top-0 right-0 p-16 opacity-5 bg-gradient-to-bl from-destructive to-transparent rounded-bl-full z-0 w-48 h-48"></div>
-    <AlertCircle className="w-16 h-16 text-destructive mb-6 relative z-10" />
-    <h2 className="text-3xl font-extrabold text-foreground mb-3 relative z-10">Something went wrong</h2>
-    <p className="text-muted-foreground text-lg mb-8 max-w-md relative z-10">{error.message}</p>
-    <Button onClick={resetErrorBoundary} size="lg" className="h-14 px-8 rounded-2xl bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 font-bold relative z-10">
-      <RefreshCw className="mr-3 h-5 w-5" /> Try Again
+  <div className="min-h-[50vh] flex flex-col items-center justify-center p-8 text-center bg-gray-50 dark:bg-gray-900 rounded-2xl m-4 md:m-8">
+    <AlertCircle className="w-16 h-16 text-red-500 mb-4" />
+    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Something went wrong</h2>
+    <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-md">{error.message}</p>
+    <Button onClick={resetErrorBoundary} className="bg-primary text-primary-foreground hover:bg-primary/90">
+      <RefreshCw className="mr-2 h-4 w-4" /> Try Again
     </Button>
   </div>
 );
@@ -149,16 +148,13 @@ const CategoryDetailPageContent = () => {
         />
 
         {allSectionsLoaded && allSectionsEmpty && !hasHookErrors ? (
-          <div className="py-28 flex flex-col items-center justify-center text-center px-8 bg-background/60 backdrop-blur-xl rounded-[2.5rem] border border-border/50 shadow-sm mt-10 relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-16 opacity-5 bg-gradient-to-bl from-primary to-transparent rounded-bl-full z-0 w-48 h-48"></div>
-            <div className="mx-auto w-24 h-24 bg-muted/50 border border-border/50 shadow-sm rounded-full flex items-center justify-center mb-6 relative z-10">
-              <FolderSearch className="h-12 w-12 text-muted-foreground/60" />
-            </div>
-            <h3 className="text-3xl font-extrabold mb-3 text-foreground relative z-10">No Content Found</h3>
-            <p className="text-muted-foreground max-w-md mx-auto mb-10 text-lg relative z-10">
-              We haven't added any apps, deals, coupons, or articles to the <strong className="text-foreground">{displayName}</strong> category yet. Check back soon!
+          <div className="py-24 flex flex-col items-center justify-center text-center px-4 bg-muted/30 rounded-2xl border border-border mt-8">
+            <FolderSearch className="h-20 w-20 text-muted-foreground mb-6 opacity-60" />
+            <h3 className="text-2xl font-bold mb-3">No Content Found</h3>
+            <p className="text-muted-foreground max-w-md mx-auto mb-8 text-lg">
+              We haven't added any apps, deals, coupons, or articles to the <strong>{displayName}</strong> category yet. Check back soon!
             </p>
-            <Button asChild variant="outline" size="lg" className="h-14 px-8 rounded-2xl border-border/50 bg-background/60 backdrop-blur-sm hover:bg-muted shadow-sm font-bold relative z-10">
+            <Button asChild variant="outline" size="lg">
               <Link to="/categories">Explore Other Categories</Link>
             </Button>
           </div>

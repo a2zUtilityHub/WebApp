@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
@@ -5,23 +6,9 @@ import { useUserPermissions } from '@/hooks/useUserPermissions';
 import { Loader2 } from 'lucide-react';
 
 const ProtectedRoute = ({ requiredPermission, requireAdmin = true, children }) => {
-  const { user, currentUser, isAuthenticated, loading: authLoading, adminUser } = useAuth();
-  const { hasPermission, loading: permLoading, role } = useUserPermissions();
+  const { user, isAuthenticated, loading: authLoading, adminUser } = useAuth();
+  const { hasPermission, loading: permLoading, role, isSuperAdmin } = useUserPermissions();
   const location = useLocation();
-
-  // Logging for debugging
-  useEffect(() => {
-    if (!authLoading && !permLoading) {
-      console.log(`[ProtectedRoute] Path: ${location.pathname}`);
-      console.log(`[ProtectedRoute] User: ${user?.email}`);
-      console.log(`[ProtectedRoute] Require Admin: ${requireAdmin}`);
-      if (requireAdmin) {
-        console.log(`[ProtectedRoute] Role from Hook: "${role}"`);
-        console.log(`[ProtectedRoute] Role from Context: "${adminUser?.roles?.name}"`);
-        console.log(`[ProtectedRoute] Required Permission: ${requiredPermission}`);
-      }
-    }
-  }, [authLoading, permLoading, location, user, role, adminUser, requiredPermission, requireAdmin]);
 
   // Loading state
   if (authLoading || (requireAdmin && permLoading && !adminUser)) {
@@ -45,21 +32,18 @@ const ProtectedRoute = ({ requiredPermission, requireAdmin = true, children }) =
     return <Navigate to={`/admin/login?redirect=${location.pathname}`} replace />;
   }
 
-  // Super Admin Bypass - Robust Check
-  const currentRoleName = (role || adminUser?.roles?.name || '').trim();
-  const isSuperAdmin = currentRoleName.toLowerCase() === 'super admin';
-
+  // Check role hierarchy: Super Admin bypasses all
   if (isSuperAdmin) {
-    console.log('[ProtectedRoute] Access Granted: Super Admin');
     return children ? children : <Outlet />;
   }
 
-  // Regular Permission Check
+  // Regular Permission Check for other roles
   if (requiredPermission && !hasPermission(requiredPermission)) {
-    console.log(`[ProtectedRoute] Access Denied. Required: ${requiredPermission}, Current Role: ${currentRoleName}`);
+    console.warn(`[ProtectedRoute] Access Denied. Required: ${requiredPermission}, Current Role: ${role || adminUser?.roles?.name}`);
     return <Navigate to="/admin/access-denied" replace />;
   }
 
+  // If no specific permission is required, but they are an admin, let them in
   return children ? children : <Outlet />;
 };
 

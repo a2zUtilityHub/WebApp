@@ -7,10 +7,9 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { AppWindow, Plus, Edit2, Trash2, Search, Image as ImageIcon, Link as LinkIcon, Globe, PackageX } from 'lucide-react';
+import { AppWindow, Plus, Edit2, Trash2, Search, Image as ImageIcon, Link as LinkIcon, Globe } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
-import AdminEmptyState from '@/components/admin/AdminEmptyState';
 
 const mockApps = [
   { id: 1, name: 'Task Manager Pro', category: 'Productivity', status: 'Published', views: 1240, url: '/apps/task-manager' },
@@ -79,20 +78,20 @@ const AdminAppsManager = () => {
             <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50">
               <DialogTitle className="text-lg font-semibold">{editingApp ? 'Edit Application' : 'Create Application Listing'}</DialogTitle>
             </div>
-            <form onSubmit={handleSave} className="p-6 space-y-6 bg-card">
-              <div className="space-y-5">
-                <div className="space-y-1.5">
-                  <Label htmlFor="name" className="text-sm font-medium text-foreground">App Name</Label>
-                  <Input id="name" name="name" defaultValue={editingApp?.name} required className="h-11 rounded-xl bg-muted/50 border-border/50 focus:bg-background transition-colors" placeholder="e.g. Task Manager Pro" />
+            <form onSubmit={handleSave} className="p-6 space-y-5 bg-white dark:bg-gray-950">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name">App Name</Label>
+                  <Input id="name" name="name" defaultValue={editingApp?.name} required className="rounded-xl bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white" />
                 </div>
-                <div className="grid grid-cols-2 gap-5">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="category" className="text-sm font-medium text-foreground">Category</Label>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="category">Category</Label>
                     <Select name="category" defaultValue={editingApp?.category || 'Productivity'}>
-                      <SelectTrigger className="h-11 rounded-xl bg-muted/50 border-border/50 focus:bg-background transition-colors">
+                      <SelectTrigger className="rounded-xl bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-800">
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
-                      <SelectContent className="rounded-xl border-border/50 shadow-xl">
+                      <SelectContent>
                         <SelectItem value="Productivity">Productivity</SelectItem>
                         <SelectItem value="Utilities">Utilities</SelectItem>
                         <SelectItem value="Tools">Tools</SelectItem>
@@ -100,13 +99,13 @@ const AdminAppsManager = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="status" className="text-sm font-medium text-foreground">Status</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="status">Status</Label>
                     <Select name="status" defaultValue={editingApp?.status || 'Draft'}>
-                      <SelectTrigger className="h-11 rounded-xl bg-muted/50 border-border/50 focus:bg-background transition-colors">
+                      <SelectTrigger className="rounded-xl bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-800">
                         <SelectValue placeholder="Select status" />
                       </SelectTrigger>
-                      <SelectContent className="rounded-xl border-border/50 shadow-xl">
+                      <SelectContent>
                         <SelectItem value="Published">Published</SelectItem>
                         <SelectItem value="Draft">Draft</SelectItem>
                         <SelectItem value="Archived">Archived</SelectItem>
@@ -114,25 +113,25 @@ const AdminAppsManager = () => {
                     </Select>
                   </div>
                 </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="url" className="text-sm font-medium text-foreground">App Route / URL</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="url">App Route / URL</Label>
                   <div className="relative">
-                    <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                    <Input id="url" name="url" defaultValue={editingApp?.url} placeholder="/apps/your-app" className="h-11 pl-9 rounded-xl bg-muted/50 border-border/50 focus:bg-background transition-colors" />
+                    <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Input id="url" name="url" defaultValue={editingApp?.url} placeholder="/apps/your-app" className="pl-9 rounded-xl bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white" />
                   </div>
                 </div>
                 <div className="pt-2">
-                  <Label className="mb-2 block text-sm font-medium text-foreground">App Icon</Label>
-                  <div className="border-2 border-dashed border-border/60 bg-muted/30 rounded-xl p-6 flex flex-col items-center justify-center text-muted-foreground hover:bg-muted/50 hover:border-primary/30 cursor-pointer transition-all duration-200">
+                  <Label className="mb-2 block">App Icon</Label>
+                  <div className="border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-xl p-6 flex flex-col items-center justify-center text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-900/50 cursor-pointer transition-colors">
                     <ImageIcon className="w-8 h-8 mb-2 opacity-50" />
-                    <span className="text-sm font-medium text-foreground">Click to upload icon</span>
+                    <span className="text-sm font-medium">Click to upload icon</span>
                     <span className="text-xs opacity-70">SVG, PNG, JPG (max 2MB)</span>
                   </div>
                 </div>
               </div>
-              <DialogFooter className="pt-6 border-t border-border/50 flex gap-3">
-                <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)} className="rounded-xl w-full sm:w-auto hover:bg-muted">Cancel</Button>
-                <Button type="submit" className="rounded-xl w-full sm:w-auto bg-primary text-primary-foreground shadow-md hover:shadow-lg transition-all">Save App</Button>
+              <DialogFooter className="pt-4 border-t border-gray-100 dark:border-gray-800">
+                <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)} className="rounded-xl">Cancel</Button>
+                <Button type="submit" className="rounded-xl bg-blue-600 text-white hover:bg-blue-700">Save App</Button>
               </DialogFooter>
             </form>
           </DialogContent>
@@ -153,18 +152,18 @@ const AdminAppsManager = () => {
         </CardHeader>
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-muted/50 border-b border-border/50">
-              <TableRow className="hover:bg-transparent border-0">
-                <TableHead className="px-6 py-4 font-medium text-muted-foreground uppercase tracking-wider text-xs">App Details</TableHead>
-                <TableHead className="font-medium text-muted-foreground uppercase tracking-wider text-xs">Category</TableHead>
-                <TableHead className="font-medium text-muted-foreground uppercase tracking-wider text-xs">Status</TableHead>
-                <TableHead className="font-medium text-muted-foreground uppercase tracking-wider text-xs">Analytics</TableHead>
-                <TableHead className="px-6 text-right font-medium text-muted-foreground uppercase tracking-wider text-xs">Actions</TableHead>
+            <TableHeader className="bg-gray-50/80 dark:bg-gray-800/80">
+              <TableRow className="border-gray-100 dark:border-gray-800">
+                <TableHead className="px-6 py-4">App Details</TableHead>
+                <TableHead>Category</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Analytics</TableHead>
+                <TableHead className="px-6 text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredApps.length > 0 ? filteredApps.map((app) => (
-                <TableRow key={app.id} className="border-b border-border/50 hover:bg-muted/30 transition-colors group">
+              {filteredApps.map((app) => (
+                <TableRow key={app.id} className="border-gray-100 dark:border-gray-800">
                   <TableCell className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/30 dark:to-blue-900/30 border border-blue-100 dark:border-blue-800 flex items-center justify-center shrink-0">
@@ -188,30 +187,15 @@ const AdminAppsManager = () => {
                   </TableCell>
                   <TableCell className="text-gray-500">{app.views.toLocaleString()} views</TableCell>
                   <TableCell className="px-6 text-right">
-                    <div className="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-200">
-                      <Button variant="ghost" size="icon" onClick={() => openModal(app)} className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors rounded-lg">
-                        <Edit2 className="w-4 h-4" />
-                      </Button>
-                      <Button variant="ghost" size="icon" onClick={() => handleDelete(app.id)} className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors rounded-lg">
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
+                    <Button variant="ghost" size="icon" onClick={() => openModal(app)} className="h-8 w-8 text-gray-500 hover:text-blue-600 rounded-lg">
+                      <Edit2 className="w-4 h-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" onClick={() => handleDelete(app.id)} className="h-8 w-8 text-gray-400 hover:text-red-600 rounded-lg ml-1">
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
                   </TableCell>
                 </TableRow>
-              )) : (
-                <TableRow>
-                  <TableCell colSpan={5} className="h-[400px] p-0">
-                    <AdminEmptyState 
-                      icon={PackageX}
-                      title="No apps found"
-                      description={search ? `We couldn't find any applications matching "${search}". Try adjusting your filters.` : "There are no applications listed yet. Click 'Add App' to get started."}
-                      actionLabel={search ? "Clear Search" : "Add New App"}
-                      onAction={() => search ? setSearch('') : openModal()}
-                      className="border-0 bg-transparent rounded-none h-full shadow-none hover:bg-transparent"
-                    />
-                  </TableCell>
-                </TableRow>
-              )}
+              ))}
             </TableBody>
           </Table>
         </CardContent>

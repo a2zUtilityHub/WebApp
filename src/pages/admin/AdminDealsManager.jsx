@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingBag, Plus, Search, Edit2, Trash2, Tag } from 'lucide-react';
+import { ShoppingBag, Plus, Search, Edit2, Trash2 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
-import AdminEmptyState from '@/components/admin/AdminEmptyState';
 
 const mockDeals = [
   { id: 1, title: 'MacBook Pro M3 - $200 Off', price: '$1299', oldPrice: '$1499', store: 'Apple', status: 'Active', category: 'Electronics' },
@@ -15,15 +14,7 @@ const mockDeals = [
 
 const AdminDealsManager = () => {
   const { toast } = useToast();
-  const [search, setSearch] = useState('');
-
   const handleAction = () => toast({ title: "Success", description: "Operation simulated successfully." });
-
-  const filteredDeals = mockDeals.filter(d =>
-    d.title.toLowerCase().includes(search.toLowerCase()) ||
-    d.store.toLowerCase().includes(search.toLowerCase()) ||
-    d.category.toLowerCase().includes(search.toLowerCase())
-  );
 
   return (
     <div className="space-y-6">
@@ -36,65 +27,45 @@ const AdminDealsManager = () => {
         <Button className="bg-blue-600 rounded-xl" onClick={handleAction}><Plus className="w-4 h-4 mr-2" /> Add Deal</Button>
       </div>
 
-      <Card className="rounded-2xl border-border/50 shadow-sm bg-card overflow-hidden">
-        <CardHeader className="border-b border-border/50 pb-4 px-6 pt-5">
+      <Card className="rounded-2xl border border-white/20 dark:border-gray-800 shadow-sm bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl overflow-hidden">
+        <CardHeader className="border-b border-gray-100 dark:border-gray-800 pb-4 px-6 pt-5">
           <div className="relative max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
-            <Input 
-              placeholder="Search hot deals..." 
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 h-11 rounded-xl bg-muted/50 border-border/50 focus:bg-background transition-colors" 
-            />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Input placeholder="Search hot deals..." className="pl-9 rounded-xl border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white" />
           </div>
         </CardHeader>
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-muted/50 border-b border-border/50">
-              <TableRow className="hover:bg-transparent border-0">
-                <TableHead className="px-6 font-medium text-muted-foreground uppercase tracking-wider text-xs">Product / Deal Title</TableHead>
-                <TableHead className="font-medium text-muted-foreground uppercase tracking-wider text-xs">Store</TableHead>
-                <TableHead className="font-medium text-muted-foreground uppercase tracking-wider text-xs">Pricing</TableHead>
-                <TableHead className="font-medium text-muted-foreground uppercase tracking-wider text-xs">Status</TableHead>
-                <TableHead className="text-right px-6 font-medium text-muted-foreground uppercase tracking-wider text-xs">Actions</TableHead>
+            <TableHeader className="bg-gray-50/80 dark:bg-gray-800/80 border-b border-gray-100 dark:border-gray-800">
+              <TableRow>
+                <TableHead className="px-6">Product / Deal Title</TableHead>
+                <TableHead>Store</TableHead>
+                <TableHead>Pricing</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right px-6">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredDeals.length > 0 ? filteredDeals.map((d) => (
-                <TableRow key={d.id} className="border-b border-border/50 hover:bg-muted/30 transition-colors group">
+              {mockDeals.map((d) => (
+                <TableRow key={d.id} className="border-gray-100 dark:border-gray-800">
                   <TableCell className="px-6">
-                    <div className="font-medium text-foreground">{d.title}</div>
-                    <div className="text-xs text-muted-foreground">{d.category}</div>
+                    <div className="font-medium text-gray-900 dark:text-white">{d.title}</div>
+                    <div className="text-xs text-gray-500">{d.category}</div>
                   </TableCell>
-                  <TableCell className="text-muted-foreground">{d.store}</TableCell>
+                  <TableCell className="text-gray-600 dark:text-gray-300">{d.store}</TableCell>
                   <TableCell>
-                    <span className="font-bold text-destructive text-lg">{d.price}</span>
-                    <span className="text-xs line-through text-muted-foreground ml-2">{d.oldPrice}</span>
+                    <span className="font-bold text-rose-600 dark:text-rose-400 text-lg">{d.price}</span>
+                    <span className="text-xs line-through text-gray-400 ml-2">{d.oldPrice}</span>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="outline" className="border-emerald-500/20 text-emerald-600 bg-emerald-500/10">{d.status}</Badge>
+                    <Badge variant="outline" className="border-emerald-200 text-emerald-700 bg-emerald-50 dark:bg-emerald-900/20">{d.status}</Badge>
                   </TableCell>
                   <TableCell className="px-6 text-right">
-                    <div className="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-200">
-                      <Button variant="ghost" size="icon" onClick={handleAction} className="text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors rounded-lg h-8 w-8"><Edit2 className="w-4 h-4" /></Button>
-                      <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors rounded-lg h-8 w-8"><Trash2 className="w-4 h-4" /></Button>
-                    </div>
+                    <Button variant="ghost" size="icon" onClick={handleAction} className="text-gray-500 hover:text-blue-600"><Edit2 className="w-4 h-4" /></Button>
+                    <Button variant="ghost" size="icon" className="text-gray-400 hover:text-red-500"><Trash2 className="w-4 h-4" /></Button>
                   </TableCell>
                 </TableRow>
-              )) : (
-                <TableRow>
-                  <TableCell colSpan={5} className="h-[400px] p-0">
-                    <AdminEmptyState 
-                      icon={Tag}
-                      title="No deals found"
-                      description={search ? `No deals match the search term "${search}". Try adjusting your query.` : "You haven't added any deals yet. Click 'Add Deal' to start promoting offers."}
-                      actionLabel={search ? "Clear Search" : "Add Deal"}
-                      onAction={() => search ? setSearch('') : handleAction()}
-                      className="border-0 bg-transparent rounded-none h-full shadow-none hover:bg-transparent"
-                    />
-                  </TableCell>
-                </TableRow>
-              )}
+              ))}
             </TableBody>
           </Table>
         </CardContent>

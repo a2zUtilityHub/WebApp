@@ -49,7 +49,7 @@ const ChatbotWidget = ({ chatbotId }) => {
                         transition={{ duration: 0.3, ease: [0.19, 1, 0.22, 1] }}
                         className="fixed bottom-[88px] md:bottom-24 right-4 md:right-8 z-[50] w-[calc(100vw-32px)] max-w-[400px]"
                     >
-                        <Card className="flex flex-col h-[60vh] min-h-[400px] max-h-[600px] shadow-2xl border border-border/50 rounded-3xl overflow-hidden bg-background/80 backdrop-blur-2xl">
+                        <Card className="flex flex-col h-[60vh] min-h-[400px] max-h-[600px] shadow-2xl border-0 rounded-2xl overflow-hidden bg-white/95 backdrop-blur-md ring-1 ring-gray-200">
                             <ChatbotHeader 
                                 settings={settings}
                                 onMinimize={minimizeChat} 
@@ -57,7 +57,7 @@ const ChatbotWidget = ({ chatbotId }) => {
                                 onClear={clearChat}
                             />
                             
-                            <div className="flex-1 overflow-y-auto p-4 scroll-smooth bg-gradient-to-b from-transparent to-muted/10">
+                            <div className="flex-1 overflow-y-auto p-4 scroll-smooth bg-gray-50/50">
                                 {messages.map((msg) => (
                                     <ChatbotMessage 
                                         key={msg.id} 
@@ -68,13 +68,11 @@ const ChatbotWidget = ({ chatbotId }) => {
                                 ))}
                                 
                                 {isTyping && (
-                                    <div className="flex gap-3 mb-4 items-end">
-                                        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20 shadow-sm">
-                                            <div className="flex gap-1">
-                                                <span className="w-1.5 h-1.5 bg-primary/60 rounded-full animate-bounce"></span>
-                                                <span className="w-1.5 h-1.5 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                                                <span className="w-1.5 h-1.5 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
-                                            </div>
+                                    <div className="flex gap-3 mb-4">
+                                        <div className="h-8 w-8 rounded-full bg-brand-primary/10 animate-pulse shrink-0" />
+                                        <div className="space-y-2 max-w-[70%]">
+                                            <div className="h-4 bg-gray-200 rounded w-24 animate-pulse" />
+                                            <div className="h-4 bg-gray-200 rounded w-32 animate-pulse" />
                                         </div>
                                     </div>
                                 )}

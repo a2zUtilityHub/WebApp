@@ -76,25 +76,22 @@ const VideoEditorPage = () => {
                   <Loader2 className="w-10 h-10 animate-spin text-primary" />
                 </div>
               ) : !isAuthenticated ? (
-                <div className="min-h-[60vh] flex items-center justify-center p-4 relative overflow-hidden">
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
-                  <Card className="w-full max-w-md border border-border/50 bg-background/60 backdrop-blur-2xl shadow-2xl rounded-[2.5rem] text-center relative z-10 overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary/40 to-primary"></div>
-                    <CardHeader className="pb-6 pt-10">
-                      <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-primary/20 shadow-sm relative">
-                        <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full"></div>
-                        <Video className="w-10 h-10 text-primary relative z-10" />
+                <div className="min-h-[60vh] flex items-center justify-center p-4">
+                  <Card className="w-full max-w-md shadow-xl border-primary/10 bg-card text-center">
+                    <CardHeader className="pb-6 pt-8">
+                      <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 ring-8 ring-primary/5">
+                        <Video className="w-10 h-10 text-primary" />
                       </div>
-                      <CardTitle className="text-3xl font-black tracking-tight text-foreground">Video Studio Pro</CardTitle>
-                      <CardDescription className="text-lg mt-3 text-muted-foreground font-medium px-4">
-                        Please log in to access the editing suite and start creating amazing content.
+                      <CardTitle className="text-3xl font-extrabold tracking-tight">Video Editor</CardTitle>
+                      <CardDescription className="text-base mt-3 text-muted-foreground">
+                        Please log in to access the Video Editor and start creating amazing content
                       </CardDescription>
                     </CardHeader>
-                    <CardContent className="flex flex-col gap-4 pb-10 px-10">
-                      <Button size="lg" className="w-full h-14 rounded-2xl bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 font-bold text-lg" onClick={() => { setAuthView('login'); setIsAuthModalOpen(true); }}>
+                    <CardContent className="flex flex-col gap-4 pb-8 px-8">
+                      <Button size="lg" className="w-full text-md font-semibold h-12" onClick={() => { setAuthView('login'); setIsAuthModalOpen(true); }}>
                         Login to Continue
                       </Button>
-                      <Button variant="outline" size="lg" className="w-full h-14 rounded-2xl border-border/50 bg-background/60 backdrop-blur-sm hover:bg-muted shadow-sm font-bold text-lg" onClick={() => { setAuthView('signup'); setIsAuthModalOpen(true); }}>
+                      <Button variant="outline" size="lg" className="w-full h-12 border-primary/20 hover:bg-primary/5" onClick={() => { setAuthView('signup'); setIsAuthModalOpen(true); }}>
                         Create an Account
                       </Button>
                     </CardContent>

@@ -99,13 +99,12 @@ const AppDetailPage = () => {
 
   if (!app) {
     return (
-      <div className="text-center py-20 flex flex-col items-center justify-center min-h-[70vh] bg-gradient-to-b from-muted/30 to-background">
-        <div className="p-6 bg-destructive/10 backdrop-blur-xl border border-destructive/20 rounded-full mb-8 shadow-sm relative">
-          <div className="absolute inset-0 bg-destructive/20 blur-xl rounded-full"></div>
-          <Wrench className="h-16 w-16 text-destructive relative z-10" />
+      <div className="text-center py-20 flex flex-col items-center justify-center min-h-[60vh]">
+        <div className="p-4 bg-destructive/10 rounded-full mb-6">
+          <Wrench className="h-16 w-16 text-destructive" />
         </div>
-        <h1 className="text-4xl font-extrabold tracking-tight text-foreground">App Not Found</h1>
-        <p className="text-muted-foreground mt-4 max-w-md text-lg">
+        <h1 className="text-3xl font-bold">App Not Found</h1>
+        <p className="text-muted-foreground mt-4 max-w-md">
           We couldn't find the app you're looking for. It may have been removed or the URL is incorrect.
         </p>
         <Link to="/apps" className="mt-6 inline-block">
@@ -133,15 +132,14 @@ const AppDetailPage = () => {
       
       {/* 1. App Tool Component */}
       {isProduction && AppToolComponent ? (
-        <div className="w-full bg-background border-b border-border/50">
+        <div className="w-full bg-gray-50 border-b">
           <AppToolComponent />
         </div>
       ) : (
-        <div className="container mx-auto px-4 py-20 border-b border-border/50 bg-gradient-to-b from-muted/30 to-background relative overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
-          <div className="text-center max-w-3xl mx-auto relative z-10">
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">{app.name}</h1>
-            <p className="mt-6 text-lg md:text-xl text-muted-foreground leading-relaxed">{app.description}</p>
+        <div className="container mx-auto px-4 py-16 border-b bg-gray-50">
+          <div className="text-center max-w-2xl mx-auto">
+            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">{app.name}</h1>
+            <p className="mt-4 text-lg text-gray-600">{app.description}</p>
           </div>
           {!isProduction && (
             <Alert className="max-w-2xl mx-auto mt-8 border-amber-200 bg-amber-50">
@@ -156,8 +154,8 @@ const AppDetailPage = () => {
       )}
 
       {/* Information Sections Container */}
-      <div className="bg-background py-20 relative">
-        <div className="container mx-auto px-4 max-w-5xl space-y-16 relative z-10">
+      <div className="bg-white py-16">
+        <div className="container mx-auto px-4 max-w-5xl space-y-12">
           
           {shouldShowAds && (
             <AdSenseContainer>
@@ -167,16 +165,15 @@ const AppDetailPage = () => {
 
           {/* 2. About This App Section */}
           <section id="about-app" className="scroll-mt-24">
-            <div className="flex items-center mb-8">
-              <div className="p-3.5 bg-primary/10 rounded-2xl mr-4 border border-primary/20 shadow-sm">
-                <AppWindow className="h-7 w-7 text-primary"/>
+            <div className="flex items-center mb-6">
+              <div className="p-3 bg-primary/10 rounded-xl mr-4">
+                <AppWindow className="h-6 w-6 text-primary"/>
               </div>
-              <h2 className="text-3xl font-extrabold text-foreground tracking-tight">About This App</h2>
+              <h2 className="text-3xl font-bold text-gray-900">About This App</h2>
             </div>
-            <Card className="border border-border/50 bg-background/60 backdrop-blur-xl shadow-sm hover:shadow-xl transition-all duration-500 rounded-[2rem] overflow-hidden group">
-              <div className="h-1.5 w-full bg-gradient-to-r from-primary/40 to-primary group-hover:from-primary group-hover:to-primary/40 transition-all duration-500"></div>
-              <CardContent className="p-8 md:p-10">
-                <div className="prose max-w-none text-foreground/80 text-lg leading-relaxed whitespace-pre-wrap dark:prose-invert">
+            <Card className="border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300">
+              <CardContent className="p-8">
+                <div className="prose max-w-none text-gray-700 text-lg leading-relaxed whitespace-pre-wrap">
                   {app.long_description || app.description || 'Detailed description coming soon.'}
                 </div>
               </CardContent>
@@ -191,26 +188,23 @@ const AppDetailPage = () => {
 
           {/* 3. User Manual Section */}
           <section id="user-manual" className="scroll-mt-24">
-            <div className="flex items-center mb-8">
-              <div className="p-3.5 bg-primary/10 rounded-2xl mr-4 border border-primary/20 shadow-sm">
-                <BookOpen className="h-7 w-7 text-primary"/>
+            <div className="flex items-center mb-6">
+              <div className="p-3 bg-primary/10 rounded-xl mr-4">
+                <BookOpen className="h-6 w-6 text-primary"/>
               </div>
-              <h2 className="text-3xl font-extrabold text-foreground tracking-tight">User Manual</h2>
+              <h2 className="text-3xl font-bold text-gray-900">User Manual</h2>
             </div>
-            <Card className="border border-border/50 bg-background/60 backdrop-blur-xl shadow-sm hover:shadow-xl transition-all duration-500 rounded-[2rem] overflow-hidden">
-              <CardContent className="p-8 md:p-10">
+            <Card className="border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300">
+              <CardContent className="p-8">
                 {app.user_manual ? (
                   <div 
-                    className="prose prose-lg max-w-none text-foreground/80 dark:prose-invert prose-headings:text-foreground prose-headings:font-bold prose-h3:text-2xl prose-a:text-primary hover:prose-a:text-primary/80 prose-li:marker:text-primary" 
+                    className="prose prose-lg max-w-none text-gray-700 prose-headings:text-gray-900 prose-headings:font-bold prose-h3:text-xl prose-a:text-primary hover:prose-a:text-primary/80 prose-li:marker:text-primary" 
                     dangerouslySetInnerHTML={{ __html: app.user_manual }} 
                   />
                 ) : (
-                  <div className="text-center py-12">
-                    <div className="bg-muted/30 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 border border-border/50">
-                       <BookOpen className="h-10 w-10 text-muted-foreground/50" />
-                    </div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">No manual available</h3>
-                    <p className="text-muted-foreground text-lg">Check back later for detailed instructions!</p>
+                  <div className="text-center py-8">
+                    <BookOpen className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                    <p className="text-gray-500 text-lg">No user manual is available for this application yet. Check back later!</p>
                   </div>
                 )}
               </CardContent>
@@ -221,14 +215,14 @@ const AppDetailPage = () => {
       </div>
       
       {/* 4. Discussion Section (End) */}
-      <div className="bg-muted/10 border-t border-border/50 py-20 relative">
-        <div className="container mx-auto px-4 max-w-5xl relative z-10">
-          <div className="mb-10">
-            <h2 className="text-3xl font-extrabold text-foreground tracking-tight">Community Discussion</h2>
-            <p className="text-muted-foreground mt-3 text-lg">Share your thoughts, ask questions, or provide feedback about this tool.</p>
+      <div className="bg-gray-50 border-t py-16">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold text-gray-900">Discussion</h2>
+            <p className="text-gray-600 mt-2">Share your thoughts, ask questions, or provide feedback about this tool.</p>
           </div>
-          <Card className="border border-border/50 bg-background/60 backdrop-blur-xl shadow-lg rounded-[2rem] overflow-hidden">
-            <CardContent className="p-4 sm:p-8">
+          <Card className="border-gray-200 shadow-md">
+            <CardContent className="p-0 sm:p-6">
               <CommentsSection pageId={`app/${app.slug}`} />
             </CardContent>
           </Card>

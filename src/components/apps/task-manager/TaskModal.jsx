@@ -92,106 +92,100 @@ const TaskModal = ({ isOpen, onClose, onSave, task }) => {
   return (
     <>
       <div 
-        className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 transition-all duration-300" 
+        className="fixed inset-0 bg-black/50 z-40 transition-opacity" 
         onClick={() => !isSaving && onClose()} 
         aria-hidden="true"
       />
-      <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
-        <div className="bg-background/80 backdrop-blur-2xl border border-border/50 rounded-3xl shadow-2xl max-w-lg w-[calc(100vw-32px)] max-h-[90vh] overflow-y-auto pointer-events-auto flex flex-col relative hide-scrollbar">
-          <div className="p-6 md:p-8 pb-4 bg-gradient-to-b from-muted/30 to-transparent border-b border-border/50 sticky top-0 z-10 backdrop-blur-xl">
-            <div className="flex flex-col space-y-1.5 text-center sm:text-left">
-              <h2 className="text-2xl font-bold tracking-tight text-foreground flex items-center justify-center sm:justify-start gap-2">
-                {task ? <><Wand2 className="w-5 h-5 text-primary" /> Edit Task</> : <><Wand2 className="w-5 h-5 text-primary" /> Create New Task</>}
-              </h2>
-              <p className="text-sm text-muted-foreground mt-1.5">
-                {task ? 'Update the details of your task.' : 'Fill in the details to add a new task to your board.'}
-              </p>
-            </div>
-            
+      <div className="fixed inset-0 flex items-center justify-center z-50 p-4 pointer-events-none">
+        <div className="bg-background rounded-lg shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto p-6 pointer-events-auto flex flex-col">
+          <div className="flex flex-col space-y-1.5 text-center sm:text-left mb-5">
+            <h2 className="text-xl font-semibold leading-none tracking-tight">
+              {task ? 'Edit Task' : 'Create New Task'}
+            </h2>
+            <p className="text-sm text-muted-foreground mt-1.5">
+              Fill in the details for your task below.
+            </p>
+          </div>
+          
+          <form onSubmit={handleSubmit} className="space-y-5 flex-1">
             {!task && (
-              <div className="flex gap-2 pt-4 overflow-x-auto hide-scrollbar">
+              <div className="flex gap-2 pb-2 overflow-x-auto no-scrollbar">
                 {templates.map(tpl => (
-                  <button 
-                    key={tpl.name} 
-                    type="button" 
-                    onClick={() => applyTemplate(tpl)} 
-                    className="shrink-0 text-[13px] font-medium flex items-center bg-primary/5 hover:bg-primary/10 text-primary border border-primary/20 px-3 py-1.5 rounded-full transition-colors"
-                  >
-                    <Wand2 className="w-3.5 h-3.5 mr-1.5" /> {tpl.name}
-                  </button>
+                  <Button key={tpl.name} type="button" variant="outline" size="sm" onClick={() => applyTemplate(tpl)} className="shrink-0 text-xs">
+                    <Wand2 className="w-3 h-3 mr-1" /> {tpl.name}
+                  </Button>
                 ))}
               </div>
             )}
-          </div>
-          
-          <form onSubmit={handleSubmit} className="p-6 md:p-8 pt-6 space-y-6 flex-1 flex flex-col">
 
-            <div>
+            <div className="space-y-2">
+              <Label htmlFor="title">Title <span className="text-red-500">*</span></Label>
               <Input 
                 id="title" autoFocus
-                label="Task Title *"
                 value={formData.title} 
                 onChange={e => setFormData({...formData, title: e.target.value})} 
-                error={errors.title}
+                className={cn(errors.title && "border-red-500")}
                 placeholder="What needs to be done?"
               />
+              {errors.title && <p className="text-xs text-red-500">{errors.title}</p>}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <div className="space-y-1.5 group">
-                <Label className="text-[14px] font-medium text-foreground/90 group-focus-within:text-primary transition-colors">Status</Label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Status</Label>
                 <Select value={formData.status} onValueChange={val => setFormData({...formData, status: val})}>
-                  <SelectTrigger className="h-12 rounded-xl bg-background/60 backdrop-blur-sm border-input hover:border-primary/50 transition-colors shadow-sm focus:ring-4 focus:ring-primary/10"><SelectValue /></SelectTrigger>
-                  <SelectContent className="rounded-2xl border-border/50 bg-background/80 backdrop-blur-xl shadow-xl">
-                    <SelectItem value="todo" className="rounded-xl focus:bg-primary/10">To Do</SelectItem>
-                    <SelectItem value="inprogress" className="rounded-xl focus:bg-primary/10">In Progress</SelectItem>
-                    <SelectItem value="completed" className="rounded-xl focus:bg-primary/10">Done</SelectItem>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="todo">To Do</SelectItem>
+                    <SelectItem value="inprogress">In Progress</SelectItem>
+                    <SelectItem value="completed">Done</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               
-              <div className="space-y-1.5 group">
-                <Label className="text-[14px] font-medium text-foreground/90 group-focus-within:text-primary transition-colors">Priority</Label>
+              <div className="space-y-2">
+                <Label>Priority</Label>
                 <Select value={formData.priority} onValueChange={val => setFormData({...formData, priority: val})}>
-                  <SelectTrigger className="h-12 rounded-xl bg-background/60 backdrop-blur-sm border-input hover:border-primary/50 transition-colors shadow-sm focus:ring-4 focus:ring-primary/10"><SelectValue /></SelectTrigger>
-                  <SelectContent className="rounded-2xl border-border/50 bg-background/80 backdrop-blur-xl shadow-xl">
-                    <SelectItem value="low" className="rounded-xl focus:bg-primary/10">Low</SelectItem>
-                    <SelectItem value="medium" className="rounded-xl focus:bg-primary/10">Medium</SelectItem>
-                    <SelectItem value="high" className="rounded-xl focus:bg-primary/10">High</SelectItem>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="low">Low</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="high">High</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
 
-            <div className="space-y-1.5 group">
-              <Label className="text-[14px] font-medium text-foreground/90 group-focus-within:text-primary transition-colors">Due Date</Label>
+            <div className="space-y-2">
+              <Label>Due Date</Label>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" className={cn("w-full h-12 rounded-xl bg-background/60 backdrop-blur-sm border-input hover:border-primary/50 hover:bg-background/80 transition-colors shadow-sm focus-visible:ring-4 focus-visible:ring-primary/10 justify-start text-left font-normal text-[15px]", !formData.due_date && "text-muted-foreground/60")}>
-                    <CalendarIcon className="mr-3 h-[18px] w-[18px] text-muted-foreground group-focus-within:text-primary transition-colors" />
-                    {formData.due_date ? format(formData.due_date, "PPP") : "Select a target date"}
+                  <Button variant="outline" className={cn("w-full justify-start text-left font-normal", !formData.due_date && "text-muted-foreground")}>
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {formData.due_date ? format(formData.due_date, "PPP") : "Select a date"}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0 rounded-2xl border-border/50 bg-background/80 backdrop-blur-xl shadow-2xl" align="start">
-                  <Calendar mode="single" selected={formData.due_date} onSelect={date => setFormData({...formData, due_date: date})} initialFocus className="p-3" />
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar mode="single" selected={formData.due_date} onSelect={date => setFormData({...formData, due_date: date})} initialFocus />
                 </PopoverContent>
               </Popover>
             </div>
 
-            <div>
+            <div className="space-y-2">
+              <Label htmlFor="description">Description</Label>
               <Textarea 
                 id="description" 
-                label="Description"
                 value={formData.description} 
                 onChange={e => setFormData({...formData, description: e.target.value})} 
-                placeholder="Add more details, links, or notes..."
+                placeholder="Add more details..."
+                className="resize-none min-h-[80px]"
               />
             </div>
 
-            <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-3 pt-6 mt-auto border-t border-border/50">
-              <Button type="button" variant="outline" onClick={onClose} disabled={isSaving} className="mt-3 sm:mt-0 h-12 rounded-xl px-6 border-border/50 hover:bg-muted/50">Cancel</Button>
-              <Button type="submit" disabled={isSaving} className="h-12 rounded-xl px-8 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-medium shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-                {isSaving && <Loader2 className="w-5 h-5 mr-2 animate-spin" />}
+            <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 pt-4">
+              <Button type="button" variant="outline" onClick={onClose} disabled={isSaving} className="mt-2 sm:mt-0">Cancel</Button>
+              <Button type="submit" disabled={isSaving}>
+                {isSaving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                 {task ? 'Save Changes' : 'Create Task'}
               </Button>
             </div>

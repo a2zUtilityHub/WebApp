@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { supabase } from '@/lib/customSupabaseClient';
@@ -23,11 +24,7 @@ export const useUserPermissions = () => {
     const contextRole = adminUser?.roles?.name;
 
     // Optimization: If adminUser is already loaded in context, use that role as immediate fallback/check
-    if (contextRole === 'Super Admin') {
-        setRole('Super Admin');
-        // Super admin implies all permissions
-        // We can optionally return early or fetch detailed perms if needed
-    } else if (contextRole) {
+    if (contextRole) {
         setRole(contextRole);
     }
 
@@ -36,7 +33,7 @@ export const useUserPermissions = () => {
     if (!forceRefresh && cached) {
       const { data, timestamp } = JSON.parse(cached);
       if (Date.now() - timestamp < CACHE_DURATION) {
-        setPermissions(data.permissions);
+        setPermissions(data.permissions || []);
         if (data.role) setRole(data.role); // Prefer DB role if available
         setLoading(false);
         return;
@@ -45,19 +42,38 @@ export const useUserPermissions = () => {
 
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('get-user-permissions');
+      // First try the RPC
+      const { data, error } = await supabase.rpc('get_user_permissions');
 
-      if (error) throw error;
+      if (error) {
+        // Fallback to manual query
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('roles(name, permissions)')
+          .eq('id', user.id)
+          .single();
 
-      setPermissions(data.permissions || []);
-      setRole(data.role);
+        if (!profileError && profile) {
+          const fetchedRole = profile.roles?.name;
+          const fetchedPerms = profile.roles?.permissions || [];
+          setRole(fetchedRole);
+          setPermissions(fetchedPerms);
+          
+          localStorage.setItem(`${CACHE_KEY}_${user.id}`, JSON.stringify({
+            data: { role: fetchedRole, permissions: fetchedPerms },
+            timestamp: Date.now()
+          }));
+        }
+      } else if (data) {
+        setPermissions(data.permissions || []);
+        setRole(data.role);
 
-      // Cache result
-      localStorage.setItem(`${CACHE_KEY}_${user.id}`, JSON.stringify({
-        data,
-        timestamp: Date.now()
-      }));
-
+        // Cache result
+        localStorage.setItem(`${CACHE_KEY}_${user.id}`, JSON.stringify({
+          data,
+          timestamp: Date.now()
+        }));
+      }
     } catch (err) {
       console.error('Failed to fetch permissions:', err);
       setError(err);
@@ -74,30 +90,28 @@ export const useUserPermissions = () => {
     fetchPermissions();
   }, [fetchPermissions]);
 
+  const isSuperAdmin = useCallback(() => {
+    const currentRole = (role || adminUser?.roles?.name || '').trim().toLowerCase();
+    return currentRole === 'super admin' || currentRole === 'super_admin';
+  }, [role, adminUser]);
+
   const hasPermission = useCallback((permissionName) => {
-    const currentRole = (role || adminUser?.roles?.name || '').trim();
-    // CRITICAL: Super Admin Bypass
-    if (currentRole.toLowerCase() === 'super admin') return true;
-    
-    // Safety check
+    if (isSuperAdmin()) return true;
     if (!permissionName) return true;
-    
     return permissions.includes(permissionName);
-  }, [permissions, role, adminUser]);
+  }, [permissions, isSuperAdmin]);
 
   const hasAnyPermission = useCallback((permissionNames) => {
-    const currentRole = (role || adminUser?.roles?.name || '').trim();
-    if (currentRole.toLowerCase() === 'super admin') return true;
+    if (isSuperAdmin()) return true;
     if (!Array.isArray(permissionNames)) return false;
     return permissionNames.some(p => permissions.includes(p));
-  }, [permissions, role, adminUser]);
+  }, [permissions, isSuperAdmin]);
 
   const hasAllPermissions = useCallback((permissionNames) => {
-    const currentRole = (role || adminUser?.roles?.name || '').trim();
-    if (currentRole.toLowerCase() === 'super admin') return true;
+    if (isSuperAdmin()) return true;
     if (!Array.isArray(permissionNames)) return false;
     return permissionNames.every(p => permissions.includes(p));
-  }, [permissions, role, adminUser]);
+  }, [permissions, isSuperAdmin]);
 
   const refreshPermissions = () => fetchPermissions(true);
 
@@ -106,6 +120,7 @@ export const useUserPermissions = () => {
     role: role || adminUser?.roles?.name,
     loading,
     error,
+    isSuperAdmin: isSuperAdmin(),
     hasPermission,
     hasAnyPermission,
     hasAllPermissions,

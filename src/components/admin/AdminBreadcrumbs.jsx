@@ -29,12 +29,7 @@ const AdminBreadcrumbs = () => {
         
         const to = `/${pathnames.slice(0, index + 1).join('/')}`;
         const isLast = index === pathnames.length - 1;
-        
-        // Truncate long UUIDs or numeric IDs to keep breadcrumbs clean
-        const isId = /^[0-9a-fA-F]{8}-|^[0-9]{6,}$/.test(value);
-        const displayValue = isId && value.length > 8 ? `${value.substring(0, 8)}...` : value;
-        
-        const formattedValue = displayValue.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        const formattedValue = value.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
         return (
           <div key={to} className="flex items-center">

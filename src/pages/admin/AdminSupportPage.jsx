@@ -156,8 +156,8 @@ const AdminSupportPage = () => {
         {!selectedTicket && (
            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                 <h1 className="text-3xl font-bold tracking-tight text-foreground flex items-center gap-2">
-                    <Ticket className="w-8 h-8 text-primary" /> Support Center
+                 <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400 bg-clip-text text-transparent">
+                    Support Center
                  </h1>
                  <p className="text-muted-foreground mt-1">Manage customer inquiries and support tickets efficiently.</p>
               </div>
@@ -173,10 +173,10 @@ const AdminSupportPage = () => {
            />
         ) : (
            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-              <TabsList className="bg-muted/50 border border-border/50 p-1 rounded-xl">
-                 <TabsTrigger value="overview" className="gap-2 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all"><LayoutDashboard className="h-4 w-4"/> Overview</TabsTrigger>
-                 <TabsTrigger value="tickets" className="gap-2 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all"><Ticket className="h-4 w-4"/> All Tickets</TabsTrigger>
-                 <TabsTrigger value="settings" className="gap-2 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all"><Settings2 className="h-4 w-4"/> Settings</TabsTrigger>
+              <TabsList className="bg-card border p-1 rounded-lg">
+                 <TabsTrigger value="overview" className="gap-2"><LayoutDashboard className="h-4 w-4"/> Overview</TabsTrigger>
+                 <TabsTrigger value="tickets" className="gap-2"><Ticket className="h-4 w-4"/> All Tickets</TabsTrigger>
+                 <TabsTrigger value="settings" className="gap-2"><Settings2 className="h-4 w-4"/> Settings</TabsTrigger>
               </TabsList>
 
               <TabsContent value="overview" className="space-y-6 focus-visible:outline-none">
@@ -184,7 +184,7 @@ const AdminSupportPage = () => {
               </TabsContent>
 
               <TabsContent value="tickets" className="space-y-6 focus-visible:outline-none">
-                 <div className="bg-card rounded-2xl border border-border/50 shadow-sm p-5 space-y-5 overflow-hidden transition-all">
+                 <div className="bg-card border rounded-xl p-4 shadow-sm space-y-4">
                     <div className="flex flex-col lg:flex-row justify-between gap-4">
                        <AdminTicketSearch onSearch={setSearchQuery} />
                        <AdminTicketFilters 

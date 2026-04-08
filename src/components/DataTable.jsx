@@ -83,8 +83,8 @@ const DataTable = ({
   }, [sortedData, currentPage, rowsPerPage]);
 
   return (
-    <div className="w-full bg-background/60 backdrop-blur-xl rounded-2xl shadow-sm border border-border/50 overflow-hidden flex flex-col">
-      <div className="p-4 border-b border-border/50 flex flex-col sm:flex-row justify-between items-center gap-4 bg-background/40">
+    <div className="w-full bg-card rounded-lg shadow-md border overflow-hidden flex flex-col">
+      <div className="p-4 border-b flex flex-col sm:flex-row justify-between items-center gap-4 bg-muted/20">
         <div className="relative w-full sm:w-72">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
@@ -107,7 +107,7 @@ const DataTable = ({
           <div className="flex items-center gap-2 text-sm">
             <span className="text-muted-foreground whitespace-nowrap">Rows per page:</span>
             <select 
-              className="border border-border/50 rounded-xl px-3 py-1.5 bg-background/50 backdrop-blur-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all text-foreground cursor-pointer"
+              className="border rounded-md px-2 py-1 bg-background"
               value={rowsPerPage}
               onChange={(e) => {
                 setRowsPerPage(Number(e.target.value));
@@ -122,9 +122,9 @@ const DataTable = ({
         </div>
       </div>
 
-      <div className="overflow-x-auto hide-scrollbar">
+      <div className="overflow-x-auto">
         <table className="w-full text-sm text-left">
-          <thead className="text-xs text-muted-foreground uppercase bg-muted/30 border-b border-border/50 backdrop-blur-sm">
+          <thead className="text-xs text-muted-foreground uppercase bg-muted/40 border-b">
             <tr>
               <th className="px-4 py-3 w-12">
                 <Checkbox 
@@ -222,25 +222,23 @@ const DataTable = ({
         </table>
       </div>
 
-      <div className="p-4 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground bg-background/40">
-        <div className="text-center sm:text-left">
-          Showing <span className="font-medium text-foreground">{Math.min(sortedData.length, (currentPage - 1) * rowsPerPage + 1)}</span> to <span className="font-medium text-foreground">{Math.min(sortedData.length, currentPage * rowsPerPage)}</span> of <span className="font-medium text-foreground">{sortedData.length}</span> entries
+      <div className="p-4 border-t flex items-center justify-between text-sm text-muted-foreground bg-muted/10">
+        <div>
+          Showing {Math.min(sortedData.length, (currentPage - 1) * rowsPerPage + 1)} to {Math.min(sortedData.length, currentPage * rowsPerPage)} of {sortedData.length} entries
         </div>
-        <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+        <div className="flex items-center gap-2">
           <Button 
             variant="outline" 
             size="sm" 
-            className="rounded-xl"
             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
             disabled={currentPage === 1 || isLoading}
           >
             Previous
           </Button>
-          <span className="px-2 font-medium text-foreground whitespace-nowrap">Page {currentPage} of {Math.max(1, totalPages)}</span>
+          <span className="px-2">Page {currentPage} of {Math.max(1, totalPages)}</span>
           <Button 
             variant="outline" 
             size="sm" 
-            className="rounded-xl"
             onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages || totalPages === 0 || isLoading}
           >

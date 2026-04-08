@@ -15,10 +15,9 @@ const BlogCard = ({ post }) => {
       transition={{ duration: 0.3 }}
       className="h-full"
     >
-      <Card className="flex flex-col h-full border border-border/50 bg-background/60 backdrop-blur-sm shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer rounded-2xl overflow-hidden group">
-        <div className="h-1.5 w-full bg-gradient-to-r from-primary to-accent group-hover:h-2.5 transition-all duration-300"></div>
-        <CardHeader className="pt-6">
-          <CardTitle className="text-xl font-bold group-hover:text-primary transition-colors">
+      <Card className="flex flex-col h-full shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer">
+        <CardHeader>
+          <CardTitle className="text-xl font-bold text-primary hover:text-primary transition-colors">
             <Link to={`/blogs/${post.slug}`}>{post.title}</Link>
           </CardTitle>
           <CardDescription>

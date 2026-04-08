@@ -56,29 +56,28 @@ const CustomerReviews = () => {
             transition={{ delay: i * 0.1, duration: 0.4, ease: "easeOut" }}
             className="h-full"
           >
-            <Card className="h-full border border-border/50 bg-background/60 backdrop-blur-xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 rounded-3xl overflow-hidden group">
-              <div className="h-1.5 w-full bg-gradient-to-r from-primary/40 to-primary group-hover:from-primary group-hover:to-primary/40 transition-all duration-500"></div>
-              <CardContent className="p-8 flex flex-col h-full relative">
-                <div className="flex items-center gap-4 mb-6">
-                  <Avatar className="h-14 w-14 border-2 border-primary/20 shadow-sm">
+            <Card className="h-full bg-card hover:shadow-lg transition-shadow duration-300 border-border/50">
+              <CardContent className="p-6 flex flex-col h-full relative">
+                <div className="flex items-center gap-4 mb-4">
+                  <Avatar className="h-12 w-12 border border-primary/10">
                     <AvatarImage src={review.user_avatar_url} />
-                    <AvatarFallback className="bg-primary/10 text-primary font-bold text-lg">
+                    <AvatarFallback className="bg-primary/5 text-primary font-semibold">
                       {review.user_name.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col">
-                    <h4 className="font-bold text-[15px] text-foreground">{review.user_name}</h4>
-                    <div className="flex items-center gap-2 mt-1">
-                      <div className="flex text-yellow-500">
+                    <h4 className="font-semibold text-foreground">{review.user_name}</h4>
+                    <div className="flex items-center gap-2">
+                      <div className="flex text-yellow-400">
                         {[...Array(5)].map((_, idx) => (
                           <Star 
                             key={idx} 
-                            className={`w-4 h-4 ${idx < review.rating ? 'fill-current drop-shadow-sm' : 'text-muted/50'}`} 
+                            className={`w-3.5 h-3.5 ${idx < review.rating ? 'fill-current' : 'text-muted stroke-muted-foreground'}`} 
                           />
                         ))}
                       </div>
                       {review.created_at && (
-                        <span className="text-[12px] font-medium text-muted-foreground">
+                        <span className="text-xs text-muted-foreground">
                           {format(new Date(review.created_at), 'MMM d, yyyy')}
                         </span>
                       )}
@@ -86,12 +85,12 @@ const CustomerReviews = () => {
                   </div>
                 </div>
                 
-                <p className="text-muted-foreground/90 flex-grow italic text-[15px] leading-relaxed">
+                <p className="text-muted-foreground flex-grow italic text-sm md:text-base">
                   "{review.review_text}"
                 </p>
                 
                 {review.is_featured && (
-                  <Badge variant="secondary" className="absolute top-5 right-5 bg-primary/10 text-primary font-bold border border-primary/20 rounded-full px-3 shadow-sm">
+                  <Badge variant="secondary" className="absolute top-4 right-4 bg-brand-primary/10 text-brand-primary border-none">
                     Featured
                   </Badge>
                 )}
