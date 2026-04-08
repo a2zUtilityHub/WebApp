@@ -36,6 +36,13 @@ const OTPInput = ({ length = 6, onComplete }) => {
     if (e.key === 'Backspace' && !otp[index] && index > 0 && inputRefs.current[index - 1]) {
       inputRefs.current[index - 1].focus();
     }
+    // Allow Arrow key navigation
+    if (e.key === 'ArrowLeft' && index > 0) {
+      inputRefs.current[index - 1].focus();
+    }
+    if (e.key === 'ArrowRight' && index < length - 1) {
+      inputRefs.current[index + 1].focus();
+    }
   };
 
   const handlePaste = (e) => {
@@ -59,7 +66,7 @@ const OTPInput = ({ length = 6, onComplete }) => {
   };
 
   return (
-    <div className="flex justify-between gap-2 sm:gap-4 w-full max-w-sm mx-auto my-8">
+    <div className="flex justify-between gap-2 sm:gap-4 w-full max-w-sm mx-auto my-8 relative z-10">
       {otp.map((digit, index) => (
         <input
           key={index}
@@ -68,12 +75,14 @@ const OTPInput = ({ length = 6, onComplete }) => {
           inputMode="numeric"
           autoComplete="one-time-code"
           pattern="\d{1}"
-          maxLength={length}
+          maxLength={1}
           value={digit}
           onChange={(e) => handleChange(e, index)}
           onKeyDown={(e) => handleKeyDown(e, index)}
           onPaste={handlePaste}
-          className="w-12 h-14 sm:w-14 sm:h-16 bg-background/60 backdrop-blur-xl border border-border/50 rounded-2xl text-center text-2xl font-black text-foreground focus:ring-4 focus:ring-primary/20 focus:border-primary focus:outline-none transition-all shadow-inner placeholder:text-muted-foreground/30 hover:border-primary/50"
+          className={`w-12 h-14 sm:w-14 sm:h-16 bg-background/60 backdrop-blur-xl border rounded-2xl text-center text-2xl font-black transition-all duration-300 shadow-inner outline-none
+            ${digit ? 'border-primary/50 bg-primary/5 text-primary scale-105 shadow-sm' : 'border-border/50 text-foreground hover:border-primary/40'}
+            focus:border-primary focus:ring-4 focus:ring-primary/20 focus:scale-110 focus:-translate-y-1 focus:shadow-lg focus:shadow-primary/20 z-20 relative`}
         />
       ))}
     </div>

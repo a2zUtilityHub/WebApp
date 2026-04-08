@@ -1,59 +1,80 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useMemo } from 'react';
 import { Check, X } from 'lucide-react';
 
 const PasswordStrengthIndicator = ({ password }) => {
-  // Calculate strength criteria
-  const criteria = [
-    { label: "At least 8 characters", met: password.length >= 8 },
-    { label: "Contains a number", met: /\d/.test(password) },
-    { label: "Contains a special character", met: /[!@#$%^&*(),.?":{}|<>]/.test(password) },
-    { label: "Contains uppercase & lowercase", met: /(?=.*[a-z])(?=.*[A-Z])/.test(password) }
-  ];
+  const requirements = useMemo(() => [
+    { regex: /.{8,}/, text: "At least 8 characters" },
+    { regex: /[A-Z]/, text: "One uppercase letter" },
+    { regex: /[a-z]/, text: "One lowercase letter" },
+    { regex: /[0-9]/, text: "One number" },
+    { regex: /[^A-Za-z0-9]/, text: "One special character" },
+  ], []);
 
-  const metCount = criteria.filter(c => c.met).length;
-  
-  // Determine color and label based on score
-  const getStrengthData = () => {
-    if (password.length === 0) return { color: 'bg-muted/50', label: 'Enter a password', width: '0%' };
-    if (metCount <= 1) return { color: 'bg-red-500', label: 'Weak', width: '25%' };
-    if (metCount === 2) return { color: 'bg-orange-500', label: 'Fair', width: '50%' };
-    if (metCount === 3) return { color: 'bg-amber-500', label: 'Good', width: '75%' };
-    return { color: 'bg-emerald-500', label: 'Strong', width: '100%' };
+  const strength = useMemo(() => {
+    if (!password) return 0;
+    return requirements.reduce((acc, req) => (req.regex.test(password) ? acc + 1 : acc), 0);
+  }, [password, requirements]);
+
+  const getStrengthColor = (score) => {
+    if (score === 0) return "bg-muted";
+    if (score <= 2) return "bg-destructive shadow-[0_0_10px_rgba(239,68,68,0.5)]";
+    if (score <= 4) return "bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]";
+    return "bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]";
   };
 
-  const strength = getStrengthData();
+  const getStrengthLabel = (score) => {
+    if (score === 0) return "Enter a password";
+    if (score <= 2) return "Weak";
+    if (score <= 4) return "Fair";
+    return "Strong";
+  };
 
   return (
-    <div className="w-full space-y-3 mt-3">
-      {/* Strength Bar */}
-      <div className="flex items-center justify-between mb-1">
-        <span className="text-[13px] font-medium text-muted-foreground">Password strength</span>
-        <span className={`text-[13px] font-bold ${strength.color.replace('bg-', 'text-')}`}>
-          {strength.label}
+    <div className="w-full space-y-4 mt-2 mb-6">
+      <div className="flex justify-between items-center mb-1.5">
+        <span className="text-[13px] font-semibold text-muted-foreground">Password Strength</span>
+        <span className={`text-[13px] font-bold transition-colors duration-300 ${
+          strength === 0 ? 'text-muted-foreground' : 
+          strength <= 2 ? 'text-destructive' : 
+          strength <= 4 ? 'text-amber-500' : 'text-emerald-500'
+        }`}>
+          {getStrengthLabel(strength)}
         </span>
       </div>
-      <div className="h-1.5 w-full bg-muted/30 rounded-full overflow-hidden flex">
-        <motion.div 
-          className={`h-full rounded-full ${strength.color}`}
-          initial={{ width: 0 }}
-          animate={{ width: strength.width }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-        />
+      
+      {/* Animated Pill Bars */}
+      <div className="flex gap-2 h-1.5 w-full">
+        {[1, 2, 3, 4, 5].map((index) => (
+          <div 
+            key={index} 
+            className={`flex-1 rounded-full transition-all duration-500 ease-out ${
+              strength >= index ? getStrengthColor(strength) : "bg-muted/50"
+            }`} 
+          />
+        ))}
       </div>
 
-      {/* Criteria Checklist */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
-        {criteria.map((criterion, idx) => (
-          <div key={idx} className="flex items-center gap-2 text-[13px]">
-            <div className={`flex items-center justify-center w-4 h-4 rounded-full transition-colors duration-300 ${criterion.met ? 'bg-emerald-500/10 text-emerald-500' : 'bg-muted/50 text-muted-foreground/50'}`}>
-              {criterion.met ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
+      {/* Requirement Checklist */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
+        {requirements.map((req, index) => {
+          const isMet = req.regex.test(password);
+          return (
+            <div key={index} className="flex items-center gap-2 text-[13px]">
+              {isMet ? (
+                <div className="bg-emerald-500/10 text-emerald-500 rounded-full p-0.5 border border-emerald-500/20 shadow-sm transition-all duration-300 scale-100">
+                  <Check className="w-3 h-3" />
+                </div>
+              ) : (
+                <div className="bg-muted/50 text-muted-foreground/50 rounded-full p-0.5 border border-border/50 transition-all duration-300 scale-95">
+                  <X className="w-3 h-3" />
+                </div>
+              )}
+              <span className={`transition-colors duration-300 font-medium ${isMet ? 'text-foreground' : 'text-muted-foreground/70'}`}>
+                {req.text}
+              </span>
             </div>
-            <span className={`transition-colors duration-300 ${criterion.met ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
-              {criterion.label}
-            </span>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
