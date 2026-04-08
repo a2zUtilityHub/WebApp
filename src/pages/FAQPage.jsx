@@ -54,14 +54,19 @@ const FAQPage = () => {
                 </script>
             </Helmet>
 
-            <div className="bg-primary/5 py-16">
-                <div className="container text-center">
-                    <h1 className="text-4xl font-bold tracking-tight mb-4">How can we help?</h1>
-                    <div className="max-w-xl mx-auto relative">
-                        <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+            <div className="bg-background py-20 relative overflow-hidden border-b border-border/50">
+                {/* Soft Glowing Background Orbs */}
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none z-0"></div>
+                
+                <div className="container text-center relative z-10">
+                    <h1 className="text-5xl font-extrabold tracking-tight mb-6 text-foreground">How can we help?</h1>
+                    <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">Search our knowledge base or browse the categories below to find answers to your questions.</p>
+                    <div className="max-w-2xl mx-auto relative group">
+                        <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors z-10" />
                         <Input 
-                            className="pl-10 h-12 text-lg bg-background shadow-sm" 
-                            placeholder="Search for answers..." 
+                            className="pl-14 h-16 text-lg bg-background/60 backdrop-blur-xl border border-border/50 rounded-full shadow-lg focus-visible:ring-4 focus-visible:ring-primary/10 hover:border-primary/50 transition-all text-foreground placeholder:text-muted-foreground/60" 
+                            placeholder="Search for answers (e.g. 'billing', 'account')..." 
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
@@ -69,28 +74,34 @@ const FAQPage = () => {
                 </div>
             </div>
 
-            <div className="container py-12 max-w-3xl mx-auto">
+            <div className="container py-16 max-w-4xl mx-auto relative">
                 {loading ? (
-                    <div className="flex justify-center"><Loader2 className="animate-spin h-8 w-8 text-primary"/></div>
+                    <div className="flex justify-center py-20"><Loader2 className="animate-spin h-10 w-10 text-primary"/></div>
                 ) : filteredItems.length === 0 ? (
-                    <div className="text-center py-12 text-muted-foreground">No FAQs found matching your query.</div>
+                    <div className="text-center py-24 bg-background/60 backdrop-blur-xl rounded-[2.5rem] border border-border/50 shadow-sm">
+                        <div className="mx-auto w-20 h-20 bg-muted/50 border border-border/50 rounded-full flex items-center justify-center mb-6">
+                            <Search className="h-10 w-10 text-muted-foreground" />
+                        </div>
+                        <h3 className="text-2xl font-extrabold text-foreground mb-2">No answers found</h3>
+                        <p className="text-muted-foreground text-lg">We couldn't find any FAQs matching "{search}". Try a different term.</p>
+                    </div>
                 ) : (
-                    <Accordion type="single" collapsible className="w-full space-y-4">
+                    <Accordion type="single" collapsible className="w-full space-y-5">
                         {filteredItems.map((item, index) => (
                             <motion.div
                                 key={item.id}
-                                initial={{ opacity: 0, y: 10 }}
+                                initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.05 }}
+                                transition={{ delay: index * 0.05, duration: 0.4 }}
                             >
-                                <AccordionItem value={item.id} className="border rounded-lg px-4 bg-card shadow-sm">
-                                    <AccordionTrigger className="hover:no-underline py-4 text-left font-medium text-lg">
-                                        <div className="flex items-center gap-3">
-                                            <span>{item.question}</span>
-                                            <Badge variant="secondary" className="text-xs font-normal ml-auto shrink-0">{item.category}</Badge>
+                                <AccordionItem value={item.id} className="border border-border/50 rounded-2xl px-6 bg-background/60 backdrop-blur-md shadow-sm hover:shadow-md transition-shadow overflow-hidden group data-[state=open]:bg-background/80">
+                                    <AccordionTrigger className="hover:no-underline py-5 text-left font-bold text-lg text-foreground hover:text-primary transition-colors">
+                                        <div className="flex items-center gap-4 w-full pr-4">
+                                            <span className="flex-1">{item.question}</span>
+                                            <Badge variant="secondary" className="text-[12px] font-semibold bg-muted text-muted-foreground group-data-[state=open]:bg-primary/10 group-data-[state=open]:text-primary transition-colors shrink-0 rounded-full px-3 py-1 border-0">{item.category}</Badge>
                                         </div>
                                     </AccordionTrigger>
-                                    <AccordionContent className="text-muted-foreground pb-4 prose dark:prose-invert max-w-none">
+                                    <AccordionContent className="text-muted-foreground/90 text-[15px] leading-relaxed pb-6 pt-2 prose dark:prose-invert max-w-none prose-p:last:mb-0">
                                         <div dangerouslySetInnerHTML={{ __html: item.answer }} />
                                     </AccordionContent>
                                 </AccordionItem>

@@ -127,10 +127,10 @@ const CommentCard = ({ comment, currentUser, isAdmin, onDelete, onEdit }) => {
   };
 
   return (
-    <Card className="p-4 bg-card border-border shadow-sm">
+    <Card className="p-5 bg-background/60 backdrop-blur-md border border-border/50 shadow-sm rounded-2xl hover:shadow-md transition-all duration-300">
       <div className="flex items-start gap-4">
-        <Avatar>
-          <AvatarFallback className="bg-primary/10 text-primary">{initials}</AvatarFallback>
+        <Avatar className="ring-2 ring-background shadow-sm h-10 w-10">
+          <AvatarFallback className="bg-gradient-to-br from-primary/80 to-primary text-primary-foreground font-bold">{initials}</AvatarFallback>
         </Avatar>
         <div className="flex-1">
           <div className="flex items-center justify-between mb-1">
@@ -201,10 +201,11 @@ export const CommunitySection = ({ appId }) => {
       
       <div className="app-glass-panel p-6 md:p-8">
         {!user ? (
-          <div className="text-center p-8 bg-secondary/50 border border-border rounded-xl mb-8">
-            <MessageSquare className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
-            <h3 className="text-lg font-semibold text-foreground mb-2">Join the Conversation</h3>
-            <p className="text-muted-foreground text-sm">Please log in to leave a comment, ask for help, or share your tips.</p>
+          <div className="text-center p-10 bg-background/40 backdrop-blur-xl border border-border/50 rounded-3xl mb-10 shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-8 opacity-5 bg-gradient-to-bl from-primary to-transparent rounded-bl-full z-0 w-32 h-32"></div>
+            <MessageSquare className="w-12 h-12 text-primary/60 mx-auto mb-4 relative z-10" />
+            <h3 className="text-xl font-bold text-foreground mb-2 relative z-10">Join the Conversation</h3>
+            <p className="text-muted-foreground text-[15px] relative z-10">Please log in to leave a comment, ask for help, or share your tips.</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="mb-8 space-y-4">

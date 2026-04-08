@@ -28,19 +28,24 @@ const SettingsPage = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-4xl min-h-[60vh]">
-      <Helmet>
-        <title>Settings | a2z Utility Hub</title>
-      </Helmet>
+    <div className="bg-background min-h-screen py-12 w-full relative overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] pointer-events-none z-0"></div>
+      
+      <div className="container mx-auto px-4 max-w-4xl relative z-10">
+        <Helmet>
+          <title>Settings | a2z Utility Hub</title>
+        </Helmet>
 
-      <h1 className="text-3xl font-bold mb-8">Account Settings</h1>
+        <h1 className="text-4xl font-extrabold tracking-tight text-foreground mb-8">Account Settings</h1>
 
-      <div className="space-y-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Notifications</CardTitle>
-            <CardDescription>Manage how you receive alerts and updates.</CardDescription>
-          </CardHeader>
+        <div className="space-y-8">
+          <Card className="border border-border/50 bg-background/60 backdrop-blur-xl shadow-sm rounded-3xl overflow-hidden">
+            <div className="h-1.5 w-full bg-gradient-to-r from-primary/40 to-primary"></div>
+            <CardHeader className="pb-4">
+              <CardTitle className="text-2xl">Notifications</CardTitle>
+              <CardDescription className="text-[15px]">Manage how you receive alerts and updates.</CardDescription>
+            </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
@@ -59,11 +64,11 @@ const SettingsPage = () => {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Privacy & Security</CardTitle>
-            <CardDescription>Manage your privacy preferences.</CardDescription>
-          </CardHeader>
+        <Card className="border border-border/50 bg-background/60 backdrop-blur-xl shadow-sm rounded-3xl overflow-hidden">
+            <CardHeader className="pb-4 border-b border-border/50 bg-muted/10">
+              <CardTitle className="text-2xl">Privacy & Security</CardTitle>
+              <CardDescription className="text-[15px]">Manage your privacy preferences.</CardDescription>
+            </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
@@ -82,11 +87,12 @@ const SettingsPage = () => {
           </CardContent>
         </Card>
 
-        <div className="flex justify-end">
-          <Button onClick={handleSave} className="gap-2">
-            <Save className="h-4 w-4" /> Save Changes
+        <div className="flex justify-end pt-4">
+          <Button onClick={handleSave} className="h-12 px-8 rounded-xl bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-medium shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+            <Save className="h-5 w-5 mr-2" /> Save Preferences
           </Button>
         </div>
+      </div>
       </div>
     </div>
   );

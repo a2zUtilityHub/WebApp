@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useToast } from '@/components/ui/use-toast';
+import { toast as sonnerToast } from 'sonner';
 import { executeQuery, executeEdgeFunction } from '@/utils/supabaseErrorHandler';
 import { useResilientQuery } from './useResilientQuery';
 
@@ -18,11 +19,11 @@ export const useAdminUsers = () => {
       const { data, error } = await executeEdgeFunction('manage-users', { action: 'create', ...userData });
       if (error || !data?.success) throw new Error(error?.message || data?.error || 'Failed to create user');
       
-      toast({ title: 'User created successfully' });
+      sonnerToast.success('User created successfully');
       refetch(true);
       return { success: true };
     } catch (error) {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      sonnerToast.error(`Creation failed: ${error.message}`);
       return { success: false, error };
     }
   };
@@ -32,11 +33,11 @@ export const useAdminUsers = () => {
       const { data, error } = await executeEdgeFunction('manage-users', { action: 'update', user_id: userId, ...updateData });
       if (error || !data?.success) throw new Error(error?.message || data?.error || 'Failed to update user');
       
-      toast({ title: 'User updated successfully' });
+      sonnerToast.success('User updated successfully');
       refetch(true);
       return { success: true };
     } catch (error) {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      sonnerToast.error(`Update failed: ${error.message}`);
       return { success: false, error };
     }
   };
@@ -46,18 +47,21 @@ export const useAdminUsers = () => {
       const { data, error } = await executeEdgeFunction('manage-users', { action: 'delete', user_id: userId });
       if (error || !data?.success) throw new Error(error?.message || data?.error || 'Failed to delete user');
       
-      toast({ title: 'User deleted successfully' });
+      sonnerToast.success('User deleted successfully');
       refetch(true);
       return { success: true };
     } catch (error) {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      sonnerToast.error(`Deletion failed: ${error.message}`);
       return { success: false, error };
     }
   };
 
-  if (error && !users) {
-    toast({ title: 'Error fetching users', description: error, variant: 'destructive' });
-  }
+  // Safe side-effect execution to prevent infinite re-renders
+  useEffect(() => {
+    if (error && !users) {
+      toast({ title: 'Error fetching users', description: error.message || String(error), variant: 'destructive' });
+    }
+  }, [error, users, toast]);
 
   return { users: users || [], loading, refetch, createUser, updateUser, deleteUser };
 };

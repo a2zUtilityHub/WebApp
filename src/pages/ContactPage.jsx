@@ -98,10 +98,11 @@ const ContactPage = () => {
         </AdSenseContainer>
       )}
 
-      <div className="w-full px-4 py-12">
-        <Breadcrumbs items={[{ title: "Contact Us", to: "/contact-us" }]} className="mb-12" />
+      <div className="container mx-auto px-4 py-16 relative">
+        <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+        <Breadcrumbs items={[{ title: "Contact Us", to: "/contact-us" }]} className="mb-12 relative z-10" />
 
-        <div className="grid lg:grid-cols-2 gap-12 w-full">
+        <div className="grid lg:grid-cols-2 gap-12 w-full relative z-10">
           <div className="space-y-8 w-full">
             <div className="grid gap-6 w-full">
                 {[
@@ -109,69 +110,66 @@ const ContactPage = () => {
                     { icon: MapPin, title: "Visit Us", desc: "Come say hello at our office HQ.", val: "123 Utility Lane, Tech City", href: "#" },
                     { icon: Phone, title: "Call Us", desc: "Mon-Fri from 9am to 6pm.", val: "+1 (555) 123-4567", href: "tel:+15551234567" }
                 ].map((item, i) => (
-                    <Card key={i} className="border-brand-primary/10 shadow-sm hover:shadow-md hover:border-brand-primary/30 transition-all w-full">
-                        <CardContent className="flex items-start gap-4 p-6 w-full">
-                            <div className="bg-brand-primary/10 p-3 rounded-full text-brand-primary"><item.icon className="h-6 w-6" /></div>
-                            <div className="w-full">
-                                <h3 className="font-bold text-lg">{item.title}</h3>
-                                <p className="text-muted-foreground text-sm mb-1">{item.desc}</p>
-                                <a href={item.href} className="font-medium text-brand-primary hover:underline break-all">{item.val}</a>
+                    <Card key={i} className="border border-border/50 bg-background/60 backdrop-blur-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 w-full rounded-3xl overflow-hidden group">
+                        <CardContent className="flex items-start gap-5 p-6 w-full">
+                            <div className="bg-primary/10 p-4 rounded-2xl text-primary group-hover:scale-110 transition-transform duration-300 border border-primary/20"><item.icon className="h-6 w-6" /></div>
+                            <div className="w-full pt-1">
+                                <h3 className="font-extrabold text-xl text-foreground mb-1">{item.title}</h3>
+                                <p className="text-muted-foreground text-[15px] mb-2">{item.desc}</p>
+                                <a href={item.href} className="font-bold text-primary hover:text-primary/80 transition-colors break-all">{item.val}</a>
                             </div>
                         </CardContent>
                     </Card>
                 ))}
             </div>
 
-            <Card className="border-brand-primary/20 w-full">
-                <CardHeader>
-                    <CardTitle>Business Hours</CardTitle>
+            <Card className="border border-border/50 bg-background/60 backdrop-blur-xl rounded-3xl shadow-sm w-full">
+                <CardHeader className="pb-4 border-b border-border/50 bg-muted/10">
+                    <CardTitle className="text-xl">Business Hours</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-2 w-full">
-                    <div className="flex justify-between text-sm w-full"><span className="text-muted-foreground">Mon - Fri</span><span className="font-medium">9:00 AM - 6:00 PM</span></div>
-                    <div className="flex justify-between text-sm w-full"><span className="text-muted-foreground">Saturday</span><span className="font-medium">10:00 AM - 2:00 PM</span></div>
-                    <div className="flex justify-between text-sm w-full"><span className="text-muted-foreground">Sunday</span><span className="font-medium text-destructive">Closed</span></div>
+                <CardContent className="space-y-4 w-full p-6">
+                    <div className="flex justify-between text-[15px] w-full border-b border-border/50 pb-3"><span className="text-muted-foreground font-medium">Monday - Friday</span><span className="font-bold text-foreground">9:00 AM - 6:00 PM</span></div>
+                    <div className="flex justify-between text-[15px] w-full border-b border-border/50 pb-3"><span className="text-muted-foreground font-medium">Saturday</span><span className="font-bold text-foreground">10:00 AM - 2:00 PM</span></div>
+                    <div className="flex justify-between text-[15px] w-full"><span className="text-muted-foreground font-medium">Sunday</span><span className="font-bold text-destructive flex items-center gap-1.5"><Clock className="w-4 h-4"/> Closed</span></div>
                 </CardContent>
             </Card>
           </div>
 
-          <Card className="shadow-xl border-t-4 border-t-brand-primary w-full">
-            <CardHeader>
-              <CardTitle className="text-2xl text-brand-primary">Send us a message</CardTitle>
-              <CardDescription>Fill out the form below and we'll get back to you shortly.</CardDescription>
+          <Card className="border border-border/50 bg-background/80 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl w-full relative overflow-hidden group h-fit">
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary/40 to-primary"></div>
+            <CardHeader className="p-8 md:p-10 pb-6 border-b border-border/50 bg-muted/5">
+              <CardTitle className="text-3xl font-extrabold tracking-tight text-foreground">Send a message</CardTitle>
+              <CardDescription className="text-base mt-2">Fill out the form below and our team will get back to you shortly.</CardDescription>
             </CardHeader>
-            <CardContent className="w-full">
+            <CardContent className="w-full p-8 md:p-10 pt-8">
               {submitted ? (
                   <div className="text-center py-12 w-full">
-                      <div className="w-16 h-16 bg-brand-success/10 text-brand-success rounded-full flex items-center justify-center mx-auto mb-4 border border-brand-success/20">
-                          <CheckCircle2 className="h-8 w-8 text-success" />
+                      <div className="w-20 h-20 bg-success/10 text-success rounded-full flex items-center justify-center mx-auto mb-6 border border-success/20 shadow-sm">
+                          <CheckCircle2 className="h-10 w-10 text-success" />
                       </div>
-                      <h3 className="text-xl font-bold mb-2">Message Sent!</h3>
-                      <p className="text-muted-foreground mb-6">Thank you for contacting us. We will be in touch soon.</p>
-                      <Button onClick={() => setSubmitted(false)} variant="outline" className="border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white">Send Another</Button>
+                      <h3 className="text-2xl font-extrabold mb-3 text-foreground">Message Sent!</h3>
+                      <p className="text-muted-foreground text-lg mb-8 max-w-xs mx-auto">Thank you for contacting us. We have received your inquiry and will be in touch soon.</p>
+                      <Button onClick={() => setSubmitted(false)} variant="outline" className="h-12 rounded-xl px-8 border-border/50 hover:bg-muted/50">Send Another Message</Button>
                   </div>
               ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4 w-full">
-                    <div className="grid sm:grid-cols-2 gap-4 w-full">
-                      <div className="space-y-2 w-full">
-                        <Label htmlFor="name">Name <span className="text-destructive">*</span></Label>
-                        <Input id="name" placeholder="John Doe" required value={formData.name} onChange={handleChange} className="focus-visible:ring-brand-primary focus:border-brand-primary w-full" />
+                  <form onSubmit={handleSubmit} className="space-y-6 w-full">
+                    <div className="grid sm:grid-cols-2 gap-6 w-full">
+                      <div className="w-full">
+                        <Input id="name" label="Full Name *" placeholder="e.g. John Doe" required value={formData.name} onChange={handleChange} className="w-full" />
                       </div>
-                      <div className="space-y-2 w-full">
-                        <Label htmlFor="email">Email <span className="text-destructive">*</span></Label>
-                        <Input id="email" type="email" placeholder="john@example.com" required value={formData.email} onChange={handleChange} className="focus-visible:ring-brand-primary focus:border-brand-primary w-full" />
+                      <div className="w-full">
+                        <Input id="email" type="email" label="Email Address *" placeholder="e.g. john@example.com" required value={formData.email} onChange={handleChange} className="w-full" />
                       </div>
                     </div>
-                    <div className="space-y-2 w-full">
-                      <Label htmlFor="subject">Subject <span className="text-destructive">*</span></Label>
-                      <Input id="subject" placeholder="How can we help?" required value={formData.subject} onChange={handleChange} className="focus-visible:ring-brand-primary focus:border-brand-primary w-full" />
+                    <div className="w-full">
+                      <Input id="subject" label="Subject *" placeholder="How can we help you?" required value={formData.subject} onChange={handleChange} className="w-full" />
                     </div>
-                    <div className="space-y-2 w-full">
-                      <Label htmlFor="message">Message <span className="text-destructive">*</span></Label>
-                      <Textarea id="message" placeholder="Tell us more about your inquiry..." rows={6} required value={formData.message} onChange={handleChange} className="resize-none focus-visible:ring-brand-primary focus:border-brand-primary w-full" />
+                    <div className="w-full">
+                      <Textarea id="message" label="Message *" placeholder="Tell us more about your inquiry..." rows={6} required value={formData.message} onChange={handleChange} className="w-full" />
                     </div>
-                    <Button type="submit" className="w-full h-11 text-base bg-brand-primary hover:bg-brand-primary-dark text-white" disabled={submitting}>
-                        {submitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <Send className="mr-2 h-4 w-4"/>} 
-                        Send Message
+                    <Button type="submit" className="w-full h-14 text-lg font-bold rounded-2xl bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 mt-4" disabled={submitting}>
+                        {submitting ? <Loader2 className="mr-2 h-6 w-6 animate-spin"/> : <Send className="mr-3 h-5 w-5"/>} 
+                        Send Message Securely
                     </Button>
                   </form>
               )}

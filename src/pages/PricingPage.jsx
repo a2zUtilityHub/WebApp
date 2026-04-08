@@ -52,26 +52,26 @@ const PricingCard = ({ plan, interval, onChoosePlan, index }) => {
       transition={{ delay: index * 0.15, duration: 0.4 }}
       className="flex w-full"
     >
-        <Card className={`flex flex-col relative overflow-hidden w-full transition-transform hover:-translate-y-1 hover:shadow-xl bg-white ${isPro ? 'border-brand-primary ring-2 ring-brand-primary shadow-brand' : 'border-gray-200 border-l-4 border-l-brand-primary/50'}`}>
+        <Card className={`flex flex-col relative overflow-hidden w-full transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl bg-background/60 backdrop-blur-2xl rounded-3xl ${isPro ? 'border-primary ring-2 ring-primary/20 shadow-[0_0_40px_-15px_rgba(var(--primary),0.3)]' : 'border-border/50 border-t-4 border-t-primary/50 shadow-sm'}`}>
         {isPro && (
-            <div className="absolute top-0 right-0 bg-brand-primary text-white text-[10px] font-bold px-3 py-1 uppercase tracking-wider rounded-bl-lg z-10">
+            <div className="absolute top-0 right-0 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground text-[11px] font-extrabold px-4 py-1.5 uppercase tracking-wider rounded-bl-2xl z-10 shadow-sm">
             Most Popular
             </div>
         )}
-        <CardHeader className={`pb-8 ${isPro ? 'bg-gradient-to-br from-brand-primary/10 via-brand-secondary/5 to-transparent' : ''}`}>
-            <CardTitle className="text-2xl font-bold text-[#1F2937]">{plan.name}</CardTitle>
-            <CardDescription className="text-[#4B5563]">{plan.description}</CardDescription>
+        <CardHeader className={`pb-8 relative z-10 ${isPro ? 'bg-gradient-to-br from-primary/10 via-primary/5 to-transparent' : 'bg-muted/5'}`}>
+            <CardTitle className="text-3xl font-extrabold tracking-tight text-foreground">{plan.name}</CardTitle>
+            <CardDescription className="text-muted-foreground/90 text-[15px] mt-2">{plan.description}</CardDescription>
         </CardHeader>
-        <CardContent className="flex-grow pt-6">
+        <CardContent className="flex-grow pt-8 relative z-10">
             <div className="mb-8 flex items-baseline">
-            <span className="text-5xl font-extrabold text-[#1F2937]">${price}</span>
-            <span className="text-[#4B5563] ml-2 font-medium">/{interval === 'monthly' ? 'mo' : 'yr'}</span>
+            <span className="text-6xl font-black tracking-tight text-foreground">${price}</span>
+            <span className="text-muted-foreground ml-2 font-medium text-lg">/{interval === 'monthly' ? 'mo' : 'yr'}</span>
             </div>
             <ul className="space-y-4">
             {plan.features?.map((feature, i) => (
                 <li key={i} className="flex items-start gap-3">
-                <CheckCircle2 className={`h-5 w-5 shrink-0 mt-0.5 ${isPro ? 'text-brand-primary' : 'text-brand-primary/60'}`} />
-                <span className="text-gray-800">{feature}</span>
+                <CheckCircle2 className={`h-6 w-6 shrink-0 mt-0.5 ${isPro ? 'text-primary' : 'text-muted-foreground'}`} />
+                <span className="text-foreground/90 font-medium text-[15px]">{feature}</span>
                 </li>
             ))}
             </ul>
@@ -199,19 +199,22 @@ const PricingPage = () => {
         subtitle="Choose the perfect plan to unlock all features without hidden fees."
       />
 
-      <div className="bg-gray-50/50 py-16">
+      <div className="bg-background py-20 relative overflow-hidden">
+        {/* Soft Glowing Background Orbs */}
+        <div className="absolute top-10 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none z-0"></div>
+
         <AdSidebarLayoutWrapper leftAdSlots={['pricing_left_1']} rightAdSlots={['pricing_right_1']}>
-          <div className="w-full min-w-0">
-            <div className="flex justify-center items-center gap-4 mb-12">
-              <span className={`font-medium ${interval === 'monthly' ? 'text-gray-900' : 'text-gray-500'}`}>Monthly</span>
+          <div className="w-full min-w-0 relative z-10">
+            <div className="flex justify-center items-center gap-4 mb-16 bg-background/60 backdrop-blur-md w-fit mx-auto px-6 py-3 rounded-full border border-border/50 shadow-sm">
+              <span className={`font-bold ${interval === 'monthly' ? 'text-foreground' : 'text-muted-foreground'}`}>Monthly</span>
               <Switch 
                 checked={interval === 'yearly'}
                 onCheckedChange={(checked) => setInterval(checked ? 'yearly' : 'monthly')}
                 aria-label="Toggle between monthly and yearly billing"
-                className="data-[state=checked]:bg-brand-primary"
               />
-              <span className={`flex items-center font-medium ${interval === 'yearly' ? 'text-gray-900' : 'text-gray-500'}`}>
-                Yearly <Badge variant="secondary" className="ml-2 bg-green-100 text-green-700 border-green-200 hover:bg-green-100">Save 20%</Badge>
+              <span className={`flex items-center font-bold ${interval === 'yearly' ? 'text-foreground' : 'text-muted-foreground'}`}>
+                Yearly <Badge variant="secondary" className="ml-3 bg-success/10 text-success border border-success/20 hover:bg-success/20 rounded-full px-2.5">Save 20%</Badge>
               </span>
             </div>
 
@@ -230,30 +233,30 @@ const PricingPage = () => {
               </motion.div>
             </AnimatePresence>
             
-            <div className="mt-24 max-w-3xl mx-auto">
-              <h3 className="text-3xl font-bold text-center text-gray-900 mb-8">Frequently Asked Questions</h3>
-              <Accordion type="single" collapsible className="w-full bg-white rounded-2xl shadow-sm border border-gray-100 p-2">
-                <AccordionItem value="item-1">
-                  <AccordionTrigger className="text-left px-4 font-semibold text-gray-800">What payment methods do you accept?</AccordionTrigger>
-                  <AccordionContent className="px-4 text-gray-600">
+            <div className="mt-28 max-w-3xl mx-auto">
+              <h3 className="text-4xl font-extrabold tracking-tight text-center text-foreground mb-10">Frequently Asked Questions</h3>
+              <Accordion type="single" collapsible className="w-full bg-background/60 backdrop-blur-2xl rounded-[2rem] shadow-xl border border-border/50 p-6 md:p-8">
+                <AccordionItem value="item-1" className="border-b border-border/50 pb-2">
+                  <AccordionTrigger className="text-left px-2 font-bold text-foreground text-[17px] hover:text-primary transition-colors hover:no-underline">What payment methods do you accept?</AccordionTrigger>
+                  <AccordionContent className="px-2 text-muted-foreground text-[15px] leading-relaxed pt-2 pb-4">
                     We accept all major credit cards including Visa, Mastercard, and American Express. We also support PayPal for all our premium plans.
                   </AccordionContent>
                 </AccordionItem>
-                <AccordionItem value="item-2">
-                  <AccordionTrigger className="text-left px-4 font-semibold text-gray-800">Can I change my plan later?</AccordionTrigger>
-                  <AccordionContent className="px-4 text-gray-600">
+                <AccordionItem value="item-2" className="border-b border-border/50 pb-2 pt-2">
+                  <AccordionTrigger className="text-left px-2 font-bold text-foreground text-[17px] hover:text-primary transition-colors hover:no-underline">Can I change my plan later?</AccordionTrigger>
+                  <AccordionContent className="px-2 text-muted-foreground text-[15px] leading-relaxed pt-2 pb-4">
                     Yes, absolutely! You can upgrade or downgrade your plan at any time. When upgrading, you'll be prorated the difference.
                   </AccordionContent>
                 </AccordionItem>
-                <AccordionItem value="item-3">
-                  <AccordionTrigger className="text-left px-4 font-semibold text-gray-800">Do you offer refunds?</AccordionTrigger>
-                  <AccordionContent className="px-4 text-gray-600">
+                <AccordionItem value="item-3" className="border-b border-border/50 pb-2 pt-2">
+                  <AccordionTrigger className="text-left px-2 font-bold text-foreground text-[17px] hover:text-primary transition-colors hover:no-underline">Do you offer refunds?</AccordionTrigger>
+                  <AccordionContent className="px-2 text-muted-foreground text-[15px] leading-relaxed pt-2 pb-4">
                     We offer a 14-day money-back guarantee for all new subscriptions. If you're not satisfied, simply contact support for a full refund.
                   </AccordionContent>
                 </AccordionItem>
-                <AccordionItem value="item-4">
-                  <AccordionTrigger className="text-left px-4 font-semibold text-gray-800">What happens when my subscription ends?</AccordionTrigger>
-                  <AccordionContent className="px-4 text-gray-600">
+                <AccordionItem value="item-4" className="border-0 pt-2">
+                  <AccordionTrigger className="text-left px-2 font-bold text-foreground text-[17px] hover:text-primary transition-colors hover:no-underline">What happens when my subscription ends?</AccordionTrigger>
+                  <AccordionContent className="px-2 text-muted-foreground text-[15px] leading-relaxed pt-2 pb-2">
                     If you cancel your subscription, you'll continue to have access to your premium features until the end of your current billing period. After that, your account will revert to the Basic (free) plan.
                   </AccordionContent>
                 </AccordionItem>

@@ -58,7 +58,7 @@ const CouponCard = ({ coupon }) => {
       >
         <Card
           onClick={() => setIsModalOpen(true)}
-          className="flex flex-col overflow-hidden h-full cursor-pointer shadow-md hover:shadow-xl transition-all duration-300"
+          className="flex flex-col overflow-hidden h-full cursor-pointer border border-border/50 bg-background/60 backdrop-blur-sm shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 rounded-2xl"
         >
           <CardHeader className="p-4">
             <div className="flex justify-between items-start gap-2">
@@ -70,10 +70,17 @@ const CouponCard = ({ coupon }) => {
               )}
             </div>
           </CardHeader>
-          <CardContent className="p-4 flex-grow">
-            <p className="font-bold text-lg leading-tight mb-2 h-12 line-clamp-2">{coupon.title}</p>
-            <p className="text-2xl font-extrabold text-primary mb-2">{coupon.discount_value}</p>
-            {coupon.expires_at && <p className="text-xs text-destructive">Expires {timeLeft}</p>}
+          <CardContent className="p-4 flex-grow bg-gradient-to-b from-transparent to-muted/10">
+            <p className="font-bold text-lg leading-tight mb-3 h-12 line-clamp-2 hover:text-primary transition-colors">{coupon.title}</p>
+            <div className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-primary/10 text-primary mb-3">
+              <p className="text-xl font-extrabold">{coupon.discount_value}</p>
+            </div>
+            {coupon.expires_at && (
+              <p className="text-xs font-medium text-destructive flex items-center gap-1.5 mt-auto">
+                <span className="animate-pulse h-2 w-2 rounded-full bg-destructive inline-block"></span>
+                Expires {timeLeft}
+              </p>
+            )}
           </CardContent>
           <CardFooter className="p-4 flex-col items-stretch space-y-2 mt-auto">
             <Button onClick={handleAction} className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground text-base font-bold">

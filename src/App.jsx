@@ -4,6 +4,9 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Loader2 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
+import { Toaster } from '@/components/ui/toaster';
+import { Toaster as Sonner } from '@/components/ui/sonner';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import Footer from '@/components/layout/Footer';
 import MobileMenu from '@/components/layout/MobileMenu';
 import DevelopmentBanner from '@/components/DevelopmentBanner';
@@ -122,8 +125,8 @@ class GlobalErrorBoundary extends React.Component {
 }
 
 const PageLoader = () => (
-  <div className="flex h-screen items-center justify-center bg-background w-full">
-    <Loader2 className="h-10 w-10 animate-spin text-primary" />
+  <div className="flex h-[calc(100vh-4rem)] items-center justify-center bg-background/50 backdrop-blur-sm w-full z-50">
+    <LoadingSpinner size="xl" text="Loading amazing things..." />
   </div>
 );
 
@@ -150,6 +153,10 @@ function App() {
                 <title>A2Z Utility Hub - All Your Tools in One Place</title>
                 <meta name="description" content="Discover powerful productivity apps, amazing store deals, and valuable utilities." />
               </Helmet>
+              
+              {/* Global Feedback Mechanisms */}
+              <Toaster />
+              <Sonner position="top-right" />
               
               <DevelopmentBanner />
               

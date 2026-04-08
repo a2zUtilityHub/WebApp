@@ -70,7 +70,7 @@ const ShoppingCart = ({ isCartOpen, setIsCartOpen }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/60 z-[60]"
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-[60] transition-all"
           onClick={() => setIsCartOpen(false)}
         >
           <motion.div
@@ -78,11 +78,11 @@ const ShoppingCart = ({ isCartOpen, setIsCartOpen }) => {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="absolute right-0 top-0 h-full w-full max-w-md bg-background shadow-2xl flex flex-col border-l"
+            className="absolute right-0 top-0 h-full w-full sm:max-w-md sm:m-4 sm:h-[calc(100vh-32px)] sm:rounded-[2.5rem] bg-background/80 backdrop-blur-2xl shadow-2xl flex flex-col border border-border/50 overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b">
+            <div className="flex items-center justify-between p-6 pb-4 bg-gradient-to-b from-muted/30 to-transparent border-b border-border/50 shrink-0 z-10 backdrop-blur-xl">
               <div className="flex items-center gap-2">
                 <ShoppingCartIcon className="h-5 w-5" />
                 <h2 className="text-xl font-bold">Shopping Cart ({totalItems})</h2>
@@ -114,13 +114,13 @@ const ShoppingCart = ({ isCartOpen, setIsCartOpen }) => {
                 cartItems.map(item => (
                   <div
                     key={item.variant.id}
-                    className="flex gap-4 p-3 border rounded-lg bg-card hover:bg-muted/30 transition-colors"
+                    className="flex gap-4 p-4 border border-border/50 rounded-2xl bg-background/60 backdrop-blur-sm hover:shadow-md hover:border-primary/30 transition-all duration-300 group"
                   >
-                    <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border bg-muted">
+                    <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl border border-border/50 bg-muted/30 shadow-sm relative">
                       <img 
                         src={item.product.image} 
                         alt={item.product.title} 
-                        className="h-full w-full object-cover object-center" 
+                        className="h-full w-full object-cover object-center group-hover:scale-110 transition-transform duration-500" 
                       />
                     </div>
                     
@@ -170,20 +170,21 @@ const ShoppingCart = ({ isCartOpen, setIsCartOpen }) => {
             
             {/* Footer */}
             {cartItems.length > 0 && (
-              <div className="border-t p-6 bg-muted/20">
-                <div className="flex justify-between text-base font-medium text-foreground mb-4">
+              <div className="border-t border-border/50 p-6 md:p-8 bg-background/60 backdrop-blur-xl shrink-0 z-10 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] relative">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/40 to-primary"></div>
+                <div className="flex justify-between text-lg font-bold text-foreground mb-2">
                   <p>Subtotal</p>
-                  <p>{getCartTotal()}</p>
+                  <p className="text-primary">{getCartTotal()}</p>
                 </div>
-                <p className="mt-0.5 text-sm text-muted-foreground mb-4">
-                  Shipping and taxes calculated at checkout.
+                <p className="mt-1 text-[13px] text-muted-foreground mb-6">
+                  Shipping and taxes calculated securely at checkout.
                 </p>
-                <div className="mt-6">
+                <div className="mt-4">
                   <Button 
                     onClick={handleCheckout} 
-                    className="w-full h-12 text-lg font-semibold bg-primary hover:bg-primary/90"
+                    className="w-full h-14 text-lg font-bold rounded-2xl bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-primary-foreground"
                   >
-                    Checkout
+                    Proceed to Checkout
                   </Button>
                 </div>
                 <div className="mt-6 flex justify-center text-center text-sm text-muted-foreground">

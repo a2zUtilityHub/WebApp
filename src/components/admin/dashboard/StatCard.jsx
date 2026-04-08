@@ -6,11 +6,12 @@ import { cn } from '@/lib/utils';
 
 const StatCard = ({ title, value, trend, trendPercent, icon: Icon, loading }) => {
   return (
-    <Card className="overflow-hidden relative">
-        <div className="absolute top-0 right-0 p-4 opacity-10">
-            {Icon && <Icon className="w-16 h-16" />}
+    <Card className="overflow-hidden relative border border-border/50 bg-background/60 backdrop-blur-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 rounded-2xl group">
+        <div className="absolute -top-6 -right-6 p-8 opacity-5 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br from-primary to-transparent rounded-bl-[100px] z-0"></div>
+        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-300 z-0">
+            {Icon && <Icon className="w-16 h-16 text-primary" />}
         </div>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 z-10">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 z-10 relative">
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
         {Icon && <Icon className="h-4 w-4 text-muted-foreground" />}
       </CardHeader>

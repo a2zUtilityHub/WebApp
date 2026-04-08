@@ -53,7 +53,7 @@ const Navbar = () => {
   
   return (
     <>
-      <header className="hidden md:block sticky top-0 z-[60] w-full border-b border-gray-200 bg-white/95 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80 shadow-sm transition-all duration-200">
+      <header className="hidden md:block sticky top-0 z-[60] w-full border-b border-border/50 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-sm transition-all duration-200">
         <div className="flex h-16 items-center justify-between w-full px-4">
           
           <div className="flex items-center shrink-0 min-w-0 mr-4">
@@ -114,7 +114,7 @@ const Navbar = () => {
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56 rounded-xl">
+                  <DropdownMenuContent align="end" className="w-56 rounded-2xl border border-border/50 bg-background/80 backdrop-blur-xl shadow-2xl">
                     <DropdownMenuItem asChild><Link to="/dashboard"><LayoutDashboard className="mr-2 h-4 w-4" />Dashboard</Link></DropdownMenuItem>
                     <DropdownMenuItem asChild><Link to="/settings"><Settings className="mr-2 h-4 w-4" />Settings</Link></DropdownMenuItem>
                     

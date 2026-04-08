@@ -43,7 +43,11 @@ const PopularDealsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50 pb-20">
+    <div className="min-h-screen bg-background pb-24 relative overflow-hidden">
+      {/* Background Orbs */}
+      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+      <div className="absolute bottom-1/4 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none z-0"></div>
+
       <Helmet>
         <title>Top 5 Popular Deals | a2z Utility Hub</title>
         <meta name="description" content="Discover our top 5 most clicked and used deals right now." />
@@ -54,21 +58,21 @@ const PopularDealsPage = () => {
         subtitle="The top 5 most popular deals chosen by our community"
       />
 
-      <div className="container py-8 md:py-12 max-w-6xl mx-auto">
+      <div className="container py-12 md:py-16 max-w-7xl mx-auto relative z-10">
         <Breadcrumbs 
           items={[
             { title: "Home", to: "/" },
             { title: "Popular Deals", to: "/popular-deals" }
           ]} 
-          className="mb-8" 
+          className="mb-10 inline-flex bg-background/60 backdrop-blur-md px-5 py-2.5 rounded-full border border-border/50 shadow-sm" 
         />
 
-        <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <h2 className="text-2xl font-bold flex items-center gap-2 text-gray-900">
-            <TrendingUp className="text-brand-primary h-6 w-6" />
+        <div className="mb-12 flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-background/60 backdrop-blur-xl p-6 rounded-[2rem] border border-border/50 shadow-sm relative z-10">
+          <h2 className="text-3xl font-extrabold flex items-center gap-3 text-foreground tracking-tight">
+            <div className="bg-primary/10 p-2.5 rounded-xl border border-primary/20"><TrendingUp className="text-primary h-6 w-6" /></div>
             Top 5 Deals Overall
           </h2>
-          <Button variant="outline" asChild>
+          <Button variant="outline" className="h-12 px-6 rounded-xl border-border/50 bg-background/60 hover:bg-muted shadow-sm font-semibold" asChild>
             <Link to="/categories">Browse Categories</Link>
           </Button>
         </div>
@@ -82,14 +86,14 @@ const PopularDealsPage = () => {
         )}
 
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[...Array(5)].map((_, i) => (
-              <Card key={i} className="overflow-hidden">
-                <Skeleton className="h-40 w-full rounded-none" />
-                <CardContent className="p-6">
-                  <Skeleton className="h-6 w-3/4 mb-4" />
-                  <Skeleton className="h-4 w-full mb-2" />
-                  <Skeleton className="h-4 w-2/3" />
+              <Card key={i} className="overflow-hidden rounded-3xl border border-border/50 bg-background/60 backdrop-blur-md shadow-sm">
+                <Skeleton className="h-48 w-full rounded-none bg-muted/50" />
+                <CardContent className="p-8">
+                  <Skeleton className="h-8 w-3/4 mb-6 bg-muted/50" />
+                  <Skeleton className="h-4 w-full mb-3 bg-muted/50" />
+                  <Skeleton className="h-4 w-2/3 bg-muted/50" />
                 </CardContent>
               </Card>
             ))}
@@ -104,68 +108,69 @@ const PopularDealsPage = () => {
             <AnimatePresence mode="popLayout">
               {deals.map((deal, index) => (
                 <motion.div key={deal.id} variants={itemVariants} layout className={index === 0 ? "md:col-span-2 lg:col-span-2" : ""}>
-                  <Card className={`h-full flex flex-col overflow-hidden hover:shadow-2xl transition-all duration-300 border-gray-200/60 group relative hover:-translate-y-1 ${index === 0 ? 'bg-gradient-to-br from-white to-brand-primary/5 border-brand-primary/20' : 'bg-white'}`}>
+                  <Card className={`h-full flex flex-col overflow-hidden hover:shadow-2xl transition-all duration-500 border group relative hover:-translate-y-2 rounded-3xl z-10 ${index === 0 ? 'bg-gradient-to-br from-background/80 to-primary/5 border-primary/30 shadow-md backdrop-blur-2xl' : 'bg-background/60 backdrop-blur-xl border-border/50 shadow-sm hover:border-primary/50'}`}>
                     
-                    <div className="absolute top-0 left-0 bg-brand-primary text-white font-black px-4 py-1 rounded-br-xl shadow-sm z-10">
+                    <div className="absolute top-0 left-0 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground font-black px-5 py-1.5 rounded-br-2xl shadow-sm z-20 text-lg">
                       #{index + 1}
                     </div>
 
-                    <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-50 flex flex-col items-center justify-center p-6 text-center border-b border-gray-100">
+                    <div className="relative h-56 bg-muted/20 flex flex-col items-center justify-center p-6 text-center border-b border-border/50 overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"></div>
                       {deal.merchant?.logo_url ? (
-                        <img src={deal.merchant.logo_url} alt={deal.merchant?.name} className="h-20 w-auto object-contain mb-3 bg-white p-2 rounded-xl shadow-sm" />
+                        <img src={deal.merchant.logo_url} alt={deal.merchant?.name} className="h-24 w-auto object-contain mb-3 bg-background p-3 rounded-2xl shadow-sm border border-border/50 relative z-10 group-hover:scale-110 transition-transform duration-500" />
                       ) : (
-                        <div className="h-16 w-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-3">
-                          <Tag className="h-8 w-8 text-brand-primary" />
+                        <div className="h-20 w-20 bg-background rounded-full flex items-center justify-center shadow-sm border border-border/50 mb-3 relative z-10 group-hover:scale-110 transition-transform duration-500">
+                          <Tag className="h-10 w-10 text-primary" />
                         </div>
                       )}
                       
                       {deal.discount_value && (
-                        <Badge className="absolute top-4 right-4 bg-orange-500 hover:bg-orange-600 text-white font-bold border-none shadow-md px-3 py-1 text-sm">
+                        <Badge className="absolute top-5 right-5 bg-orange-500 hover:bg-orange-600 text-white font-extrabold border-none shadow-md px-4 py-1.5 text-[15px] z-10 rounded-full">
                           {deal.discount_value}
                         </Badge>
                       )}
                     </div>
                     
-                    <CardHeader className="pb-3 flex-grow">
-                      <div className="flex items-center justify-between mb-3">
+                    <CardHeader className="pb-4 flex-grow relative z-10 bg-gradient-to-b from-transparent to-muted/5">
+                      <div className="flex items-center justify-between mb-4">
                         <Link 
                           to={deal.category?.slug ? `/popular-deals/${deal.category.slug}` : '#'} 
                           className="inline-flex items-center"
                           onClick={(e) => !deal.category?.slug && e.preventDefault()}
                         >
-                          <Badge variant="outline" className="text-brand-primary border-brand-primary/30 hover:bg-brand-primary hover:text-white transition-colors cursor-pointer capitalize">
+                          <Badge variant="outline" className="text-primary border-primary/30 bg-primary/5 hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer capitalize font-bold px-3 py-1 text-[13px]">
                             {deal.category?.name || deal.category?.slug || 'Deal'}
                           </Badge>
                         </Link>
                         {deal.click_count > 0 && (
-                          <div className="flex items-center text-orange-600 text-sm font-semibold bg-orange-50 px-2 py-1 rounded-md">
-                            <Flame className="h-4 w-4 mr-1" /> {deal.click_count} uses
+                          <div className="flex items-center text-orange-500 text-[13px] font-bold bg-orange-500/10 border border-orange-500/20 px-2.5 py-1 rounded-full shadow-sm">
+                            <Flame className="h-4 w-4 mr-1.5" /> {deal.click_count} uses
                           </div>
                         )}
                       </div>
-                      <CardTitle className={`leading-tight group-hover:text-brand-primary transition-colors ${index === 0 ? 'text-2xl' : 'text-xl'}`}>
+                      <CardTitle className={`leading-tight text-foreground group-hover:text-primary transition-colors ${index === 0 ? 'text-3xl font-extrabold' : 'text-2xl font-bold'}`}>
                         {deal.title}
                       </CardTitle>
-                      <CardDescription className="line-clamp-2 mt-3 text-gray-600">
+                      <CardDescription className="line-clamp-2 mt-3 text-muted-foreground/90 text-[15px] leading-relaxed">
                         {deal.description}
                       </CardDescription>
                     </CardHeader>
 
-                    <CardFooter className="pt-4 flex flex-col gap-3 border-t border-gray-50 bg-gray-50/50">
+                    <CardFooter className="pt-5 pb-6 px-6 flex flex-col gap-4 border-t border-border/50 bg-muted/10 relative z-10">
                       {deal.expires_at && (
-                        <div className="w-full flex items-center text-xs text-red-500 font-medium bg-red-50 p-2 rounded-md">
-                          <Clock className="h-3.5 w-3.5 mr-1.5" />
+                        <div className="w-full flex items-center text-[13px] text-destructive font-bold bg-destructive/10 border border-destructive/20 p-2.5 rounded-xl shadow-sm justify-center">
+                          <Clock className="h-4 w-4 mr-2" />
                           Expires: {new Date(deal.expires_at).toLocaleDateString()}
                         </div>
                       )}
                       <Button 
-                        className="w-full bg-brand-primary hover:bg-brand-primary-dark shadow-md hover:shadow-lg transition-all h-12 text-base font-semibold"
+                        className="w-full bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all h-14 text-lg font-bold rounded-xl"
                         onClick={() => handleUseDeal(deal)}
                       >
                         {deal.deal_link ? (
-                          <><ExternalLink className="mr-2 h-5 w-5" /> Get Deal Now</>
+                          <><ExternalLink className="mr-2 h-5 w-5" /> Claim Deal Now</>
                         ) : (
-                          <><ShoppingCart className="mr-2 h-5 w-5" /> Show Promo Code</>
+                          <><ShoppingCart className="mr-2 h-5 w-5" /> Reveal Promo Code</>
                         )}
                       </Button>
                     </CardFooter>
@@ -175,12 +180,15 @@ const PopularDealsPage = () => {
             </AnimatePresence>
           </motion.div>
         ) : (
-          <div className="text-center py-20 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col items-center">
-            <Tag className="h-16 w-16 text-gray-300 mb-4" />
-            <h3 className="text-xl font-bold text-gray-900 mb-2">No Deals Found</h3>
-            <p className="text-gray-500 mb-6">Check back later for trending offers across all our categories.</p>
-            <Button asChild onClick={refetch} variant="outline" className="mr-2">
-               <span>Refresh Data</span>
+          <div className="text-center py-24 bg-background/60 backdrop-blur-xl rounded-[2.5rem] shadow-sm border border-border/50 flex flex-col items-center relative overflow-hidden z-10">
+            <div className="absolute top-0 right-0 p-16 opacity-5 bg-gradient-to-bl from-primary to-transparent rounded-bl-full z-0 w-48 h-48"></div>
+            <div className="bg-muted/50 border border-border/50 shadow-sm p-5 rounded-full mb-6 relative z-10">
+               <Tag className="h-12 w-12 text-muted-foreground/50" />
+            </div>
+            <h3 className="text-3xl font-extrabold text-foreground mb-3 relative z-10">No Deals Found</h3>
+            <p className="text-muted-foreground text-lg mb-8 relative z-10">Check back later for trending offers across all our categories.</p>
+            <Button onClick={refetch} variant="outline" className="h-12 px-8 rounded-xl border-border/50 bg-background/60 backdrop-blur-sm hover:bg-muted shadow-sm relative z-10 font-bold">
+               Refresh Data
             </Button>
           </div>
         )}

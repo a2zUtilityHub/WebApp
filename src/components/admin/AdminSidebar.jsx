@@ -61,14 +61,14 @@ const AdminSidebar = ({ isMobile, setMobileOpen }) => {
   };
 
   return (
-    <div className="flex flex-col h-full w-full bg-[hsl(var(--admin-sidebar-bg))] text-[hsl(var(--admin-text))] overflow-hidden">
+    <div className="flex flex-col h-full w-full bg-background/60 backdrop-blur-xl border-r border-border/50 text-foreground overflow-hidden">
       {/* Brand Header */}
-      <div className="h-16 flex items-center justify-between px-6 border-b border-[hsl(var(--admin-border))] shrink-0">
+      <div className="h-16 flex items-center justify-between px-6 border-b border-border/50 shrink-0 bg-background/40">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold shrink-0 shadow-sm">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-primary-foreground font-bold shrink-0 shadow-md">
             A2
           </div>
-          <span className="font-bold text-lg tracking-tight text-[hsl(var(--admin-text))]">
+          <span className="font-bold text-lg tracking-tight text-foreground">
             Admin Hub
           </span>
         </div>
@@ -97,10 +97,10 @@ const AdminSidebar = ({ isMobile, setMobileOpen }) => {
                 to={item.path}
                 onClick={handleLinkClick}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative text-sm font-medium",
+                  "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative text-[15px] font-medium",
                   isActive 
-                    ? "bg-primary/10 text-primary" 
-                    : "text-muted-foreground hover:bg-[hsl(var(--admin-hover))] hover:text-foreground"
+                    ? "bg-primary/10 text-primary shadow-sm" 
+                    : "text-muted-foreground/80 hover:bg-muted/50 hover:text-foreground"
                 )}
               >
                 {isActive && (
@@ -118,7 +118,7 @@ const AdminSidebar = ({ isMobile, setMobileOpen }) => {
       </ScrollArea>
 
       {/* Footer Profile & Logout */}
-      <div className="p-4 border-t border-[hsl(var(--admin-border))] shrink-0 bg-[hsl(var(--admin-sidebar-bg))]">
+      <div className="p-4 border-t border-border/50 shrink-0 bg-background/40">
         <div className="flex items-center gap-3 mb-4 px-2">
           <Avatar className="h-10 w-10 border border-border shadow-sm">
             <AvatarImage src={profile?.avatar_url} alt="Admin" className="object-cover" />
@@ -143,7 +143,7 @@ const AdminSidebar = ({ isMobile, setMobileOpen }) => {
               Logout
             </Button>
           </AlertDialogTrigger>
-          <AlertDialogContent className="rounded-2xl">
+          <AlertDialogContent className="rounded-3xl border border-border/50 bg-background/80 backdrop-blur-xl shadow-2xl">
             <AlertDialogHeader>
               <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
               <AlertDialogDescription>

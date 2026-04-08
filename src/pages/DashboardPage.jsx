@@ -54,28 +54,33 @@ const DashboardPage = () => {
   const memberSince = profile?.created_at ? format(new Date(profile.created_at), 'MMMM yyyy') : 'Recently';
 
   return (
-    <div className="w-full px-4 py-8 animate-fade-in">
-      <Helmet><title>My Account - Dashboard</title></Helmet>
-      
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 w-full">
-        <div className="section-header text-left !mb-0">
-          <h1 className="section-title">My Account</h1>
-          <p className="section-subtitle mt-1">Manage your profile, orders, and preferences.</p>
+    <div className="w-full px-4 py-12 animate-fade-in relative overflow-hidden bg-background min-h-screen">
+      {/* Background Glowing Orbs */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none z-0"></div>
+
+      <div className="relative z-10">
+        <Helmet><title>My Account - Dashboard</title></Helmet>
+        
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 w-full">
+          <div className="text-left">
+            <h1 className="text-4xl font-extrabold tracking-tight text-foreground">My Account</h1>
+            <p className="text-lg text-muted-foreground mt-2">Manage your profile, orders, and preferences.</p>
+          </div>
         </div>
-      </div>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 w-full">
-        <aside className="lg:col-span-1">
-          <Card className="border-border/50 shadow-sm sticky top-24 w-full">
-            <CardContent className="p-3">
-              <nav className="flex flex-col space-y-1">
-                {tabs.map(t => (
-                  <Button 
-                    key={t.id} 
-                    variant={activeTab === t.id ? "secondary" : "ghost"} 
-                    className={`w-full justify-start h-11 ${activeTab === t.id ? 'font-semibold' : 'text-muted-foreground'}`} 
-                    onClick={() => handleTabChange(t.id)}
-                  >
+        
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 w-full">
+          <aside className="lg:col-span-1">
+            <Card className="border border-border/50 bg-background/60 backdrop-blur-2xl shadow-lg rounded-[2rem] sticky top-24 w-full overflow-hidden">
+              <CardContent className="p-4">
+                <nav className="flex flex-col space-y-2">
+                  {tabs.map(t => (
+                    <Button 
+                      key={t.id} 
+                      variant={activeTab === t.id ? "secondary" : "ghost"} 
+                      className={`w-full justify-start h-12 rounded-xl transition-all duration-300 ${activeTab === t.id ? 'font-bold bg-primary/10 text-primary shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`} 
+                      onClick={() => handleTabChange(t.id)}
+                    >
                     <t.icon className={`mr-3 h-5 w-5 ${activeTab === t.id ? 'text-primary' : ''}`} /> 
                     {t.label}
                   </Button>
@@ -93,42 +98,43 @@ const DashboardPage = () => {
           ) : (
             <div className="animate-slide-in w-full">
               {activeTab === 'overview' && (
-                <div className="space-y-6 w-full">
-                  <Card className="border-border/50 shadow-sm overflow-hidden w-full">
-                    <div className="bg-gradient-to-r from-primary/10 to-transparent p-6 border-b border-border/50 w-full">
-                      <div className="flex items-center gap-4">
-                        <div className="h-16 w-16 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xl font-bold">
+                <div className="space-y-8 w-full">
+                  <Card className="border border-border/50 bg-background/60 backdrop-blur-2xl shadow-lg rounded-[2rem] overflow-hidden w-full">
+                    <div className="bg-gradient-to-r from-primary/20 via-primary/5 to-transparent p-8 md:p-10 border-b border-border/50 w-full relative">
+                      <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity duration-500 bg-gradient-to-br from-primary to-transparent rounded-bl-[100px] w-48 h-48 pointer-events-none z-0"></div>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 relative z-10">
+                        <div className="h-20 w-20 rounded-[1.5rem] bg-background border border-border/50 shadow-sm flex items-center justify-center text-primary text-3xl font-extrabold ring-4 ring-background/50">
                           {profile?.first_name?.charAt(0) || 'U'}
                         </div>
                         <div>
-                          <CardTitle className="text-2xl">Welcome back, {profile?.first_name || 'User'}!</CardTitle>
-                          <CardDescription className="text-base mt-1">Member since {memberSince}</CardDescription>
+                          <CardTitle className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Welcome back, {profile?.first_name || 'User'}!</CardTitle>
+                          <CardDescription className="text-lg mt-2 text-muted-foreground/90 font-medium">Member since {memberSince}</CardDescription>
                         </div>
                       </div>
                     </div>
-                    <CardContent className="p-6 w-full">
+                    <CardContent className="p-6 md:p-8 w-full">
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-                        <div className="p-4 rounded-xl border border-border/50 bg-card hover:bg-accent/5 transition-colors">
-                          <div className="flex items-center gap-3 mb-2">
-                            <div className="p-2 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"><ShoppingBag className="h-5 w-5" /></div>
-                            <h3 className="font-semibold text-sm text-muted-foreground">Total Orders</h3>
+                        <div className="p-6 rounded-3xl border border-border/50 bg-background/40 backdrop-blur-sm shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
+                          <div className="flex items-center gap-4 mb-4">
+                            <div className="p-3 rounded-2xl bg-blue-500/10 text-blue-500 border border-blue-500/20 group-hover:scale-110 transition-transform"><ShoppingBag className="h-6 w-6" /></div>
+                            <h3 className="font-bold text-[15px] text-muted-foreground">Total Orders</h3>
                           </div>
-                          <p className="text-3xl font-bold">{mockOrders.length}</p>
+                          <p className="text-4xl font-black text-foreground">{mockOrders.length}</p>
                         </div>
-                        <div className="p-4 rounded-xl border border-border/50 bg-card hover:bg-accent/5 transition-colors">
-                          <div className="flex items-center gap-3 mb-2">
-                            <div className="p-2 rounded-lg bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400"><MapPin className="h-5 w-5" /></div>
-                            <h3 className="font-semibold text-sm text-muted-foreground">Saved Addresses</h3>
+                        <div className="p-6 rounded-3xl border border-border/50 bg-background/40 backdrop-blur-sm shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
+                          <div className="flex items-center gap-4 mb-4">
+                            <div className="p-3 rounded-2xl bg-green-500/10 text-green-500 border border-green-500/20 group-hover:scale-110 transition-transform"><MapPin className="h-6 w-6" /></div>
+                            <h3 className="font-bold text-[15px] text-muted-foreground">Saved Addresses</h3>
                           </div>
-                          <p className="text-3xl font-bold">{mockAddresses.length}</p>
+                          <p className="text-4xl font-black text-foreground">{mockAddresses.length}</p>
                         </div>
-                        <div className="p-4 rounded-xl border border-border/50 bg-card hover:bg-accent/5 transition-colors">
-                          <div className="flex items-center gap-3 mb-2">
-                            <div className="p-2 rounded-lg bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400"><CreditCard className="h-5 w-5" /></div>
-                            <h3 className="font-semibold text-sm text-muted-foreground">Account Status</h3>
+                        <div className="p-6 rounded-3xl border border-border/50 bg-background/40 backdrop-blur-sm shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
+                          <div className="flex items-center gap-4 mb-4">
+                            <div className="p-3 rounded-2xl bg-purple-500/10 text-purple-500 border border-purple-500/20 group-hover:scale-110 transition-transform"><CreditCard className="h-6 w-6" /></div>
+                            <h3 className="font-bold text-[15px] text-muted-foreground">Account Status</h3>
                           </div>
-                          <p className="text-xl font-bold flex items-center gap-2">
-                            Active <Badge variant="secondary" className="bg-green-100 text-green-700 hover:bg-green-100 border-green-200">Verified</Badge>
+                          <p className="text-2xl font-bold flex items-center gap-2 mt-2 text-foreground">
+                            Active <Badge variant="secondary" className="bg-success/10 text-success hover:bg-success/20 border border-success/20 rounded-full px-3 py-0.5">Verified</Badge>
                           </p>
                         </div>
                       </div>
@@ -244,6 +250,7 @@ const DashboardPage = () => {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

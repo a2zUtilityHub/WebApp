@@ -101,11 +101,25 @@
 @layer components {
   .content-container {
     width: 100%;
-    max-width: none;
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: var(--spacing-unit);
-    padding-right: var(--spacing-unit);
+    max-width: 1440px; /* Modern ultra-wide cap */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 16px; /* Strict 16px margin for mobile */
+    padding-right: 16px;
+  }
+
+  @media (min-width: 768px) {
+    .content-container {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .content-container {
+      padding-left: 32px;
+      padding-right: 32px;
+    }
   }
 
   .section-header {

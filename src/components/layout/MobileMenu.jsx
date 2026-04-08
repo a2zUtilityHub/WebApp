@@ -42,7 +42,7 @@ const MobileMenu = () => {
   const isMoreActive = moreNavItems.some(item => location.pathname === item.to) || location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/settings');
 
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 h-[72px] bg-white/90 backdrop-blur-xl border-t border-gray-200/50 z-[60] shadow-[0_-4px_24px_rgba(0,0,0,0.04)] pb-safe">
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 h-[72px] bg-background/80 backdrop-blur-xl border-t border-border/50 z-[60] shadow-[0_-4px_24px_rgba(0,0,0,0.04)] pb-safe">
       <div className="flex h-full w-full justify-around items-center px-2 max-w-md mx-auto">
         {mainNavItems.map(item => {
           const isActive = location.pathname === item.to;
@@ -69,19 +69,20 @@ const MobileMenu = () => {
             </button>
           </SheetTrigger>
           
-          <SheetContent side="bottom" className="w-full max-h-[90dvh] flex flex-col p-0 rounded-t-3xl z-[70] shadow-2xl bg-white/95 backdrop-blur-2xl border-t border-brand-primary/10">
+          <SheetContent side="bottom" className="w-full max-h-[90dvh] flex flex-col p-0 rounded-t-3xl z-[70] shadow-2xl border border-border/50 bg-background/80 backdrop-blur-2xl">
             
             {/* Header stays pinned to the top - Logo Removed */}
             <SheetHeader className="pt-6 pb-2 px-6 flex flex-col items-center justify-center shrink-0">
-              <SheetTitle className="text-xl font-bold tracking-tight text-gray-900 mt-2">Discover More</SheetTitle>
+              <div className="w-12 h-1.5 bg-muted rounded-full mb-4 opacity-50"></div>
+              <SheetTitle className="text-xl font-bold tracking-tight text-foreground">Discover More</SheetTitle>
             </SheetHeader>
             
             {/* Scrollable container for links */}
             <div className="flex-1 overflow-y-auto px-4 sm:px-6 pb-12 pt-2">
               <nav className="grid grid-cols-3 gap-3 py-2">
                 {moreNavItems.map(item => (
-                  <button key={item.to} onClick={() => handleLinkClick(item.to)} className="flex flex-col items-center justify-center p-3 h-[96px] min-h-[44px] bg-gray-50/80 rounded-2xl hover:bg-brand-primary/10 hover:text-brand-primary hover:shadow-sm text-gray-600 transition-all duration-200 border border-transparent hover:border-brand-primary/20 outline-none focus:!outline-none focus:!ring-0 focus-visible:!outline-none focus-visible:!ring-0 [-webkit-tap-highlight-color:transparent] select-none active:scale-[0.96]">
-                    <item.icon className="w-7 h-7 mb-2.5 opacity-80 transition-transform group-hover:scale-110" />
+                  <button key={item.to} onClick={() => handleLinkClick(item.to)} className="group flex flex-col items-center justify-center p-3 h-[96px] min-h-[44px] bg-muted/30 dark:bg-muted/10 rounded-2xl hover:bg-brand-primary/10 hover:text-brand-primary hover:shadow-sm text-foreground/80 hover:text-brand-primary transition-all duration-200 border border-transparent hover:border-brand-primary/20 outline-none focus:!outline-none focus:!ring-0 focus-visible:!outline-none focus-visible:!ring-0 [-webkit-tap-highlight-color:transparent] select-none active:scale-[0.96]">
+                    <item.icon className="w-7 h-7 mb-2.5 opacity-80 transition-transform group-hover:-translate-y-1" />
                     <span className="text-[12px] font-semibold text-center leading-tight tracking-wide">{item.text}</span>
                   </button>
                 ))}

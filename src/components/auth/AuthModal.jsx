@@ -117,8 +117,8 @@ const AuthModal = ({ isOpen: externalIsOpen, onClose: externalOnClose, defaultVi
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-[425px] p-0 overflow-hidden bg-card border border-border shadow-2xl" hideCloseButton>
-        <DialogHeader className="p-6 pb-2 pt-8 text-center relative bg-muted/30">
+      <DialogContent className="sm:max-w-[425px] w-[calc(100vw-32px)] p-0 overflow-hidden bg-background/80 backdrop-blur-2xl border border-border/50 shadow-2xl rounded-3xl sm:rounded-[2rem]" hideCloseButton>
+        <DialogHeader className="p-6 pb-2 pt-8 text-center relative bg-gradient-to-b from-muted/30 to-transparent">
             <Button
               variant="ghost"
               size="icon"

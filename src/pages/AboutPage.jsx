@@ -50,34 +50,37 @@ const AboutPage = () => {
       )}
 
       {/* Features Grid */}
-      <section className="py-20 container max-w-6xl mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4">Everything you need to get things done</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">Powerful features hidden behind a beautifully simple interface.</p>
+      <section className="py-24 container max-w-7xl mx-auto px-4 relative">
+        <div className="text-center mb-16 relative z-10">
+          <h2 className="text-4xl font-extrabold tracking-tight mb-4 text-foreground">Everything you need to get things done</h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Powerful features hidden behind a beautifully simple interface.</p>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
           {features.map((f, i) => (
-            <div key={i} className="bg-card p-6 rounded-2xl shadow-sm border hover:shadow-md transition-all hover:-translate-y-1">
-              <div className="bg-primary/5 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
+            <div key={i} className="bg-background/60 backdrop-blur-xl p-8 rounded-3xl border border-border/50 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 group">
+              <div className="bg-muted/30 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 border border-border/50 shadow-sm">
                 {f.icon}
               </div>
-              <h3 className="text-xl font-semibold mb-2">{f.title}</h3>
-              <p className="text-muted-foreground text-sm">{f.desc}</p>
+              <h3 className="text-xl font-bold mb-3 text-foreground">{f.title}</h3>
+              <p className="text-muted-foreground text-[15px] leading-relaxed">{f.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* Target Audience */}
-      <section className="py-20 bg-muted/30 border-y">
-        <div className="container max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center">Who is it for?</h2>
+      <section className="py-24 bg-muted/10 border-y border-border/50 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+        <div className="container max-w-5xl mx-auto px-4 relative z-10">
+          <h2 className="text-4xl font-extrabold tracking-tight mb-16 text-center text-foreground">Who is it for?</h2>
           <div className="grid sm:grid-cols-2 gap-6">
             {['Students managing assignments', 'Professionals tracking deadlines', 'Freelancers organizing projects', 'Anyone looking for focus'].map((item, i) => (
-              <div key={i} className="flex items-center p-4 bg-background rounded-xl shadow-sm border">
-                <CheckCircle className="text-primary w-6 h-6 mr-4 shrink-0" />
-                <span className="font-medium">{item}</span>
+              <div key={i} className="flex items-center p-6 bg-background/80 backdrop-blur-md rounded-2xl shadow-sm border border-border/50 hover:shadow-md hover:border-primary/30 transition-all duration-300">
+                <div className="bg-primary/10 p-2 rounded-full mr-5 shrink-0">
+                   <CheckCircle className="text-primary w-6 h-6" />
+                </div>
+                <span className="font-semibold text-lg text-foreground">{item}</span>
               </div>
             ))}
           </div>

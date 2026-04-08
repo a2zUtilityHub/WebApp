@@ -245,11 +245,11 @@ const EditorToolbar = ({ editor }) => {
   };
 
   return (
-    <div className="border rounded-t-md p-2 flex items-center gap-1">
-      <Button variant={editor.isActive('bold') ? 'secondary' : 'ghost'} size="icon" onClick={() => editor.chain().focus().toggleBold().run()}><Bold className="h-4 w-4"/></Button>
-      <Button variant={editor.isActive('italic') ? 'secondary' : 'ghost'} size="icon" onClick={() => editor.chain().focus().toggleItalic().run()}><Italic className="h-4 w-4"/></Button>
-      <Button variant={editor.isActive('bulletList') ? 'secondary' : 'ghost'} size="icon" onClick={() => editor.chain().focus().toggleBulletList().run()}><List className="h-4 w-4"/></Button>
-      <Button variant={editor.isActive('link') ? 'secondary' : 'ghost'} size="icon" onClick={setLink}><Link className="h-4 w-4"/></Button>
+    <div className="border-b border-border/50 bg-muted/30 p-2 flex items-center gap-1">
+      <Button type="button" variant={editor.isActive('bold') ? 'secondary' : 'ghost'} size="icon" className="h-8 w-8 rounded-lg" onClick={() => editor.chain().focus().toggleBold().run()}><Bold className="h-4 w-4"/></Button>
+      <Button type="button" variant={editor.isActive('italic') ? 'secondary' : 'ghost'} size="icon" className="h-8 w-8 rounded-lg" onClick={() => editor.chain().focus().toggleItalic().run()}><Italic className="h-4 w-4"/></Button>
+      <Button type="button" variant={editor.isActive('bulletList') ? 'secondary' : 'ghost'} size="icon" className="h-8 w-8 rounded-lg" onClick={() => editor.chain().focus().toggleBulletList().run()}><List className="h-4 w-4"/></Button>
+      <Button type="button" variant={editor.isActive('link') ? 'secondary' : 'ghost'} size="icon" className="h-8 w-8 rounded-lg" onClick={setLink}><Link className="h-4 w-4"/></Button>
     </div>
   );
 };
@@ -283,7 +283,7 @@ const ProfileSection = ({ userProfile, onProfileUpdate, profileCompletion }) => 
     content: userProfile?.bio || '',
     editorProps: {
         attributes: {
-          class: 'prose dark:prose-invert min-h-[120px] max-w-none rounded-b-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+          class: 'prose dark:prose-invert min-h-[120px] max-w-none bg-transparent px-4 py-3 text-[15px] focus:outline-none',
         },
       },
     onUpdate: ({ editor }) => {
@@ -323,37 +323,41 @@ const ProfileSection = ({ userProfile, onProfileUpdate, profileCompletion }) => 
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>My Profile</CardTitle>
-        <CardDescription>Update your personal information and manage your account.</CardDescription>
+    <Card className="border border-border/50 bg-background/60 backdrop-blur-xl shadow-sm rounded-2xl overflow-hidden">
+      <div className="h-1.5 w-full bg-gradient-to-r from-primary/40 to-primary"></div>
+      <CardHeader className="pb-4">
+        <CardTitle className="text-2xl font-bold tracking-tight">My Profile</CardTitle>
+        <CardDescription className="text-[15px]">Update your personal information and manage your account.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
-        <div className="flex items-center gap-4">
-          <Avatar className="h-20 w-20">
-            <AvatarImage src={userProfile.avatar_url} alt="Profile picture" />
-            <AvatarFallback>{getInitials(userProfile.first_name, userProfile.last_name)}</AvatarFallback>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 p-6 bg-muted/20 rounded-2xl border border-border/50">
+          <Avatar className="h-24 w-24 ring-4 ring-background shadow-xl">
+            <AvatarImage src={userProfile.avatar_url} alt="Profile picture" className="object-cover" />
+            <AvatarFallback className="bg-gradient-to-br from-primary/80 to-primary text-primary-foreground text-2xl font-bold">{getInitials(userProfile.first_name, userProfile.last_name)}</AvatarFallback>
           </Avatar>
-          <div className="flex-grow">
-            <p className="text-sm font-medium">Profile Completion</p>
-            <Progress value={profileCompletion} className="w-full mt-1" />
-            <p className="text-xs text-muted-foreground mt-1">{profileCompletion}% complete</p>
+          <div className="flex-grow w-full">
+            <div className="flex justify-between items-end mb-2">
+               <p className="text-sm font-semibold text-foreground">Profile Completion</p>
+               <p className="text-xs font-bold text-primary">{profileCompletion}%</p>
+            </div>
+            <Progress value={profileCompletion} className="h-2.5 w-full bg-muted/50 [&>div]:bg-gradient-to-r [&>div]:from-primary/60 [&>div]:to-primary" />
+            <p className="text-[13px] text-muted-foreground mt-2">Complete your profile to unlock all features.</p>
           </div>
-          <AvatarUploadDialog userProfile={userProfile} onUploadComplete={onProfileUpdate} />
+          <div className="shrink-0 w-full sm:w-auto mt-2 sm:mt-0">
+             <AvatarUploadDialog userProfile={userProfile} onUploadComplete={onProfileUpdate} />
+          </div>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="firstName">First Name</Label>
-              <Input id="firstName" {...register('first_name')} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-1.5">
+              <Input id="firstName" label="First Name" {...register('first_name')} />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="lastName">Last Name</Label>
-              <Input id="lastName" {...register('last_name')} />
+            <div className="space-y-1.5">
+              <Input id="lastName" label="Last Name" {...register('last_name')} />
             </div>
-            <div className="space-y-2">
-              <Label>Date of Birth</Label>
+            <div className="space-y-1.5 group">
+              <Label className="text-[14px] font-medium text-foreground/90 group-focus-within:text-primary transition-colors">Date of Birth</Label>
               <Controller
                 control={control}
                 name="dob"
@@ -362,13 +366,13 @@ const ProfileSection = ({ userProfile, onProfileUpdate, profileCompletion }) => 
                     <PopoverTrigger asChild>
                       <Button
                         variant={"outline"}
-                        className={cn("w-full justify-start text-left font-normal", !field.value && "text-muted-foreground")}
+                        className={cn("w-full h-12 rounded-xl bg-background/60 backdrop-blur-sm border-input hover:border-primary/50 transition-colors shadow-sm focus-visible:ring-4 focus-visible:ring-primary/10 justify-start text-left font-normal text-[15px]", !field.value && "text-muted-foreground/60")}
                       >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        <CalendarIcon className="mr-3 h-[18px] w-[18px] text-muted-foreground group-focus-within:text-primary transition-colors" />
                         {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
+                    <PopoverContent className="w-auto p-0 rounded-2xl border-border/50 bg-background/80 backdrop-blur-xl shadow-2xl">
                       <Calendar 
                         mode="single" 
                         selected={field.value} 
@@ -384,73 +388,75 @@ const ProfileSection = ({ userProfile, onProfileUpdate, profileCompletion }) => 
                 )}
               />
             </div>
-            <div className="space-y-2">
-              <Label>Gender</Label>
+            <div className="space-y-1.5 group">
+              <Label className="text-[14px] font-medium text-foreground/90 group-focus-within:text-primary transition-colors">Gender</Label>
               <Controller
                 control={control}
                 name="gender"
                 render={({ field }) => (
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <SelectTrigger><SelectValue placeholder="Select a gender" /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="male">Male</SelectItem>
-                      <SelectItem value="female">Female</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                      <SelectItem value="prefer_not_to_say">Prefer not to say</SelectItem>
+                    <SelectTrigger className="h-12 rounded-xl bg-background/60 backdrop-blur-sm border-input hover:border-primary/50 transition-colors shadow-sm focus:ring-4 focus:ring-primary/10 text-[15px]"><SelectValue placeholder="Select a gender" /></SelectTrigger>
+                    <SelectContent className="rounded-2xl border-border/50 bg-background/80 backdrop-blur-xl shadow-xl">
+                      <SelectItem value="male" className="rounded-xl focus:bg-primary/10">Male</SelectItem>
+                      <SelectItem value="female" className="rounded-xl focus:bg-primary/10">Female</SelectItem>
+                      <SelectItem value="other" className="rounded-xl focus:bg-primary/10">Other</SelectItem>
+                      <SelectItem value="prefer_not_to_say" className="rounded-xl focus:bg-primary/10">Prefer not to say</SelectItem>
                     </SelectContent>
                   </Select>
                 )}
               />
             </div>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="bio">About You / Bio</Label>
-            <EditorToolbar editor={editor} />
-            <EditorContent editor={editor} />
+          <div className="space-y-1.5 group mt-6">
+            <Label className="text-[14px] font-medium text-foreground/90 group-focus-within:text-primary transition-colors">About You / Bio</Label>
+            <div className="rounded-2xl overflow-hidden border border-input focus-within:ring-4 focus-within:ring-primary/10 focus-within:border-primary transition-all duration-300 shadow-sm bg-background/60 backdrop-blur-sm">
+               <EditorToolbar editor={editor} />
+               <EditorContent editor={editor} />
+            </div>
           </div>
-          <div className="space-y-4">
-            <h3 className="font-medium pt-4 border-t">Address</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="country">Country</Label>
-                <Input id="country" {...register('country')} />
+          <div className="space-y-4 pt-8">
+            <h3 className="font-semibold text-lg border-b border-border/50 pb-2">Address Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+              <div className="space-y-1.5">
+                <Input id="country" label="Country" {...register('country')} />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="state">State / Province</Label>
-                <Input id="state" {...register('state')} />
+              <div className="space-y-1.5">
+                <Input id="state" label="State / Province" {...register('state')} />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="city">City</Label>
-                <Input id="city" {...register('city')} />
+              <div className="space-y-1.5">
+                <Input id="city" label="City" {...register('city')} />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="zip_code">Zip / Postal Code</Label>
-                <Input id="zip_code" {...register('zip_code')} />
+              <div className="space-y-1.5">
+                <Input id="zip_code" label="Zip / Postal Code" {...register('zip_code')} />
               </div>
             </div>
           </div>
 
-          <Button type="submit" disabled={loading}>
-            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
-            Save Personal Info
-          </Button>
+          <div className="flex justify-end pt-4">
+            <Button type="submit" disabled={loading} className="h-12 rounded-xl px-8 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-medium shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+              {loading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Save className="mr-2 h-5 w-5" />}
+              Save Profile Changes
+            </Button>
+          </div>
         </form>
 
-        <div className="space-y-4 pt-6 border-t">
-          <h3 className="font-medium">Account Management</h3>
-          <div className="p-4 border rounded-lg flex items-center justify-between">
-            <div>
-              <p className="font-medium">Email Address</p>
-              <p className="text-sm text-muted-foreground">{userProfile.email}</p>
+        <div className="space-y-4 pt-8 mt-8 border-t border-border/50">
+          <h3 className="font-semibold text-lg">Account Security</h3>
+          <div className="grid gap-4">
+            <div className="p-5 border border-border/50 bg-background/40 backdrop-blur-sm rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:shadow-sm transition-all duration-300">
+              <div>
+                <p className="font-semibold text-foreground">Email Address</p>
+                <p className="text-sm text-muted-foreground mt-0.5">{userProfile.email}</p>
+              </div>
+              <ChangeEmailDialog userProfile={userProfile} onUpdate={onProfileUpdate} />
             </div>
-            <ChangeEmailDialog userProfile={userProfile} onUpdate={onProfileUpdate} />
-          </div>
-          <div className="p-4 border rounded-lg flex items-center justify-between">
-            <div>
-              <p className="font-medium">Password</p>
-              <p className="text-sm text-muted-foreground">********</p>
+            <div className="p-5 border border-border/50 bg-background/40 backdrop-blur-sm rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:shadow-sm transition-all duration-300">
+              <div>
+                <p className="font-semibold text-foreground">Password</p>
+                <p className="text-sm text-muted-foreground mt-0.5">Last changed recently</p>
+              </div>
+              <ChangePasswordDialog />
             </div>
-            <ChangePasswordDialog />
           </div>
         </div>
       </CardContent>

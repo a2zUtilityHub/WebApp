@@ -9,9 +9,9 @@ import { cn } from '@/lib/utils';
 import { useGoogleTagManager } from '@/hooks/useGoogleTagManager';
 
 const priorityConfig = {
-  high: { label: 'High', class: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-200' },
-  medium: { label: 'Medium', class: 'bg-amber-500/10 text-amber-600 border-amber-200' },
-  low: { label: 'Low', class: 'bg-emerald-500/10 text-emerald-600 border-emerald-200' }
+  high: { label: 'High', class: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-200 border-l-red-500' },
+  medium: { label: 'Medium', class: 'bg-amber-500/10 text-amber-600 border-amber-200 border-l-amber-500' },
+  low: { label: 'Low', class: 'bg-emerald-500/10 text-emerald-600 border-emerald-200 border-l-emerald-500' }
 };
 
 const TaskCard = ({ task, index, onEdit, onDelete, onToggleComplete, isSelected, onToggleSelect }) => {
@@ -43,10 +43,11 @@ const TaskCard = ({ task, index, onEdit, onDelete, onToggleComplete, isSelected,
           ref={provided.innerRef}
           {...provided.draggableProps}
           className={cn(
-            'task-card group relative', 
-            snapshot.isDragging && 'dragging', 
-            isCompleted && 'opacity-75 bg-muted/30',
-            isSelected && 'ring-2 ring-primary border-primary'
+            'task-card group relative bg-background border border-border/50 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300 border-l-4', 
+            priorityConfig[task.priority]?.class.split(' ').find(c => c.startsWith('border-l-')) || 'border-l-border',
+            snapshot.isDragging && 'rotate-2 scale-105 shadow-xl cursor-grabbing z-50 ring-2 ring-primary/20', 
+            isCompleted && 'opacity-60 bg-muted/30 grayscale-[0.5]',
+            isSelected && 'ring-2 ring-primary border-primary bg-primary/5'
           )}
           style={{ ...provided.draggableProps.style }}
           onClick={(e) => {
@@ -128,9 +129,9 @@ const TaskCard = ({ task, index, onEdit, onDelete, onToggleComplete, isSelected,
                 </div>
               )}
 
-              <div className="task-meta">
+              <div className="flex flex-wrap items-center gap-2 mt-4 pt-3 border-t border-border/50">
                 {task.priority && (
-                  <span className={cn('priority-badge border', priorityConfig[task.priority]?.class || 'bg-gray-100 text-gray-600')}>
+                  <span className={cn('text-[11px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider', priorityConfig[task.priority]?.class.replace(/border-l-\S+/, '') || 'bg-muted text-muted-foreground')}>
                     {priorityConfig[task.priority]?.label || 'Medium'}
                   </span>
                 )}

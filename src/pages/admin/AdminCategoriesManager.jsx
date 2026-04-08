@@ -3,7 +3,8 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { FolderTree, Plus, Search, Edit2, Trash2 } from 'lucide-react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { FolderTree, Plus, Search, Edit2, Trash2, AlertTriangle } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
 const mockCategories = [
@@ -53,8 +54,26 @@ const AdminCategoriesManager = () => {
                   <TableCell className="text-gray-600 dark:text-gray-400">{c.type}</TableCell>
                   <TableCell className="text-blue-600 font-semibold">{c.items}</TableCell>
                   <TableCell className="px-6 text-right">
-                    <Button variant="ghost" size="icon" onClick={handleAction} className="text-gray-500 hover:text-blue-600"><Edit2 className="w-4 h-4" /></Button>
-                    <Button variant="ghost" size="icon" className="text-gray-400 hover:text-red-500"><Trash2 className="w-4 h-4" /></Button>
+                    <Button variant="ghost" size="icon" onClick={handleAction} className="text-gray-500 hover:text-blue-600 rounded-lg"><Edit2 className="w-4 h-4" /></Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="ghost" size="icon" className="text-gray-400 hover:text-red-500 rounded-lg"><Trash2 className="w-4 h-4" /></Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle className="text-red-600 dark:text-red-500 flex items-center gap-2"><AlertTriangle className="w-5 h-5"/> Delete Category?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Are you sure you want to delete the <strong>{c.name}</strong> category? This may orphan the {c.items} {c.type}s currently linked to it.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel className="rounded-xl">Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => toast({ title: "Category Deleted", variant: "destructive" })} className="bg-red-600 hover:bg-red-700 text-white rounded-xl">
+                            Delete Category
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </TableCell>
                 </TableRow>
               ))}

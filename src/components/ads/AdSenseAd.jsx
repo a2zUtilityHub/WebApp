@@ -57,8 +57,9 @@ const AdSenseAd = ({ className, format, width, height, slot, style, responsive, 
   return (
     <div
       className={cn(
-        'transition-all duration-500',
-        status === 'loaded' ? 'opacity-100 h-auto' : 'opacity-0 h-0 overflow-hidden',
+        'transition-all duration-500 min-h-[100px] w-full flex items-center justify-center',
+        status === 'failed' ? 'hidden' : 'opacity-100',
+        status === 'loading' ? 'bg-muted/20 animate-pulse rounded-lg' : '',
         className
       )}
       style={{

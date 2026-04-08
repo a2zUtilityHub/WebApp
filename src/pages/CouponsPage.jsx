@@ -164,7 +164,10 @@ const CouponsPage = () => {
   const dealCount = useMemo(() => coupons.filter(c => c.type?.toLowerCase() === 'deal' || c.type?.toLowerCase() === 'deals').length, [coupons]);
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="pb-20 bg-gray-50/50 w-full flex flex-col flex-grow">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="pb-20 bg-background w-full flex flex-col flex-grow relative overflow-hidden">
+      {/* Soft Glowing Background Orbs */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none z-0"></div>
       <Helmet>
         <title>Coupons & Deals - a2z Utility Hub</title>
         <meta name="description" content="Find the latest and greatest coupons, deals, and promo codes from your favorite brands. Save money on every purchase." />
@@ -177,15 +180,15 @@ const CouponsPage = () => {
 
       <div className="py-8 w-full px-4">
         <AdSidebarLayoutWrapper leftAdSlots={['coupons_left_1', 'coupons_left_2']} rightAdSlots={['coupons_right_1', 'coupons_right_2']}>
-          <div className="w-full min-w-0">
-            <div className="section-header text-left">
-              <h2 className="section-title">Daily Deals & Coupons</h2>
-              <p className="section-subtitle">Browse through our extensive list of savings and discounts.</p>
+          <div className="w-full min-w-0 relative z-10">
+            <div className="section-header text-left mb-10">
+              <h2 className="text-4xl font-extrabold tracking-tight text-foreground">Daily Deals & Coupons</h2>
+              <p className="text-lg text-muted-foreground mt-2">Browse through our extensive list of savings and discounts.</p>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-8 w-full">
-              <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                <ShoppingBag className="h-5 w-5 mr-2 text-brand-primary" />
+            <div className="bg-background/60 backdrop-blur-xl rounded-[2rem] p-6 md:p-8 shadow-sm border border-border/50 mb-10 w-full hover:shadow-md transition-shadow">
+              <h2 className="text-xl font-extrabold text-foreground mb-5 flex items-center">
+                <div className="bg-primary/10 p-2 rounded-xl mr-3"><ShoppingBag className="h-5 w-5 text-primary" /></div>
                 Top Brands & Categories
               </h2>
               <div className="flex flex-wrap gap-3">
@@ -202,40 +205,40 @@ const CouponsPage = () => {
               </div>
             </div>
 
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8 w-full">
-              <TabsList className="grid w-full max-w-md grid-cols-3 mb-6 bg-white shadow-sm border border-gray-100 rounded-xl p-1 h-12">
-                <TabsTrigger value="all" className="data-[state=active]:bg-brand-primary/10 data-[state=active]:text-brand-primary rounded-lg">All ({coupons.length})</TabsTrigger>
-                <TabsTrigger value="coupons" className="data-[state=active]:bg-brand-primary/10 data-[state=active]:text-brand-primary rounded-lg">Coupons ({couponCount})</TabsTrigger>
-                <TabsTrigger value="deals" className="data-[state=active]:bg-brand-primary/10 data-[state=active]:text-brand-primary rounded-lg">Deals ({dealCount})</TabsTrigger>
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-10 w-full relative z-10">
+              <TabsList className="grid w-full max-w-md grid-cols-3 mb-8 bg-background/60 backdrop-blur-md shadow-sm border border-border/50 rounded-2xl p-1 h-14">
+                <TabsTrigger value="all" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md rounded-xl font-semibold text-[15px]">All ({coupons.length})</TabsTrigger>
+                <TabsTrigger value="coupons" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md rounded-xl font-semibold text-[15px]">Coupons ({couponCount})</TabsTrigger>
+                <TabsTrigger value="deals" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md rounded-xl font-semibold text-[15px]">Deals ({dealCount})</TabsTrigger>
               </TabsList>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 p-5 bg-white rounded-2xl shadow-sm border border-gray-100 w-full">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10 p-5 bg-background/60 backdrop-blur-xl rounded-[2rem] shadow-sm border border-border/50 w-full">
+                <div className="relative group">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
                   <Input
                     placeholder="Search coupons..."
-                    className="pl-10 bg-gray-50 h-11 border-transparent focus:bg-white transition-colors"
+                    className="pl-12 bg-background/80 h-12 border-input text-foreground focus-visible:ring-4 focus-visible:ring-primary/10 hover:border-primary/50 shadow-sm rounded-2xl transition-all"
                     value={filters.searchTerm}
                     onChange={(e) => handleFilterChange('searchTerm', e.target.value)}
                   />
                 </div>
                 <Select value={filters.category} onValueChange={(value) => handleFilterChange('category', value)}>
-                  <SelectTrigger className="bg-gray-50 h-11 border-transparent"><SelectValue placeholder="All Categories" /></SelectTrigger>
-                  <SelectContent>
+                  <SelectTrigger className="bg-background/80 h-12 border-input text-foreground focus:ring-4 focus:ring-primary/10 hover:border-primary/50 shadow-sm rounded-2xl transition-all"><SelectValue placeholder="All Categories" /></SelectTrigger>
+                  <SelectContent className="rounded-2xl border-border/50 bg-background/80 backdrop-blur-xl shadow-xl">
                     <SelectItem value="all">All Categories</SelectItem>
-                    {categories.map(cat => <SelectItem key={cat.id} value={cat.slug}>{cat.name}</SelectItem>)}
+                    {categories.map(cat => <SelectItem key={cat.id} value={cat.slug} className="rounded-xl">{cat.name}</SelectItem>)}
                   </SelectContent>
                 </Select>
                 <Select value={filters.merchant} onValueChange={(value) => handleFilterChange('merchant', value)}>
-                  <SelectTrigger className="bg-gray-50 h-11 border-transparent"><SelectValue placeholder="All Merchants" /></SelectTrigger>
-                  <SelectContent>
+                  <SelectTrigger className="bg-background/80 h-12 border-input text-foreground focus:ring-4 focus:ring-primary/10 hover:border-primary/50 shadow-sm rounded-2xl transition-all"><SelectValue placeholder="All Merchants" /></SelectTrigger>
+                  <SelectContent className="rounded-2xl border-border/50 bg-background/80 backdrop-blur-xl shadow-xl">
                     <SelectItem value="all">All Merchants</SelectItem>
-                    {merchants.map(mer => <SelectItem key={mer.id} value={String(mer.id)}>{mer.name}</SelectItem>)}
+                    {merchants.map(mer => <SelectItem key={mer.id} value={String(mer.id)} className="rounded-xl">{mer.name}</SelectItem>)}
                   </SelectContent>
                 </Select>
                 <Select value={filters.sort} onValueChange={(value) => handleFilterChange('sort', value)}>
-                  <SelectTrigger className="bg-gray-50 h-11 border-transparent"><SelectValue placeholder="Sort By" /></SelectTrigger>
-                  <SelectContent>
+                  <SelectTrigger className="bg-background/80 h-12 border-input text-foreground focus:ring-4 focus:ring-primary/10 hover:border-primary/50 shadow-sm rounded-2xl transition-all"><SelectValue placeholder="Sort By" /></SelectTrigger>
+                  <SelectContent className="rounded-2xl border-border/50 bg-background/80 backdrop-blur-xl shadow-xl">
                     <SelectItem value="latest">Latest</SelectItem>
                     <SelectItem value="trending">Trending</SelectItem>
                     <SelectItem value="expiring">Expiring Soon</SelectItem>
@@ -310,9 +313,13 @@ const CouponsPage = () => {
                     )}
                   </>
                 ) : (
-                  <div className="text-center py-20 bg-white rounded-2xl shadow-sm border border-gray-100 w-full">
-                    <h2 className="text-2xl font-bold text-gray-900">No coupons or deals found</h2>
-                    <p className="text-gray-500 mt-2">Try adjusting your filters or check back later.</p>
+                  <div className="text-center py-24 bg-background/60 backdrop-blur-xl rounded-[2.5rem] shadow-sm border border-border/50 w-full relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-16 opacity-5 bg-gradient-to-bl from-primary to-transparent rounded-bl-full z-0 w-48 h-48"></div>
+                    <div className="mx-auto w-20 h-20 bg-muted/50 border border-border/50 shadow-sm rounded-full flex items-center justify-center mb-6 relative z-10">
+                      <ShoppingBag className="h-10 w-10 text-muted-foreground" />
+                    </div>
+                    <h2 className="text-2xl font-extrabold tracking-tight text-foreground relative z-10">No coupons or deals found</h2>
+                    <p className="text-muted-foreground text-lg mt-3 relative z-10">Try adjusting your filters or check back later for new offers.</p>
                   </div>
                 )}
               </TabsContent>

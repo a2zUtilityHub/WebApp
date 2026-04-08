@@ -62,41 +62,59 @@ function ProductDetailPage() {
   return (
     <>
       <Helmet><title>{product.title} - Our Store</title></Helmet>
-      <div className="bg-gray-50 min-h-screen py-12 w-full">
-        <div className="w-full px-4">
-          <Link to="/store" className="inline-flex items-center gap-2 text-gray-500 hover:text-brand-primary mb-6"><ArrowLeft size={16} /> Back</Link>
+      <div className="bg-background min-h-screen py-12 w-full relative overflow-hidden">
+        {/* Soft Background Orbs */}
+        <div className="absolute top-20 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none z-0"></div>
+        
+        <div className="container mx-auto px-4 max-w-7xl relative z-10">
+          <Link to="/store" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-8 font-medium bg-background/60 backdrop-blur-md px-4 py-2 rounded-full border border-border/50 shadow-sm w-fit"><ArrowLeft size={16} /> Back to Store</Link>
           
-          <div className="bg-white rounded-2xl shadow-sm p-6 md:p-10 grid lg:grid-cols-2 gap-10 mb-8 w-full">
-            <ProductImageGallery images={product.images} alt={product.title} />
-            <div className="flex flex-col w-full">
+          <div className="bg-background/60 backdrop-blur-2xl border border-border/50 rounded-[2.5rem] shadow-xl p-6 md:p-12 grid lg:grid-cols-2 gap-12 mb-12 w-full relative overflow-hidden group">
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary/40 to-primary"></div>
+            
+            <div className="rounded-3xl overflow-hidden border border-border/50 shadow-sm bg-muted/10">
+               <ProductImageGallery images={product.images} alt={product.title} />
+            </div>
+            
+            <div className="flex flex-col w-full h-full">
               <div className="flex justify-between items-start mb-4 w-full">
-                <h1 className="text-3xl font-bold">{product.title}</h1>
-                <Button variant="ghost" size="icon" onClick={() => toggleWishlist(product)}>
-                  <Heart className={`w-6 h-6 ${isWished ? 'fill-red-500 text-red-500' : 'text-gray-400'}`} />
+                <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground leading-tight">{product.title}</h1>
+                <Button variant="outline" size="icon" onClick={() => toggleWishlist(product)} className="rounded-full h-12 w-12 border-border/50 shadow-sm shrink-0 ml-4 hover:border-red-500/50 hover:bg-red-50 dark:hover:bg-red-950/20 transition-all">
+                  <Heart className={`w-6 h-6 transition-colors ${isWished ? 'fill-red-500 text-red-500' : 'text-muted-foreground'}`} />
                 </Button>
               </div>
-              <div className="text-3xl font-bold text-brand-primary mb-8">{price}</div>
-              <div className="prose text-gray-600 mb-8" dangerouslySetInnerHTML={{ __html: product.description }} />
               
-              <div className="mt-auto space-y-4 bg-gray-50 p-6 rounded-xl border w-full">
-                <div className="flex items-center justify-between">
-                  <span className="font-medium">Quantity</span>
-                  <div className="flex items-center bg-white border rounded-lg p-1">
-                    <Button onClick={() => setQuantity(q => Math.max(1, q - 1))} variant="ghost" size="icon" className="h-8 w-8"><Minus size={14}/></Button>
-                    <span className="w-12 text-center font-bold">{quantity}</span>
-                    <Button onClick={() => setQuantity(q => q + 1)} variant="ghost" size="icon" className="h-8 w-8"><Plus size={14}/></Button>
+              <div className="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-primary/10 text-primary w-fit mb-8 border border-primary/20 shadow-sm">
+                 <span className="text-3xl font-black">{price}</span>
+              </div>
+              
+              <div className="prose prose-lg max-w-none text-foreground/80 dark:prose-invert mb-10 leading-relaxed border-t border-border/50 pt-8" dangerouslySetInnerHTML={{ __html: product.description }} />
+              
+              <div className="mt-auto space-y-5 bg-muted/30 backdrop-blur-md p-8 rounded-3xl border border-border/50 w-full shadow-inner">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <span className="font-semibold text-lg text-foreground">Quantity</span>
+                  <div className="flex items-center bg-background border border-border/50 rounded-2xl p-1 shadow-sm">
+                    <Button onClick={() => setQuantity(q => Math.max(1, q - 1))} variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-muted"><Minus size={16}/></Button>
+                    <span className="w-14 text-center font-bold text-lg">{quantity}</span>
+                    <Button onClick={() => setQuantity(q => q + 1)} variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-muted"><Plus size={16}/></Button>
                   </div>
                 </div>
-                <Button onClick={handleAddToCart} size="lg" className="w-full h-14 text-lg"><ShoppingCart className="mr-2" /> Add to Cart</Button>
+                <Button onClick={handleAddToCart} size="lg" className="w-full h-16 text-lg rounded-2xl bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-primary-foreground font-bold">
+                   <ShoppingCart className="mr-3 h-6 w-6" /> Add to Cart — {price}
+                </Button>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-sm p-6 md:p-10 w-full">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-2xl font-bold">Customer Reviews</h2>
-              <Button onClick={() => setShowReviewForm(!showReviewForm)}>
-                <Star className="mr-2 h-4 w-4" /> Write a Review
+          <div className="bg-background/60 backdrop-blur-xl border border-border/50 rounded-[2.5rem] shadow-lg p-6 md:p-12 w-full">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10 border-b border-border/50 pb-6">
+              <div>
+                 <h2 className="text-3xl font-extrabold tracking-tight text-foreground">Customer Reviews</h2>
+                 <p className="text-muted-foreground mt-2">See what others are saying about this product.</p>
+              </div>
+              <Button onClick={() => setShowReviewForm(!showReviewForm)} className="rounded-xl h-12 px-6 shadow-sm border border-border/50" variant={showReviewForm ? "secondary" : "default"}>
+                {showReviewForm ? <><XCircle className="mr-2 h-5 w-5" /> Cancel Review</> : <><Star className="mr-2 h-5 w-5" /> Write a Review</>}
               </Button>
             </div>
             {showReviewForm && (
