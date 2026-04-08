@@ -19,13 +19,15 @@ const DatabaseManagementPage = () => {
         <meta name="description" content="Manage database, storage, authentication, and system secrets." />
       </Helmet>
 
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Infrastructure Management</h1>
-        <p className="text-muted-foreground mt-1">Manage database schema, object storage, and backend configurations.</p>
+      <div className="bg-gradient-to-r from-brand-primary/10 via-transparent to-transparent p-6 rounded-xl border border-brand-primary/20 shadow-sm transition-all hover:shadow-md">
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900">Infrastructure Management</h1>
+        <p className="text-muted-foreground mt-2 text-sm sm:text-base max-w-2xl">Manage database schema, object storage, authentication mechanisms, and core backend configurations securely.</p>
       </div>
 
       <Tabs defaultValue="database" className="w-full">
-        <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 w-full h-auto p-1 mb-6">
+        {/* Responsive wrapper for horizontal scroll on mobile */}
+        <div className="w-full overflow-x-auto pb-2 scrollbar-hide">
+          <TabsList className="inline-flex min-w-full sm:grid sm:grid-cols-4 lg:grid-cols-7 h-auto p-1 mb-4 bg-muted/50 rounded-lg">
           <TabsTrigger value="database" className="flex items-center gap-2 py-2">
             <Database className="w-4 h-4 hidden sm:block" /> Database
           </TabsTrigger>
@@ -44,12 +46,13 @@ const DatabaseManagementPage = () => {
           <TabsTrigger value="logs" className="flex items-center gap-2 py-2">
             <TerminalSquare className="w-4 h-4 hidden sm:block" /> Logs
           </TabsTrigger>
-          <TabsTrigger value="suggestions" className="flex items-center gap-2 py-2">
-            <Lightbulb className="w-4 h-4 hidden sm:block" /> AI Optimizer
+          <TabsTrigger value="suggestions" className="flex items-center gap-2 py-2 whitespace-nowrap data-[state=active]:bg-white data-[state=active]:shadow-sm transition-all duration-200">
+            <Lightbulb className="w-4 h-4 hidden sm:block text-yellow-500" /> AI Optimizer
           </TabsTrigger>
-        </TabsList>
+          </TabsList>
+        </div>
 
-        <div className="bg-card border rounded-xl p-6 shadow-sm min-h-[500px]">
+        <div className="bg-card border-brand-primary/10 border rounded-xl p-4 sm:p-6 shadow-sm min-h-[500px] transition-shadow duration-300 hover:shadow-md">
           <TabsContent value="database" className="m-0 border-0 p-0">
             <DatabaseTab />
           </TabsContent>
