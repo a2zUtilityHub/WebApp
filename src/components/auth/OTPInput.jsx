@@ -1,84 +1,79 @@
-import React, { useRef, useEffect } from 'react';
-import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
+import React, { useRef, useState, useEffect } from 'react';
 
-const OTPInput = ({ value = "", onChange, maxLength = 6 }) => {
+const OTPInput = ({ length = 6, onComplete }) => {
+  const [otp, setOtp] = useState(Array(length).fill(''));
   const inputRefs = useRef([]);
 
-  // Initialize array of refs
   useEffect(() => {
-    inputRefs.current = inputRefs.current.slice(0, maxLength);
-  }, [maxLength]);
+    if (inputRefs.current[0]) {
+      inputRefs.current[0].focus();
+    }
+  }, []);
 
   const handleChange = (e, index) => {
-    const newValue = e.target.value;
-    
-    // Handle non-numeric input
-    if (isNaN(newValue)) return;
+    const value = e.target.value;
+    if (isNaN(value)) return;
 
-    const newOtp = value.split('');
-    newOtp[index] = newValue.substring(newValue.length - 1);
+    const newOtp = [...otp];
+    // Allow only one character per box
+    newOtp[index] = value.substring(value.length - 1);
+    setOtp(newOtp);
+
+    // Auto-focus next input
+    if (value && index < length - 1 && inputRefs.current[index + 1]) {
+      inputRefs.current[index + 1].focus();
+    }
+
+    // Check if complete
     const combinedOtp = newOtp.join('');
-    
-    onChange(combinedOtp);
-
-    // Auto-focus next
-    if (newValue && index < maxLength - 1) {
-      inputRefs.current[index + 1]?.focus();
+    if (combinedOtp.length === length) {
+      onComplete(combinedOtp);
     }
   };
 
   const handleKeyDown = (e, index) => {
-    if (e.key === 'Backspace') {
-        if (!value[index] && index > 0) {
-            // If empty, move back and delete previous
-            const newOtp = value.split('');
-            newOtp[index - 1] = '';
-            onChange(newOtp.join(''));
-            inputRefs.current[index - 1]?.focus();
-        } else {
-            // Just delete current
-            const newOtp = value.split('');
-            newOtp[index] = '';
-            onChange(newOtp.join(''));
-        }
-    } else if (e.key === 'ArrowLeft' && index > 0) {
-        inputRefs.current[index - 1]?.focus();
-    } else if (e.key === 'ArrowRight' && index < maxLength - 1) {
-        inputRefs.current[index + 1]?.focus();
+    // Auto-focus previous input on Backspace if current is empty
+    if (e.key === 'Backspace' && !otp[index] && index > 0 && inputRefs.current[index - 1]) {
+      inputRefs.current[index - 1].focus();
     }
   };
 
   const handlePaste = (e) => {
     e.preventDefault();
-    const pastedData = e.clipboardData.getData('text').slice(0, maxLength);
-    if (!/^\d+$/.test(pastedData)) return; // Only numbers
+    const pastedData = e.clipboardData.getData('text/plain').slice(0, length).replace(/\D/g, '');
+    if (!pastedData) return;
 
-    onChange(pastedData);
+    const newOtp = [...otp];
+    for (let i = 0; i < pastedData.length; i++) {
+      newOtp[i] = pastedData[i];
+    }
+    setOtp(newOtp);
     
-    // Focus last filled
-    const nextIndex = Math.min(pastedData.length, maxLength - 1);
-    inputRefs.current[nextIndex]?.focus();
+    // Focus the next empty box, or the last box
+    const focusIndex = Math.min(pastedData.length, length - 1);
+    inputRefs.current[focusIndex].focus();
+    
+    if (pastedData.length === length) {
+      onComplete(pastedData);
+    }
   };
 
   return (
-    <div className="flex gap-2 justify-center">
-      {Array.from({ length: maxLength }).map((_, index) => (
-        <Input
+    <div className="flex justify-between gap-2 sm:gap-4 w-full max-w-sm mx-auto my-8">
+      {otp.map((digit, index) => (
+        <input
           key={index}
+          ref={(el) => (inputRefs.current[index] = el)}
           type="text"
           inputMode="numeric"
-          maxLength={1}
-          value={value[index] || ''}
+          autoComplete="one-time-code"
+          pattern="\d{1}"
+          maxLength={length}
+          value={digit}
           onChange={(e) => handleChange(e, index)}
           onKeyDown={(e) => handleKeyDown(e, index)}
           onPaste={handlePaste}
-          ref={(el) => (inputRefs.current[index] = el)}
-          className={cn(
-            "w-10 h-12 text-center text-lg font-bold transition-all",
-            value[index] ? "border-primary ring-1 ring-primary/20" : "border-input",
-            "focus:scale-105 focus:z-10"
-          )}
+          className="w-12 h-14 sm:w-14 sm:h-16 bg-background/60 backdrop-blur-xl border border-border/50 rounded-2xl text-center text-2xl font-black text-foreground focus:ring-4 focus:ring-primary/20 focus:border-primary focus:outline-none transition-all shadow-inner placeholder:text-muted-foreground/30 hover:border-primary/50"
         />
       ))}
     </div>
