@@ -1,10 +1,3 @@
-Here is a comprehensive, production-ready `README.md` for the **A2Z Utility Hub** project. 
-
-I have incorporated the detailed, beginner-friendly instructional style from the reference file you provided, adapting it specifically to your React/Vite/Supabase stack. This guide covers everything from local setup and environment variables to Docker deployment, testing, and Git workflow standards.
-
-***
-
-```markdown
 # 🛠️ A2Z Utility Hub
 
 Welcome to the **A2Z Utility Hub** repository. This project is a comprehensive, all-in-one web application suite that combines a collection of productivity mini-apps, an e-commerce deals section, a blogging platform, and a highly advanced Admin Dashboard powered by Role-Based Access Control (RBAC).
