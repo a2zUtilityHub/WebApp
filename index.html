@@ -17,7 +17,30 @@
       };
     </script>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9198321800783167" crossorigin="anonymous" onerror="console.warn('AdSense script blocked by client layout')"></script>
+    <script>
+      const originalFetch = window.fetch;
+      window.fetch = async function(...args) {
+          try {
+              return await originalFetch.apply(this, args);
+          } catch (error) {
+              let url = '';
+              if (typeof args[0] === 'string') {
+                  url = args[0];
+              } else if (args[0] && args[0].url) {
+                  url = args[0].url; // Handle Request objects
+              }
+
+              // Silently ignore tracking/ad-blocker failures and empty URLs
+              if (!url || url.includes('google') || url.includes('doubleclick') || url.includes('analytics') || url.includes('gtm')) {
+                  return new Response(null, { status: 200, statusText: 'Blocked by client' });
+              }
+              
+              // Only log true application errors
+              console.warn(`App Fetch Error (${url}):`, error.message);
+              throw error;
+          }
+      };
+    </script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -39,7 +62,18 @@
     <title>A2Z Utility Hub</title>
     
     <!-- Google AdSense -->
-     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9198321800783167" crossorigin="anonymous" onerror="console.warn('AdSense script blocked by client layout')"></script>
+     <script>
+      if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        const adScript = document.createElement('script');
+        adScript.async = true;
+        adScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9198321800783167";
+        adScript.crossOrigin = "anonymous";
+        adScript.onerror = () => console.warn('AdSense script blocked by client layout');
+        document.head.appendChild(adScript);
+      } else {
+        console.info('AdSense disabled on localhost.');
+      }
+    </script>
 
     <!-- Ad Blocking Recovery Tag -->
     <script async src="https://fundingchoicesmessages.google.com/i/pub-9198321800783167?ers=1"></script><script>(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>
